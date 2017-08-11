@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnFace;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+//    private FirebaseUser vrojvfirebaseUser;
 
 
     @Override
