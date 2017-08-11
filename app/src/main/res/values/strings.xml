@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">ScoutUP</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_escoteiro_menu">EscoteiroMenuActivity</string>
+    <string name="title_activity_perfil_fragment">PerfilFragmentActivity</string>
+</resources>
