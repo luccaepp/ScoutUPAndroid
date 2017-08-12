@@ -1,4 +1,4 @@
-package com.example.lucca.scoutup;
+package com.tcc.lucca.scoutup;
 
 import java.util.List;
 

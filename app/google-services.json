@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "548955244079",
-    "firebase_url": "https://scoutup-d6865.firebaseio.com",
-    "project_id": "scoutup-d6865",
-    "storage_bucket": "scoutup-d6865.appspot.com"
+    "project_number": "793313790543",
+    "firebase_url": "https://scoutup-59cc7.firebaseio.com",
+    "project_id": "scoutup-59cc7",
+    "storage_bucket": "scoutup-59cc7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:548955244079:android:323ab201fb3121c4",
+        "mobilesdk_app_id": "1:793313790543:android:c548c66638162eba",
         "android_client_info": {
-          "package_name": "com.example.lucca.scoutup"
+          "package_name": "com.tcc.lucca.scoutup"
         }
       },
       "oauth_client": [
         {
-          "client_id": "548955244079-ja1e2ut749ma3afgrgk3c4e0m055snbk.apps.googleusercontent.com",
+          "client_id": "793313790543-meiudj08l3hd08ld50c8ae0t2djitd98.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCUikN5AHMHdzzaCUBU5aK9T2lEgZsyYEw"
+          "current_key": "AIzaSyCV5XINXn7hvF5CUjalnMtqBYNsPeC9qUw"
         }
       ],
       "services": {

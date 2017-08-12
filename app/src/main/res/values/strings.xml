@@ -3,4 +3,8 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_escoteiro_menu">EscoteiroMenuActivity</string>
     <string name="title_activity_perfil_fragment">PerfilFragmentActivity</string>
+    <string name="auth_failed">Autenticação falhou</string>
+    <string name="auth_work">Credenciais verificadas</string>
+    <string name="registrando">Registrando</string>
+    <string name="wait">Por favor aguarde</string>
 </resources>
