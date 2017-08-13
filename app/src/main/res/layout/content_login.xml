@@ -99,7 +99,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
-    <Button
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/btGoogle"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -107,16 +107,15 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/buttongooglestyle"
         android:onClick="googleLogin"
-        android:text="LOGAR COM GOOGLE"
         android:textColor="#ffffff"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline4" />
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btFace"

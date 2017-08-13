@@ -6,5 +6,5 @@
     <string name="auth_failed">Autenticação falhou</string>
     <string name="auth_work">Credenciais verificadas</string>
     <string name="registrando">Registrando</string>
-    <string name="wait">Por favor aguarde</string>
+    <string name="loading">Por favor aguarde</string>
 </resources>
