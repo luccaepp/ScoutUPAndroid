@@ -13,10 +13,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.lucca.scoutup.R;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -26,10 +31,14 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.tcc.lucca.scoutup.Login.GoogleSignInActivity;
+
+import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
@@ -38,14 +47,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private final String TAG = "TAG";
     private EditText etLogin;
     private EditText etSenha;
-    private Button btnEntrar;
-    private Button btnGoogle;
-    private Button btnFace;
-    private FirebaseAuth firebaseAuth;
-    private ProgressBar progressDialog;
-    private FirebaseUser firebaseUser;
+    private FirebaseAuth mAuth;
     private ProgressDialog mProgressDialog;
     private GoogleApiClient mGoogleApiClient;
+    private FirebaseUser firebaseUser;
+    private CallbackManager mCallBackManager;
+    private Button btnFacebook;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
 
     @Override
@@ -54,9 +62,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +77,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         etLogin = (EditText) findViewById(R.id.eTxtUsuario);
         etSenha = (EditText) findViewById(R.id.eTxtSenha);
-        btnEntrar = (Button) findViewById(R.id.btnEntrar);
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -77,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
@@ -86,6 +93,39 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signInButton.setSize(SignInButton.SIZE_STANDARD);
 
         findViewById(R.id.btGoogle).setOnClickListener(this);
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    String username = user.getDisplayName();
+                    Toast.makeText(getApplicationContext(), "Bem-vindo " + username, Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        btnFacebook = (Button) findViewById(R.id.btFace);
+
+        mCallBackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(mCallBackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                AuthCredential credential = FacebookAuthProvider
+                        .getCredential(loginResult.getAccessToken().getToken());
+                signInCredential(credential);
+            }
+
+            @Override
+            public void onCancel() {
+                // O user cancelou o login enquanto carregava
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                //Ocorreu um erro ao tentar fazer logi
+            }
+        });
+
 
 
     }
@@ -113,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     aguarde, true);
 
 
-            firebaseAuth.createUserWithEmailAndPassword(email, password)
+            mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -131,6 +171,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     public void faceLogin(View view) {
 
+        LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email"));
 
     }
 
@@ -159,12 +200,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
+    private void signInCredential(AuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser usuario = mAuth.getCurrentUser();
+
+                        } else {
+                        }
+                    }
+                });
+    }
+
     public void efetuarLogin(View view) {
 
         String email = etLogin.getText().toString().trim();
         String senha = etSenha.getText().toString().trim();
 
-        firebaseAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()) {
@@ -172,16 +227,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     Toast.makeText(LoginActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
                 } else {
 
-                    firebaseUser = firebaseAuth.getCurrentUser();
+                    firebaseUser = mAuth.getCurrentUser();
                     Toast.makeText(LoginActivity.this, R.string.auth_work, Toast.LENGTH_SHORT).show();
 
                 }
             }
         });
-
-
-
-
 
     }
 
@@ -198,10 +249,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
+        } else {
+
+            mCallBackManager.onActivityResult(requestCode, resultCode, data);
+
         }
     }
 
