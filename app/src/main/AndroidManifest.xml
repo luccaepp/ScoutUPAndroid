@@ -4,36 +4,28 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
-        <activity android:name="com.tcc.lucca.scoutup.MainActivity">
-
-        </activity>
-
+        <activity android:name="com.tcc.lucca.scoutup.MainActivity"></activity>
         <activity android:name="com.tcc.lucca.scoutup.LoginActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-
         <activity
             android:name="com.tcc.lucca.scoutup.EscoteiroMenuActivity"
             android:label="@string/title_activity_escoteiro_menu"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name="com.tcc.lucca.scoutup.PerfilFragmentActivity"
             android:label="@string/title_activity_perfil_fragment"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.tcc.lucca.scoutup.Main2Activity"></activity>
     </application>
 
 </manifest>
