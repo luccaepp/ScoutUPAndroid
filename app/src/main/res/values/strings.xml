@@ -7,4 +7,5 @@
     <string name="auth_work">Credenciais verificadas</string>
     <string name="registrando">Registrando</string>
     <string name="loading">Por favor aguarde</string>
+    <string name="action_logout">Logout</string>
 </resources>
