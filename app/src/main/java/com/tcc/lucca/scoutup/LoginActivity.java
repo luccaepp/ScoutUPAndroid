@@ -103,9 +103,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    if (user.getDisplayName() != null)
+                    if (user.getDisplayName() != null) {
 
-                        Toast.makeText(LoginActivity.this, "Logado com Sucesso " + user.getDisplayName(), Toast.LENGTH_LONG).show();
+                        Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(main);
+                        finish();
+
+                    }
+
                 }
             }
         };
