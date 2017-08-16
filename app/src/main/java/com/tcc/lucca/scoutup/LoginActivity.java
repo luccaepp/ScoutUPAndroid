@@ -294,9 +294,6 @@ public class LoginActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Deu boa",
-                                    Toast.LENGTH_SHORT).show();
                         }
 
                     }
