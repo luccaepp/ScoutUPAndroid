@@ -8,8 +8,12 @@
     <string name="registrando">Registrando</string>
     <string name="loading">Por favor aguarde</string>
     <string name="action_logout">Logout</string>
-    <string name="facebook_app_id">773869192985941</string>
-    <string name="fb_login_protocol_scheme">fb773869192985941</string>
+    <string name="facebook_app_id">481162498903641</string>
+    <string name="fb_login_protocol_scheme">fb481162498903641</string>
+    <string name="title_activity_nav">NavActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 
 </resources>

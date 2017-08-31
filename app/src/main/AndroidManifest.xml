@@ -9,27 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name="com.tcc.lucca.scoutup.MainActivity">
-
+        <activity android:name="com.tcc.lucca.scoutup.activitys.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-        <activity android:name="com.tcc.lucca.scoutup.LoginActivity">
-
-        </activity>
-
+        <activity android:name="com.tcc.lucca.scoutup.activitys.LoginActivity" />
         <activity
-            android:name="com.tcc.lucca.scoutup.EscoteiroMenuActivity"
+            android:name="com.tcc.lucca.scoutup.activitys.EscoteiroMenuActivity"
             android:label="@string/title_activity_escoteiro_menu"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
-            android:name="com.tcc.lucca.scoutup.PerfilFragmentActivity"
+            android:name="com.tcc.lucca.scoutup.activitys.PerfilFragmentActivity"
             android:label="@string/title_activity_perfil_fragment"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -41,7 +34,6 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -54,7 +46,10 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name="com.tcc.lucca.scoutup.activitys.CadastroActivity" />
+        <activity
+            android:name="com.tcc.lucca.scoutup.activitys.NavActivity"
+            android:label="@string/title_activity_nav"></activity>
     </application>
-
 
 </manifest>
