@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#4e3828"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.tcc.lucca.scoutup.LoginActivity"
+    tools:context="com.tcc.lucca.scoutup.activitys.LoginActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp"
     tools:showIn="@layout/activity_login">

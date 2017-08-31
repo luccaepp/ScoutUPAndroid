@@ -1,4 +1,4 @@
-package com.tcc.lucca.scoutup;
+package com.tcc.lucca.scoutup.model;
 
 /**
  * Created by lucca on 19/07/17.
@@ -13,6 +13,7 @@ public class Usuario {
     private String grupo;
     private String sessao;
     private int idade;
+    private String id;
 
     public String getNome() {
 
@@ -61,5 +62,14 @@ public class Usuario {
 
     public void setIdade(int idade) {
         this.idade = idade;
+    }
+
+    public String getId() {
+
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

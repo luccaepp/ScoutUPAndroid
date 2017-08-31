@@ -1,4 +1,4 @@
-package com.tcc.lucca.scoutup;
+package com.tcc.lucca.scoutup.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
