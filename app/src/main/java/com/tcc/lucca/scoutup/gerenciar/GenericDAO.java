@@ -12,13 +12,15 @@ public class GenericDAO<T> {
     private Class<T> type;
     private FirebaseAuth auth;
     private Firebase firebase;
-    private DatabaseReference mDatabase;
+    private DatabaseReference databaseReference;
     private FirebaseDatabase database;
-    private String classe;
+    private String referencia;
+
+
 
     public GenericDAO(Class<T> type) {
         this.type = type;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         database = FirebaseDatabase.getInstance();
 
 
@@ -27,53 +29,87 @@ public class GenericDAO<T> {
 
     public void adicionar(T entidade) {
 
-        String key = database.getReference(classe).push().getKey();
+        String key = database.getReference(referencia).push().getKey();
 
-        mDatabase.child(classe).child(key).setValue(entidade);
+        databaseReference.child(referencia).child(key).setValue(entidade);
 
 
 
     }
 
-    public Query listarTodos(String entidade) {
+    public Query listarTodos() {
 
-        Query query = mDatabase.child(entidade);
+        Query query = databaseReference.child(referencia);
+
 
         return query;
     }
 
 
-    public Query buscarPorIdString(String entidade, String nomeAtributo, String id) {
+    public Query buscarPorAtributoString(String path, String nomeAtributo, String id) {
 
-        Query query = mDatabase.child(entidade).orderByChild(nomeAtributo).equalTo(id);
+        Query query = databaseReference.child(path).orderByChild(nomeAtributo).equalTo(id);
+
 
         return query;
     }
 
     public void excluir(T entidade) {
 
-        String key = database.getReference(classe).push().getKey();
+        String key = database.getReference(referencia).push().getKey();
 
-        mDatabase.child(classe).child(key).setValue(null);
+        databaseReference.child(referencia).child(key).setValue(null);
 
 
     }
 
     public void alterar(T entidade) {
 
-        String key = database.getReference(classe).push().getKey();
+        String key = database.getReference(referencia).push().getKey();
 
 
-        mDatabase.child(classe).child(key).setValue(entidade);
+        databaseReference.child(referencia).child(key).setValue(entidade);
 
 
     }
 
-    public String getClasse() {
-        return classe;
+    public String getReferencia() {
+        return referencia;
     }
 
-    public void setClasse(String classe) {
-        this.classe = classe;
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
+    public FirebaseAuth getAuth() {
+        return auth;
+    }
+
+    public void setAuth(FirebaseAuth auth) {
+        this.auth = auth;
+    }
+
+    public Firebase getFirebase() {
+        return firebase;
+    }
+
+    public void setFirebase(Firebase firebase) {
+        this.firebase = firebase;
+    }
+
+    public DatabaseReference getDatabaseReference() {
+        return databaseReference;
+    }
+
+    public void setDatabaseReference(DatabaseReference databaseReference) {
+        this.databaseReference = databaseReference;
+    }
+
+    public FirebaseDatabase getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(FirebaseDatabase database) {
+        this.database = database;
     }
 }
