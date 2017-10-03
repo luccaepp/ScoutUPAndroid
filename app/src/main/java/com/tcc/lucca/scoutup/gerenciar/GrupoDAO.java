@@ -1,14 +1,22 @@
 package com.tcc.lucca.scoutup.gerenciar;
 
+import com.google.firebase.database.DatabaseReference;
 import com.tcc.lucca.scoutup.model.Grupo;
 
-/**
- * Created by lucca on 01/09/17.
- */
-
 public class GrupoDAO extends GenericDAO {
+
+    private DatabaseReference databaseReference;
+
     public GrupoDAO() {
         super(Grupo.class);
         setReferencia("grupo");
+        databaseReference = getDatabaseReference();
+
     }
+
+    public static GrupoDAO getInstance() {
+        return new GrupoDAO();
+    }
+
+
 }

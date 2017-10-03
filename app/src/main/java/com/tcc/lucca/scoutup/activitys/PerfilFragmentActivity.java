@@ -2,6 +2,7 @@ package com.tcc.lucca.scoutup.activitys;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.gerenciar.AmigoListAdapter;
+import com.tcc.lucca.scoutup.gerenciar.GrupoDAO;
 import com.tcc.lucca.scoutup.gerenciar.ListViewAdapter;
 import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
 import com.tcc.lucca.scoutup.model.Amigo;
+import com.tcc.lucca.scoutup.model.Grupo;
 import com.tcc.lucca.scoutup.model.Usuario;
 
 import java.util.ArrayList;
@@ -29,10 +32,12 @@ public class PerfilFragmentActivity extends Fragment {
 
 
     private UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
+    private GrupoDAO grupoDAO = GrupoDAO.getInstance();
 
 
     private FirebaseUser firebaseUser;
     private Usuario usuarioDatabase;
+    private Grupo grupoDatabase;
 
     private ListView listViewInfo;
     private ListView listViewAmigos;
@@ -67,7 +72,7 @@ public class PerfilFragmentActivity extends Fragment {
     private void initData() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = firebaseUser.getUid();
-        Query query = usuarioDAO.getUsuarioDatabase(uid);
+        Query query = usuarioDAO.getClassFromDatabase(uid);
         final PerfilFragmentActivity self = this;
 
 
@@ -92,15 +97,36 @@ public class PerfilFragmentActivity extends Fragment {
 
     private void atualizarInfoPerfil() {
 
-        List<String> info = new ArrayList<String>();
+        List<String> info = new ArrayList<>();
         info.add(usuarioDatabase.getNome());
         info.add(usuarioDatabase.getEmail());
-        info.add(usuarioDatabase.getGrupo());
-        info.add(usuarioDatabase.getSecao().getNome());
-        listViewInfo = getView().findViewById(R.id.listViewInformacoes);
-        ListViewAdapter adapter = new ListViewAdapter(info, getContext());
-        listViewInfo.setAdapter(adapter);
+        String uid = usuarioDatabase.getGrupo();
+        Query query = grupoDAO.getClassFromDatabase(uid);
+        final PerfilFragmentActivity self = this;
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
+                Log.d("TAG", "dentro listener");
+                Grupo grupo = (dataSnapshot.getValue(Grupo.class));
+                Log.d("TAG", grupo.getNome() + "oi");
+                self.setGrupoDatabase(grupo);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        info.add("grupo " + usuarioDatabase.getGrupo());
+        info.add(usuarioDatabase.getSecao().getNome());
+
+
+        listViewInfo = getView().findViewById(R.id.listViewInformacoes);
+        ListViewAdapter adapter = new ListViewAdapter(getContext(), info);
+        listViewInfo.setAdapter(adapter);
 
 
 
@@ -113,13 +139,18 @@ public class PerfilFragmentActivity extends Fragment {
         atualizarEspecialidades();
     }
 
+    public void setGrupoDatabase(Grupo grupoDatabase) {
+        this.grupoDatabase = grupoDatabase;
+
+    }
+
     private void atualizarAmigos() {
 
         listViewAmigos = getView().findViewById(R.id.listViewAmigos);
 
         HashMap<String, Amigo> amigosMap = usuarioDatabase.getAmigos();
 
-        List<Amigo> amigos = new ArrayList<Amigo>(amigosMap.values());
+        List<Amigo> amigos = new ArrayList<>(amigosMap.values());
 
 
         AmigoListAdapter adapter = new AmigoListAdapter(amigos, getContext());

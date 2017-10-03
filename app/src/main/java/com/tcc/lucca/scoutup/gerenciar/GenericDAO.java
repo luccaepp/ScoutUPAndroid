@@ -27,6 +27,12 @@ public class GenericDAO<T> {
 
     }
 
+    public Query getClassFromDatabase(String uid) {
+
+        return databaseReference.getDatabase().getReference(getReferencia()).child(uid);
+    }
+
+
     public void adicionar(T entidade) {
 
         String key = database.getReference(referencia).push().getKey();

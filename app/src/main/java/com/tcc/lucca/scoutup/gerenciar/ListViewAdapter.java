@@ -1,11 +1,10 @@
 package com.tcc.lucca.scoutup.gerenciar;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.lucca.scoutup.R;
@@ -16,45 +15,31 @@ import java.util.List;
  * Created by lucca on 02/10/17.
  */
 
-public class ListViewAdapter extends BaseAdapter {
+public class ListViewAdapter extends ArrayAdapter<String> {
 
 
     private List<String> info;
-    private Context context;
-    private LayoutInflater layoutInflater;
+    private LayoutInflater layoutInflate;
 
 
-    public ListViewAdapter(List<String> data, Context context) {
-        super();
-        this.info = data;
-        this.context = context;
-        layoutInflater = LayoutInflater.from(context);
+    public ListViewAdapter(Context ctx, List<String> info) {
+        super(ctx, 0, info);
+        this.info = info;
+        this.layoutInflate = LayoutInflater.from(ctx);
     }
 
-    @Override
-    public int getCount() {
-        return 0;
-    }
 
     @Override
-    public Object getItem(int i) {
-        return null;
-    }
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        String info = getItem(i);
+        if (view == null) {
+            view = layoutInflate.inflate(R.layout.listview_info, viewGroup, false);
+        }
 
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
+        TextView txtItem = view.findViewById(R.id.textViewLVInfo);
+        txtItem.setText(info);
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        View view = layoutInflater.inflate(R.layout.listview_info, parent, false);
-        TextView textView = view.findViewById(R.id.textViewLVInfo);
-        textView.setText(info.get(position));
-        Log.d("TAG", info.get(position) + " oi");
-
-        return null;
+        return view;
     }
 
 }

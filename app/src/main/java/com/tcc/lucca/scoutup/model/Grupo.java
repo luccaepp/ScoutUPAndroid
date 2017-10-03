@@ -9,7 +9,6 @@ public class Grupo {
     private String nome;
     private String cidade;
     private String estado;
-    private String criador;
     private int numeral;
 
 
@@ -35,14 +34,6 @@ public class Grupo {
 
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    public String getCriador() {
-        return criador;
-    }
-
-    public void setCriador(String criador) {
-        this.criador = criador;
     }
 
     public int getNumeral() {
