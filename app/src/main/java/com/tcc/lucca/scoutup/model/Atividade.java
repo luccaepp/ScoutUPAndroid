@@ -8,61 +8,18 @@ import java.util.List;
 
 public class Atividade {
 
+    private String inicio;
 
-    private String nome;
-    private String descricao;
-    private String local;
-    private String horario;
-    private List<Escoteiro> participantes;
-    private Escotista escotistaGerador;
-    private String id;
-    private Chamada chamada;
+    private String termino;
 
-    public String getNome() {
-        return nome;
-    }
+    private String tipo;
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    private String titulo;
 
-    public String getDescricao() {
-        return descricao;
-    }
+    private Local local;
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+    private List<String> materiais;
 
-    public String getLocal() {
-        return local;
-    }
 
-    public void setLocal(String local) {
-        this.local = local;
-    }
 
-    public String getHorario() {
-        return horario;
-    }
-
-    public void setHorario(String horario) {
-        this.horario = horario;
-    }
-
-    public List<Escoteiro> getParticipantes() {
-        return participantes;
-    }
-
-    public void setParticipantes(List<Escoteiro> participantes) {
-        this.participantes = participantes;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

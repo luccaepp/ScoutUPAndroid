@@ -29,7 +29,7 @@ public class GenericDAO<T> {
 
     public Query getClassFromDatabase(String uid) {
 
-        return databaseReference.getDatabase().getReference(getReferencia()).child(uid);
+        return databaseReference.child(getReferencia() + "/" + uid);
     }
 
 

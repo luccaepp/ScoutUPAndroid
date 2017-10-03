@@ -18,20 +18,29 @@ import java.util.List;
 
 public class AmigoListAdapter extends ArrayAdapter {
 
+    public LayoutInflater layoutInflate;
     private List<Amigo> amigos;
     private Context context;
 
-    public AmigoListAdapter(List<Amigo> amigos, Context context) {
-        super(context, 0, amigos);
 
-        this.amigos = amigos;
-        this.context = context;
+    public AmigoListAdapter(Context ctx, List<Amigo> info) {
+        super(ctx, 0, info);
+        this.amigos = info;
+        this.layoutInflate = LayoutInflater.from(ctx);
     }
+
+
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view = LayoutInflater.from(context).inflate(R.layout.amigo_item, viewGroup);
-        TextView textView = view.findViewById(R.id.tvAmigo);
-        textView.setText(amigos.get(i).getNome());
+        Amigo amigo = (Amigo) getItem(i);
+        if (view == null) {
+            view = layoutInflate.inflate(R.layout.listview_info, viewGroup, false);
+        }
+
+        TextView txtItem = view.findViewById(R.id.textViewLVInfo);
+        txtItem.setText(amigo.getNome());
+
         return view;
     }
+
 }

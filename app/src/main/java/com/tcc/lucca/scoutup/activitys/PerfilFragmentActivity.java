@@ -2,7 +2,6 @@ package com.tcc.lucca.scoutup.activitys;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,20 +96,21 @@ public class PerfilFragmentActivity extends Fragment {
 
     private void atualizarInfoPerfil() {
 
-        List<String> info = new ArrayList<>();
-        info.add(usuarioDatabase.getNome());
-        info.add(usuarioDatabase.getEmail());
+
         String uid = usuarioDatabase.getGrupo();
         Query query = grupoDAO.getClassFromDatabase(uid);
         final PerfilFragmentActivity self = this;
+
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Log.d("TAG", "dentro listener");
                 Grupo grupo = (dataSnapshot.getValue(Grupo.class));
-                Log.d("TAG", grupo.getNome() + "oi");
+
                 self.setGrupoDatabase(grupo);
+
+                carregarUsuario();
+
             }
 
             @Override
@@ -120,7 +120,14 @@ public class PerfilFragmentActivity extends Fragment {
         });
 
 
-        info.add("grupo " + usuarioDatabase.getGrupo());
+    }
+
+    private void carregarUsuario() {
+        List<String> info = new ArrayList<>();
+        info.add(usuarioDatabase.getNome());
+        info.add(usuarioDatabase.getEmail());
+
+        info.add(grupoDatabase.getNome());
         info.add(usuarioDatabase.getSecao().getNome());
 
 
@@ -153,7 +160,7 @@ public class PerfilFragmentActivity extends Fragment {
         List<Amigo> amigos = new ArrayList<>(amigosMap.values());
 
 
-        AmigoListAdapter adapter = new AmigoListAdapter(amigos, getContext());
+        AmigoListAdapter adapter = new AmigoListAdapter(getContext(), amigos);
 
         listViewAmigos.setAdapter(adapter);
 
