@@ -42,6 +42,8 @@ public class LoginClass {
 
                         Intent main = new Intent(context, MainActivity.class);
                         context.startActivity(main);
+                        ((Activity) context).finish();
+
 
                     }
 
@@ -65,6 +67,7 @@ public class LoginClass {
                             firebaseUser = mAuth.getCurrentUser();
                             Intent main = new Intent(context, MainActivity.class);
                             context.startActivity(main);
+                            ((Activity) context).finish();
 
 
                         } else {
@@ -91,6 +94,8 @@ public class LoginClass {
                     firebaseUser = mAuth.getCurrentUser();
                     Intent main = new Intent(context, MainActivity.class);
                     context.startActivity(main);
+                    ((Activity) context).finish();
+
 
 
                 } else {

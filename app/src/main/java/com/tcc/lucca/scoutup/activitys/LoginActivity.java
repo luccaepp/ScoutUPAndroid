@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lucca.scoutup.R;
@@ -53,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         SignInButton signInButton = (SignInButton) findViewById(R.id.btGoogle);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton = (com.google.android.gms.common.SignInButton) findViewById(R.id.btGoogle);
+        setGooglePlusButtonText(signInButton, "Continuar com o Google");
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(this.getString(R.string.default_web_client_id))
@@ -180,6 +182,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onStop();
         if (loginClass.getmAuthListener() != null) {
             loginClass.getmAuth().removeAuthStateListener(loginClass.getmAuthListener());
+        }
+    }
+
+    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
+        for (int i = 0; i < signInButton.getChildCount(); i++) {
+            View v = signInButton.getChildAt(i);
+
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                tv.setText(buttonText);
+                return;
+            }
         }
     }
 
