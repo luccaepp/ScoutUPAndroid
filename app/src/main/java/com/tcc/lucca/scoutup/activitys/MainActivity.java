@@ -36,12 +36,47 @@ public class MainActivity extends AppCompatActivity {
             ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
             ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-            adapter.addFragment(new PerfilFragmentActivity(), "Perfil");
-            adapter.addFragment(new AtividadesActivity(), "Atividades");
+            adapter.addFragment(new PerfilFragmentActivity(), "");
+            adapter.addFragment(new AtividadesActivity(), "");
             viewPager.setAdapter(adapter);
 
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
             tabLayout.setupWithViewPager(viewPager);
+            tabLayout.setAnimation(null);
+            tabLayout.getTabAt(0).setIcon(R.drawable.maoverde);
+            tabLayout.getTabAt(1).setIcon(R.drawable.fogomarrom);
+
+
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+
+                    if (tabLayout.getSelectedTabPosition() == 0) {
+
+                        tabLayout.getTabAt(0).setIcon(R.drawable.maoverde);
+                        tabLayout.getTabAt(1).setIcon(R.drawable.fogomarrom);
+                    }
+
+                    if (tabLayout.getSelectedTabPosition() == 1) {
+                        tabLayout.getTabAt(0).setIcon(R.drawable.maomarrom);
+                        tabLayout.getTabAt(1).setIcon(R.drawable.fogoverde);
+
+                    }
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                    tabLayout.getTabAt(0).setIcon(R.drawable.maomarrom);
+                    tabLayout.getTabAt(1).setIcon(R.drawable.fogomarrom);
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
+
 
         }
 
