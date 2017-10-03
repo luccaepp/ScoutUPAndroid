@@ -29,20 +29,20 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
 
+        } else {
+
+
+            ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+            ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+            adapter.addFragment(new PerfilFragmentActivity(), "Perfil");
+            adapter.addFragment(new AtividadesActivity(), "Atividades");
+            viewPager.setAdapter(adapter);
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(viewPager);
+
         }
-
-
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        adapter.addFragment(new PerfilFragmentActivity(), "Perfil");
-        adapter.addFragment(new AtividadesActivity(), "Atividades");
-        viewPager.setAdapter(adapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
-
 
     }
 

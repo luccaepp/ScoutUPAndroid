@@ -146,8 +146,7 @@ public class LoginActivity extends AppCompatActivity {
     public void criarConta(View view) {
 
 
-        startActivity(new Intent(this, CadastroActivity.class));
-
+        Toast.makeText(this, "Em construção", Toast.LENGTH_LONG).show();
 
 
     }

@@ -1,21 +1,40 @@
 package com.tcc.lucca.scoutup.model;
 
+import java.util.HashMap;
+
 /**
  * Created by lucca on 19/07/17.
  */
 
-public abstract class Usuario {
+public class Usuario {
 
 
     private String nome;
     private String email;
     private String foto;
     private String grupo;
-    private String sessao;
+    private Secao secao;
     private int idade;
+    private Patrulha patrulha;
     private String id;
     private TipoUser tipo;
+    private HashMap<String, Amigo> amigos;
 
+    public Patrulha getPatrulha() {
+        return patrulha;
+    }
+
+    public void setPatrulha(Patrulha patrulha) {
+        this.patrulha = patrulha;
+    }
+
+    public HashMap<String, Amigo> getAmigos() {
+        return amigos;
+    }
+
+    public void setAmigos(HashMap<String, Amigo> amigos) {
+        this.amigos = amigos;
+    }
 
     public String getNome() {
 
@@ -50,12 +69,12 @@ public abstract class Usuario {
         this.grupo = grupo;
     }
 
-    public String getSessao() {
-        return sessao;
+    public Secao getSecao() {
+        return secao;
     }
 
-    public void setSessao(String sessao) {
-        this.sessao = sessao;
+    public void setSecao(Secao secao) {
+        this.secao = secao;
     }
 
     public int getIdade() {

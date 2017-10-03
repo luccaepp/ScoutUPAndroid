@@ -5,6 +5,6 @@ package com.tcc.lucca.scoutup.model;
  */
 
 public enum TipoUser {
-    ESCOTEIRO,
-    ESCOTISTA
+    escoteiro,
+    escotista
 }

@@ -15,8 +15,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.tcc.lucca.scoutup.gerenciar.AmigoListAdapter;
+import com.tcc.lucca.scoutup.gerenciar.ListViewAdapter;
 import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
+import com.tcc.lucca.scoutup.model.Amigo;
 import com.tcc.lucca.scoutup.model.Usuario;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class PerfilFragmentActivity extends Fragment {
 
@@ -31,13 +38,12 @@ public class PerfilFragmentActivity extends Fragment {
     private ListView listViewAmigos;
     private ListView listViewEspec;
 
-    private Button btnLogout,
-            btnEditar;
+    private Button btnLogout;
+    private Button btnEditar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         initData();
 
     }
@@ -52,7 +58,7 @@ public class PerfilFragmentActivity extends Fragment {
     }
 
     private void initComponents(ViewGroup container) {
-        listViewInfo = container.findViewById(R.id.listViewInfo);
+        listViewInfo = container.findViewById(R.id.listViewInformacoes);
         listViewAmigos = container.findViewById(R.id.listViewAmigos);
         listViewEspec = container.findViewById(R.id.listViewEspecialidades);
 
@@ -68,7 +74,9 @@ public class PerfilFragmentActivity extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                self.setUsuarioDatabase((Usuario) dataSnapshot.getValue());
+
+                Usuario user = dataSnapshot.getValue(Usuario.class);
+                self.setUsuarioDatabase(user);
 
 
             }
@@ -84,11 +92,44 @@ public class PerfilFragmentActivity extends Fragment {
 
     private void atualizarInfoPerfil() {
 
+        List<String> info = new ArrayList<String>();
+        info.add(usuarioDatabase.getNome());
+        info.add(usuarioDatabase.getEmail());
+        info.add(usuarioDatabase.getGrupo());
+        info.add(usuarioDatabase.getSecao().getNome());
+        listViewInfo = getView().findViewById(R.id.listViewInformacoes);
+        ListViewAdapter adapter = new ListViewAdapter(info, getContext());
+        listViewInfo.setAdapter(adapter);
+
+
+
+
     }
 
     public void setUsuarioDatabase(Usuario usuarioDatabase) {
         this.usuarioDatabase = usuarioDatabase;
         atualizarInfoPerfil();
+        atualizarAmigos();
+        atualizarEspecialidades();
+    }
+
+    private void atualizarAmigos() {
+
+        listViewAmigos = getView().findViewById(R.id.listViewAmigos);
+
+        HashMap<String, Amigo> amigosMap = usuarioDatabase.getAmigos();
+
+        List<Amigo> amigos = new ArrayList<Amigo>(amigosMap.values());
+
+
+        AmigoListAdapter adapter = new AmigoListAdapter(amigos, getContext());
+
+        listViewAmigos.setAdapter(adapter);
+
+    }
+
+    private void atualizarEspecialidades() {
+
     }
 }
 
