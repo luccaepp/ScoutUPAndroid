@@ -17,7 +17,7 @@ public class Usuario {
     private int idade;
     private Patrulha patrulha;
     private String id;
-    private TipoUser tipo;
+    private Tipo tipo;
     private HashMap<String, Amigo> amigos;
 
     public Patrulha getPatrulha() {
@@ -94,11 +94,11 @@ public class Usuario {
         this.id = id;
     }
 
-    public TipoUser getTipo() {
+    public Tipo getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoUser tipo) {
+    public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
 }

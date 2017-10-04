@@ -54,35 +54,7 @@ public class LoginClass {
 
     }
 
-    public void criarUser(String email, String password) {
 
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        if (task.isSuccessful()) {
-
-                            firebaseUser = mAuth.getCurrentUser();
-                            Intent main = new Intent(context, MainActivity.class);
-                            context.startActivity(main);
-                            ((Activity) context).finish();
-
-
-                        } else {
-
-                            Toast.makeText(context, "Nao foi possivel efetuar o cadastro", Toast.LENGTH_LONG).show();
-
-
-                        }
-
-
-                    }
-                });
-
-
-    }
 
     public void loginCredentials(String email, String senha) {
 

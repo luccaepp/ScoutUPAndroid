@@ -1,8 +1,10 @@
 package com.tcc.lucca.scoutup.activitys;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,20 +28,51 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.tcc.lucca.scoutup.gerenciar.CustomDialog;
 import com.tcc.lucca.scoutup.gerenciar.LoginClass;
 
 import java.util.Arrays;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements CustomDialog.CustomDialogListener {
 
     private static final int RC_SIGN_IN = 0;
+    public static CustomDialog customDialog;
     private EditText etLogin;
     private EditText etSenha;
+    private View view;
     private GoogleApiClient mGoogleApiClient;
     private CallbackManager callbackManager;
     private LoginButton loginButton;
     private LoginClass loginClass = new LoginClass(this);
+    private String metodo;
 
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+
+        cadastro(view);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
+        if (metodo.equals("google")) {
+
+            signInGoogle();
+
+
+        } else if (metodo.equals("face")) {
+
+            signInFacebook();
+
+
+        }
+
+    }
+
+    public void showNoticeDialog() {
+        DialogFragment dialog = new CustomDialog();
+        dialog.show(getSupportFragmentManager(), "Primeira vez aqui?");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,23 +108,33 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signInGoogle();
+                view = v;
+                abrirFragment("google");
+
             }
         });
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-                signInFacebook();
+            public void onClick(View v) {
+                view = v;
+                abrirFragment("face");
 
 
             }
         });
     }
 
+    public void abrirFragment(String metodo) {
+
+        this.metodo = metodo;
+        showNoticeDialog();
+
+    }
+
     private void signInFacebook() {
+
 
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
 
@@ -121,7 +164,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void signInGoogle() {
+
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        DialogFragment dialogFragment = new DialogFragment();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -145,10 +190,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public void criarConta(View view) {
+    public void cadastro(View view) {
 
-
-        Toast.makeText(this, "Em construção", Toast.LENGTH_LONG).show();
+        Uri uri = Uri.parse("https://scoutup-59cc7.firebaseapp.com/#/cadastro");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
 
 
     }

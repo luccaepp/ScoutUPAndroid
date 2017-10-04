@@ -22,7 +22,7 @@ public class Escoteiro extends Usuario {
         setSecao(secao);
         setIdade(idade);
         setId(id);
-        setTipo(TipoUser.escoteiro);
+        setTipo(Tipo.escoteiro);
         this.cargos = cargos;
 
 

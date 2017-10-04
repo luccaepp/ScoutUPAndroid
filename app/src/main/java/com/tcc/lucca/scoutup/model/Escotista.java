@@ -5,7 +5,7 @@ public class Escotista extends Usuario {
     public Escotista(String nome, String email) {
         setNome(nome);
         setEmail(email);
-        setTipo(TipoUser.escotista);
+        setTipo(Tipo.escotista);
 
     }
 
