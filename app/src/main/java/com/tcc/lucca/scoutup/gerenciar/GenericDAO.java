@@ -8,29 +8,21 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class GenericDAO<T> {
 
     private static final String TAG = "TAG";
+    FirebaseFirestore database = FirebaseFirestore.getInstance();
     private Class<T> type;
     private FirebaseAuth auth;
-
-    FirebaseFirestore database = FirebaseFirestore.getInstance();
-
-
     private String referencia;
 
 
@@ -43,16 +35,8 @@ public class GenericDAO<T> {
 
     }
 
-    public Query getClassFromDatabase(String uid) {
-
-     //   return child(getReferencia() + "/" + uid);
-        return null;
-    }
-
 
     public void adicionar(T entidade) {
-
-        Map<String, Object> user = new HashMap<>();
 
         database.collection(type.getSimpleName())
                 .add(entidade)
@@ -144,13 +128,11 @@ return docs;
 
     }
 
-    public void alterar(String key, String atributo ) {
+    public void alterar(String key, String atributo, T valor) {
 
-        DocumentReference washingtonRef = database.collection(type.getSimpleName()).document(key);
-
-// Set the "isCapital" field of the city 'DC'
-        washingtonRef
-                .update(atributo, true)
+        DocumentReference documentReference = database.collection(type.getSimpleName()).document(key);
+        documentReference
+                .update(atributo, valor)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
