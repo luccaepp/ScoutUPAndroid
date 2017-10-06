@@ -16,19 +16,18 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.activitys.MainActivity;
+import com.tcc.lucca.scoutup.model.Tipo;
+import com.tcc.lucca.scoutup.model.Usuario;
 
 public class LoginClass {
 
-    String id;
+    private static final String TAG = "tag";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser firebaseUser;
     private Context context;
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
 
     public LoginClass(final Context context) {
@@ -58,6 +57,14 @@ public class LoginClass {
 
     }
 
+    public void criarConta(String email, String senha) {
+        mAuth.createUserWithEmailAndPassword(email, senha);
+        firebaseUser = mAuth.getCurrentUser();
+        verificarUsuarioCadastrado();
+        Intent main = new Intent(context, MainActivity.class);
+        context.startActivity(main);
+        ((Activity) context).finish();
+    }
 
 
     public void loginCredentials(String email, String senha) {
@@ -68,6 +75,7 @@ public class LoginClass {
                 if (task.isSuccessful()) {
 
                     firebaseUser = mAuth.getCurrentUser();
+                    verificarUsuarioCadastrado();
                     Intent main = new Intent(context, MainActivity.class);
                     context.startActivity(main);
                     ((Activity) context).finish();
@@ -91,7 +99,7 @@ public class LoginClass {
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
+                        verificarUsuarioCadastrado();
                     }
                 });
     }
@@ -103,9 +111,34 @@ public class LoginClass {
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
+                        verificarUsuarioCadastrado();
                     }
                 });
+
+    }
+
+    public void verificarUsuarioCadastrado() {
+
+        String uid = mAuth.getCurrentUser().getUid();
+        try {
+            Usuario user = (Usuario) usuarioDAO.buscarPorId(uid);
+        } catch (Exception e) {
+
+            cadastro(uid);
+
+        }
+
+
+    }
+
+    private void cadastro(String uid) {
+
+        Usuario user = new Usuario();
+        user.setNome(mAuth.getCurrentUser().getDisplayName());
+        user.setEmail(mAuth.getCurrentUser().getEmail());
+        user.setId(uid);
+        user.setTipo(Tipo.escotista);
+        usuarioDAO.adicionar(user);
 
     }
 

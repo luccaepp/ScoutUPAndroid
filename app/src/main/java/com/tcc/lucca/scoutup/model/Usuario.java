@@ -1,7 +1,5 @@
 package com.tcc.lucca.scoutup.model;
 
-import java.util.HashMap;
-
 /**
  * Created by lucca on 19/07/17.
  */
@@ -12,31 +10,13 @@ public class Usuario {
     private String nome;
     private String email;
     private String grupo;
-    private Secao secao;
-    private int idade;
-    private Patrulha patrulha;
+    private String sessao;
+    private String patrulha;
     private String id;
     private Tipo tipo;
-    private HashMap<String, Amigo> amigos;
 
-    public Patrulha getPatrulha() {
-        return patrulha;
-    }
-
-    public void setPatrulha(Patrulha patrulha) {
-        this.patrulha = patrulha;
-    }
-
-    public HashMap<String, Amigo> getAmigos() {
-        return amigos;
-    }
-
-    public void setAmigos(HashMap<String, Amigo> amigos) {
-        this.amigos = amigos;
-    }
 
     public String getNome() {
-
         return nome;
     }
 
@@ -52,7 +32,6 @@ public class Usuario {
         this.email = email;
     }
 
-
     public String getGrupo() {
         return grupo;
     }
@@ -61,24 +40,23 @@ public class Usuario {
         this.grupo = grupo;
     }
 
-    public Secao getSecao() {
-        return secao;
+    public String getSessao() {
+        return sessao;
     }
 
-    public void setSecao(Secao secao) {
-        this.secao = secao;
+    public void setSessao(String sessao) {
+        this.sessao = sessao;
     }
 
-    public int getIdade() {
-        return idade;
+    public String getPatrulha() {
+        return patrulha;
     }
 
-    public void setIdade(int idade) {
-        this.idade = idade;
+    public void setPatrulha(String patrulha) {
+        this.patrulha = patrulha;
     }
 
     public String getId() {
-
         return id;
     }
 

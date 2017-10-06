@@ -6,15 +6,25 @@ package com.tcc.lucca.scoutup.model;
 
 public class Patrulha {
 
-    private String chave;
+    private String sessaoId;
+    private String grupoId;
+
     private String nome;
 
-    public String getChave() {
-        return chave;
+    public String getGrupoId() {
+        return grupoId;
     }
 
-    public void setChave(String chave) {
-        this.chave = chave;
+    public void setGrupoId(String grupoId) {
+        this.grupoId = grupoId;
+    }
+
+    public String getSessaoId() {
+        return sessaoId;
+    }
+
+    public void setSessaoId(String sessaoId) {
+        this.sessaoId = sessaoId;
     }
 
     public String getNome() {

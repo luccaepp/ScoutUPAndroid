@@ -1,7 +1,6 @@
 package com.tcc.lucca.scoutup.activitys;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -156,10 +155,13 @@ public class LoginActivity extends AppCompatActivity{
 
     public void cadastro(View view) {
 
-        Uri uri = Uri.parse("https://scoutup-59cc7.firebaseapp.com/#/cadastro");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
+//        Uri uri = Uri.parse("https://scoutup-59cc7.firebaseapp.com/#/cadastro");
+//        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//        startActivity(intent);
 
+        String email = etLogin.getText().toString().trim();
+        String senha = etSenha.getText().toString().trim();
+        loginClass.criarConta(email, senha);
 
     }
 

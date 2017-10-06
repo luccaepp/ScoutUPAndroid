@@ -4,17 +4,17 @@ package com.tcc.lucca.scoutup.model;
  * Created by lucca on 02/10/17.
  */
 
-public class Secao {
+public class Sessao {
 
-    private String chave;
+    private String grupoId;
     private String nome;
 
-    public String getChave() {
-        return chave;
+    public String getGrupoId() {
+        return grupoId;
     }
 
-    public void setChave(String chave) {
-        this.chave = chave;
+    public void setGrupoId(String grupoId) {
+        this.grupoId = grupoId;
     }
 
     public String getNome() {
