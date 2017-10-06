@@ -1,27 +1,43 @@
 package com.tcc.lucca.scoutup.gerenciar;
 
-import com.firebase.client.Firebase;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class GenericDAO<T> {
 
+    private static final String TAG = "TAG";
     private Class<T> type;
     private FirebaseAuth auth;
-    private Firebase firebase;
-    private DatabaseReference databaseReference;
-    private FirebaseDatabase database;
+
+    FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+
     private String referencia;
 
 
 
     public GenericDAO(Class<T> type) {
         this.type = type;
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        database = FirebaseDatabase.getInstance();
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
 
 
 
@@ -29,52 +45,124 @@ public class GenericDAO<T> {
 
     public Query getClassFromDatabase(String uid) {
 
-        return databaseReference.child(getReferencia() + "/" + uid);
+     //   return child(getReferencia() + "/" + uid);
+        return null;
     }
 
 
     public void adicionar(T entidade) {
 
-        String key = database.getReference(referencia).push().getKey();
+        Map<String, Object> user = new HashMap<>();
 
-        databaseReference.child(referencia).child(key).setValue(entidade);
-
-
-
-    }
-
-    public Query listarTodos() {
-
-        Query query = databaseReference.child(referencia);
-
-
-        return query;
-    }
-
-
-    public Query buscarPorAtributoString(String path, String nomeAtributo, String id) {
-
-        Query query = databaseReference.child(path).orderByChild(nomeAtributo).equalTo(id);
-
-
-        return query;
-    }
-
-    public void excluir(T entidade) {
-
-        String key = database.getReference(referencia).push().getKey();
-
-        databaseReference.child(referencia).child(key).setValue(null);
+        database.collection(type.getSimpleName())
+                .add(entidade)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
 
 
     }
 
-    public void alterar(T entidade) {
+    public List<DocumentSnapshot> listarTodos() {
 
-        String key = database.getReference(referencia).push().getKey();
+        final List<DocumentSnapshot> docs = new ArrayList<>();
+
+        database.collection(type.getSimpleName())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                docs.add(document);
+                            }
 
 
-        databaseReference.child(referencia).child(key).setValue(entidade);
+
+
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
+        return docs;
+    }
+
+
+    public List<DocumentSnapshot> buscarPorAtributoString(String path, String nomeAtributo, String id) {
+
+        final List<DocumentSnapshot> docs = new ArrayList<>();
+
+
+        database.collection(path).whereEqualTo(nomeAtributo, id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            docs.add(document);
+                        }
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+
+return docs;
+
+    }
+
+    public void excluir(String key) {
+
+        database.collection(type.getSimpleName()).document(key)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
+
+
+    }
+
+    public void alterar(String key, String atributo ) {
+
+        DocumentReference washingtonRef = database.collection(type.getSimpleName()).document(key);
+
+// Set the "isCapital" field of the city 'DC'
+        washingtonRef
+                .update(atributo, true)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
 
 
     }
@@ -95,27 +183,12 @@ public class GenericDAO<T> {
         this.auth = auth;
     }
 
-    public Firebase getFirebase() {
-        return firebase;
-    }
 
-    public void setFirebase(Firebase firebase) {
-        this.firebase = firebase;
-    }
-
-    public DatabaseReference getDatabaseReference() {
-        return databaseReference;
-    }
-
-    public void setDatabaseReference(DatabaseReference databaseReference) {
-        this.databaseReference = databaseReference;
-    }
-
-    public FirebaseDatabase getDatabase() {
+    public FirebaseFirestore getDatabase() {
         return database;
     }
 
-    public void setDatabase(FirebaseDatabase database) {
+    public void setDatabase(FirebaseFirestore database) {
         this.database = database;
     }
 }

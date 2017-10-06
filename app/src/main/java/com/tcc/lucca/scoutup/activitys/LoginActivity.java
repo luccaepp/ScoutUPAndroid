@@ -28,51 +28,22 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.tcc.lucca.scoutup.gerenciar.CustomDialog;
 import com.tcc.lucca.scoutup.gerenciar.LoginClass;
 
 import java.util.Arrays;
 
-public class LoginActivity extends AppCompatActivity implements CustomDialog.CustomDialogListener {
+public class LoginActivity extends AppCompatActivity{
 
     private static final int RC_SIGN_IN = 0;
-    public static CustomDialog customDialog;
     private EditText etLogin;
     private EditText etSenha;
-    private View view;
     private GoogleApiClient mGoogleApiClient;
     private CallbackManager callbackManager;
     private LoginButton loginButton;
     private LoginClass loginClass = new LoginClass(this);
-    private String metodo;
-
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-
-        cadastro(view);
-    }
-
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-
-        if (metodo.equals("google")) {
-
-            signInGoogle();
 
 
-        } else if (metodo.equals("face")) {
 
-            signInFacebook();
-
-
-        }
-
-    }
-
-    public void showNoticeDialog() {
-        DialogFragment dialog = new CustomDialog();
-        dialog.show(getSupportFragmentManager(), "Primeira vez aqui?");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +79,7 @@ public class LoginActivity extends AppCompatActivity implements CustomDialog.Cus
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                view = v;
-                abrirFragment("google");
+                signInGoogle();
 
             }
         });
@@ -118,20 +88,14 @@ public class LoginActivity extends AppCompatActivity implements CustomDialog.Cus
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                view = v;
-                abrirFragment("face");
+              signInFacebook();
 
 
             }
         });
     }
 
-    public void abrirFragment(String metodo) {
 
-        this.metodo = metodo;
-        showNoticeDialog();
-
-    }
 
     private void signInFacebook() {
 

@@ -11,7 +11,6 @@ public class Usuario {
 
     private String nome;
     private String email;
-    private String foto;
     private String grupo;
     private Secao secao;
     private int idade;
@@ -53,13 +52,6 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
 
     public String getGrupo() {
         return grupo;

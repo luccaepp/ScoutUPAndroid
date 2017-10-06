@@ -17,7 +17,6 @@ public class Escoteiro extends Usuario {
     public Escoteiro(String nome, String email, String foto, String grupoId, Secao secao, int idade, String id, String patrulhaId, HashMap<String, String> cargos) {
         setNome(nome);
         setEmail(email);
-        setFoto(foto);
         setGrupo(grupoId);
         setSecao(secao);
         setIdade(idade);

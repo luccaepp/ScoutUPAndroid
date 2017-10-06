@@ -16,6 +16,10 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.activitys.MainActivity;
 
 public class LoginClass {
@@ -88,7 +92,6 @@ public class LoginClass {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
-
                     }
                 });
     }
@@ -100,7 +103,6 @@ public class LoginClass {
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
 
                     }
                 });
