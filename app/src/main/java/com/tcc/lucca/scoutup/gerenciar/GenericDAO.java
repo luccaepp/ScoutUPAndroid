@@ -1,8 +1,8 @@
 package com.tcc.lucca.scoutup.gerenciar;
 
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
@@ -42,30 +42,17 @@ public class GenericDAO<T> {
 
     }
 
-    public T buscarPorId(String id) {
+    public Query buscarPorId(String id) {
 
-        DocumentSnapshot data = db.collection(referencia).document(id).get().getResult();
-        T classe = (T) data.toObject(classeUsada);
+        Query query = getDb().collection(getReferencia()).whereEqualTo("id", id);
 
-        return classe;
+        return query;
 
 
     }
 
     public FirebaseFirestore getDb() {
         return db;
-    }
-
-    public void setDb(FirebaseFirestore db) {
-        this.db = db;
-    }
-
-    public Class getClasseUsada() {
-        return classeUsada;
-    }
-
-    public void setClasseUsada(Class classeUsada) {
-        this.classeUsada = classeUsada;
     }
 
     public String getReferencia() {

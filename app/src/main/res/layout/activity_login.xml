@@ -68,7 +68,6 @@
         android:elevation="0dp"
         android:gravity="center_vertical|center_horizontal|center"
         android:lineSpacingExtra="12sp"
-        android:onClick="faceLogin"
         android:textAlignment="gravity"
         android:textColor="#ffffff"
         android:textSize="16dp"

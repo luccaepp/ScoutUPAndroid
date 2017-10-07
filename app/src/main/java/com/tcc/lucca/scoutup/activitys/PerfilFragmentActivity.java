@@ -12,6 +12,7 @@ import com.example.lucca.scoutup.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.tcc.lucca.scoutup.gerenciar.GrupoDAO;
 import com.tcc.lucca.scoutup.gerenciar.ListViewAdapter;
@@ -76,7 +77,7 @@ public class PerfilFragmentActivity extends Fragment {
     private void initData() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = firebaseUser.getUid();
-        usuarioDAO.buscarPorIdUser(uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        usuarioDAO.buscarPorId(uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot documentSnapshots) {
                 Usuario user = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1).toObject(Usuario.class);
@@ -91,11 +92,35 @@ public class PerfilFragmentActivity extends Fragment {
 
     private void atualizarInfoPerfil() {
 
-//        String uidGrupo = usuarioDatabase.getGrupo();
-//        grupoDatabase =(Grupo) grupoDAO.buscarPorId(uidGrupo);
-//
-//        String uidSecao = usuarioDatabase.getSessao();
-//        sessaoDatabase = (Sessao) sessaoDAO.buscarPorId(uidSecao);
+        String uidGrupo = usuarioDatabase.getGrupo();
+        Query queryGrupo = grupoDAO.buscarPorId(uidGrupo);
+        queryGrupo.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot documentSnapshots) {
+                try {
+                    Grupo grupo = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1).toObject(Grupo.class);
+                    setGrupoDatabase(grupo);
+                } catch (Exception e) {
+                }
+
+            }
+        });
+
+        String uidSecao = usuarioDatabase.getSessao();
+        Query querySessao = sessaoDAO.buscarPorId(uidSecao);
+
+        querySessao.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot documentSnapshots) {
+                try {
+                    Sessao sessao = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1).toObject(Sessao.class);
+                    setSessaoDatabase(sessao);
+                } catch (Exception e) {
+                }
+
+            }
+        });
+
 
         List<String> info = new ArrayList<>();
         info.add("SCOUT UP");
@@ -143,6 +168,20 @@ public class PerfilFragmentActivity extends Fragment {
 
     }
 
+    public Grupo getGrupoDatabase() {
+        return grupoDatabase;
+    }
 
+    public void setGrupoDatabase(Grupo grupoDatabase) {
+        this.grupoDatabase = grupoDatabase;
+    }
+
+    public Sessao getSessaoDatabase() {
+        return sessaoDatabase;
+    }
+
+    public void setSessaoDatabase(Sessao sessaoDatabase) {
+        this.sessaoDatabase = sessaoDatabase;
+    }
 }
 

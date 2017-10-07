@@ -1,11 +1,13 @@
 package com.tcc.lucca.scoutup.activitys;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,7 +19,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -29,11 +30,10 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tcc.lucca.scoutup.gerenciar.LoginClass;
 
-import java.util.Arrays;
-
 public class LoginActivity extends AppCompatActivity{
 
     private static final int RC_SIGN_IN = 0;
+    private static final String TAG = "TAG";
     private EditText etLogin;
     private EditText etSenha;
     private GoogleApiClient mGoogleApiClient;
@@ -50,8 +50,35 @@ public class LoginActivity extends AppCompatActivity{
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_login);
+
+        callbackManager = CallbackManager.Factory.create();
+
         loginButton = (LoginButton) findViewById(R.id.btFace);
-        loginButton.setReadPermissions("email");
+        loginButton.setReadPermissions("email", "public_profile");
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                loginClass.firebaseAuthWithFacebook(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d(TAG, "facebook:onCancel");
+                // ...
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d(TAG, "facebook:onError", error);
+                // ...
+            }
+        });
+
+
+
+
         etLogin = (EditText) findViewById(R.id.eTxtUsuario);
         etSenha = (EditText) findViewById(R.id.eTxtSenha);
         SignInButton signInButton = (SignInButton) findViewById(R.id.btGoogle);
@@ -83,47 +110,11 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              signInFacebook();
-
-
-            }
-        });
     }
 
 
 
-    private void signInFacebook() {
 
-
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
-
-        callbackManager = CallbackManager.Factory.create();
-
-
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-
-                loginClass.firebaseAuthWithFacebook(loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-
-            }
-        });
-
-    }
 
 
     private void signInGoogle() {
@@ -149,19 +140,17 @@ public class LoginActivity extends AppCompatActivity{
 
             callbackManager.onActivityResult(requestCode, resultCode, data);
 
+
         }
     }
 
 
     public void cadastro(View view) {
 
-//        Uri uri = Uri.parse("https://scoutup-59cc7.firebaseapp.com/#/cadastro");
-//        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//        startActivity(intent);
+        Uri uri = Uri.parse("https://scoutup-59cc7.firebaseapp.com/#/cadastro");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
 
-        String email = etLogin.getText().toString().trim();
-        String senha = etSenha.getText().toString().trim();
-        loginClass.criarConta(email, senha);
 
     }
 

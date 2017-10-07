@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -16,17 +17,18 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.tcc.lucca.scoutup.activitys.MainActivity;
 import com.tcc.lucca.scoutup.model.Tipo;
 import com.tcc.lucca.scoutup.model.Usuario;
 
 public class LoginClass {
 
-    private static final String TAG = "tag";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser firebaseUser;
     private Context context;
+    private Usuario usuario;
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
 
@@ -57,14 +59,6 @@ public class LoginClass {
 
     }
 
-    public void criarConta(String email, String senha) {
-        mAuth.createUserWithEmailAndPassword(email, senha);
-        firebaseUser = mAuth.getCurrentUser();
-        verificarUsuarioCadastrado();
-        Intent main = new Intent(context, MainActivity.class);
-        context.startActivity(main);
-        ((Activity) context).finish();
-    }
 
 
     public void loginCredentials(String email, String senha) {
@@ -121,15 +115,35 @@ public class LoginClass {
 
         String uid = mAuth.getCurrentUser().getUid();
         try {
-            Usuario user = (Usuario) usuarioDAO.buscarPorId(uid);
-        } catch (Exception e) {
+            usuarioDAO.buscarPorId(uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot documentSnapshots) {
+                    try {
+                        Usuario user = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1).toObject(Usuario.class);
+                        setUsuario(user);
 
-            cadastro(uid);
+                    } catch (Exception e) {
+
+                        setUsuario(null);
+
+                    }
+                }
+            });
+
+
+
+
+        } catch (Exception e) {
 
         }
 
 
+        if (usuario == null) {
+            cadastro(uid);
+
+        }
     }
+
 
     private void cadastro(String uid) {
 
@@ -146,32 +160,15 @@ public class LoginClass {
         return mAuth;
     }
 
-    public void setmAuth(FirebaseAuth mAuth) {
-        this.mAuth = mAuth;
-    }
-
     public FirebaseAuth.AuthStateListener getmAuthListener() {
         return mAuthListener;
-    }
-
-    public void setmAuthListener(FirebaseAuth.AuthStateListener mAuthListener) {
-        this.mAuthListener = mAuthListener;
     }
 
     public FirebaseUser getFirebaseUser() {
         return firebaseUser;
     }
 
-    public void setFirebaseUser(FirebaseUser firebaseUser) {
-        this.firebaseUser = firebaseUser;
-    }
-
-
-    public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
