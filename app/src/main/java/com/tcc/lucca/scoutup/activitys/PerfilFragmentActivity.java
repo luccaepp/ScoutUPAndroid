@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.lucca.scoutup.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.tcc.lucca.scoutup.gerenciar.GrupoDAO;
 import com.tcc.lucca.scoutup.gerenciar.ListViewAdapter;
 import com.tcc.lucca.scoutup.gerenciar.SessaoDAO;
@@ -46,7 +48,6 @@ public class PerfilFragmentActivity extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
 
     }
 
@@ -54,12 +55,18 @@ public class PerfilFragmentActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        initComponents(container);
-        return inflater.inflate(R.layout.activity_perfil_fragment, container, false);
+
+        View root = inflater.inflate(R.layout.activity_perfil_fragment, container, false);
+
+        initComponents(root);
+
+        initData();
+
+        return root;
     }
 
-    private void initComponents(ViewGroup container) {
-        view = container;
+    private void initComponents(View container) {
+        this.view = container;
         listViewInfo = container.findViewById(R.id.listViewInformacoes);
         listViewAmigos = container.findViewById(R.id.listViewAmigos);
         listViewEspec = container.findViewById(R.id.listViewEspecialidades);
@@ -69,8 +76,14 @@ public class PerfilFragmentActivity extends Fragment {
     private void initData() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = firebaseUser.getUid();
-        Usuario user = usuarioDAO.buscarPorIdUser(uid);
-        setUsuarioDatabase(user);
+        usuarioDAO.buscarPorIdUser(uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot documentSnapshots) {
+                Usuario user = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1).toObject(Usuario.class);
+                setUsuarioDatabase(user);
+
+            }
+        });
 
 
 
@@ -84,11 +97,6 @@ public class PerfilFragmentActivity extends Fragment {
 //        String uidSecao = usuarioDatabase.getSessao();
 //        sessaoDatabase = (Sessao) sessaoDAO.buscarPorId(uidSecao);
 
-        // carregarUsuario();
-
-    }
-
-    private void carregarUsuario() {
         List<String> info = new ArrayList<>();
         info.add("SCOUT UP");
 
@@ -103,8 +111,9 @@ public class PerfilFragmentActivity extends Fragment {
         }
 
         ListViewAdapter adapter = new ListViewAdapter(getContext(), info);
-        listViewInfo.setAdapter(adapter);
-
+        if (listViewInfo != null) {
+            listViewInfo.setAdapter(adapter);
+        }
     }
 
     public void setUsuarioDatabase(Usuario usuarioDatabase) {
@@ -133,5 +142,7 @@ public class PerfilFragmentActivity extends Fragment {
     private void atualizarEspecialidades() {
 
     }
+
+
 }
 

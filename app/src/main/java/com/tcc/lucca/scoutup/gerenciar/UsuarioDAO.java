@@ -2,15 +2,14 @@ package com.tcc.lucca.scoutup.gerenciar;
 
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.tcc.lucca.scoutup.model.Usuario;
 
 import java.util.HashMap;
 
 public class UsuarioDAO extends GenericDAO {
 
+    private Usuario usuarioBusca;
 
     public UsuarioDAO() {
         super(Usuario.class);
@@ -24,20 +23,12 @@ public class UsuarioDAO extends GenericDAO {
     }
 
 
-    public Usuario buscarPorIdUser(String id) {
+    public Query buscarPorIdUser(String id) {
 
-        final Usuario[] user = {new Usuario()};
-        DocumentReference docRef = getDb().collection(getReferencia()).document(id);
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Usuario usuario = documentSnapshot.toObject(Usuario.class);
-                user[0] = usuario;
-            }
-        });
+        Query query = getDb().collection(getReferencia()).whereEqualTo("id", id);
 
 
-        return user[0];
+        return query;
 
     }
 
