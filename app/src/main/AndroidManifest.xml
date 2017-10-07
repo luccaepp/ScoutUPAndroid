@@ -51,9 +51,6 @@
             android:resource="@color/colorAccent" />
 
         <meta-data
-            android:name="com.google.firebase.messaging.default_sound"
-            android:resource="@raw/notifi" />
-        <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
