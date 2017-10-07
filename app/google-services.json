@@ -51,5 +51,11 @@
       }
     }
   ],
+  "notification": {
+    "body": "great match!",
+    "title": "Portugal vs. Denmark",
+    "icon": "myicon",
+    "sound": "default"
+  },
   "configuration_version": "1"
 }
