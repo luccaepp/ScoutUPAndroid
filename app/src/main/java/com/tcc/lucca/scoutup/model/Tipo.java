@@ -8,7 +8,7 @@ public enum Tipo {
     escoteiro,
     escotista;
 
-    public String devolveString(Tipo tipo) {
+    public static String devolveString(Tipo tipo) {
 
         if (tipo == escoteiro) {
 

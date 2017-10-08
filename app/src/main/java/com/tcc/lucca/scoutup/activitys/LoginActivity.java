@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,8 @@ public class LoginActivity extends AppCompatActivity{
     private CallbackManager callbackManager;
     private LoginButton loginButton;
     private LoginClass loginClass = new LoginClass(this);
+    private RadioButton rbEscotista;
+    private RadioButton rbEscoteiro;
 
 
 
@@ -52,6 +55,30 @@ public class LoginActivity extends AppCompatActivity{
         setContentView(R.layout.activity_login);
 
         callbackManager = CallbackManager.Factory.create();
+        rbEscoteiro = (RadioButton) findViewById(R.id.rbEscoteiro);
+        rbEscotista = (RadioButton) findViewById(R.id.rbEscotista);
+
+        rbEscoteiro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rbEscoteiro.setChecked(true);
+                rbEscotista.setChecked(false);
+
+            }
+        });
+
+        rbEscotista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                rbEscoteiro.setChecked(false);
+                rbEscotista.setChecked(true);
+            }
+        });
+
+
+
+
 
         loginButton = (LoginButton) findViewById(R.id.btFace);
         loginButton.setReadPermissions("email", "public_profile");
@@ -60,7 +87,7 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                loginClass.firebaseAuthWithFacebook(loginResult.getAccessToken());
+                loginClass.firebaseAuthWithFacebook(loginResult.getAccessToken(), rbEscotista.isChecked());
             }
 
             @Override
@@ -133,7 +160,8 @@ public class LoginActivity extends AppCompatActivity{
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
-                loginClass.firebaseAuthWithGoogle(account);
+
+                loginClass.firebaseAuthWithGoogle(account, rbEscotista.isChecked());
 
             }
         } else {
