@@ -164,7 +164,6 @@ public class PerfilFragmentActivity extends Fragment {
         listViewAmigos = getView().findViewById(R.id.listViewAmigos);
 
         Task<QuerySnapshot> query = usuarioDAO.getAmigos().get();
-        query.
 
 
 //                List<Amigo> amigos = new ArrayList<>();
