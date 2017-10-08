@@ -33,10 +33,6 @@ public class AtividadesActivity extends Fragment {
         initData();
 
 
-
-
-
-
     }
 
 

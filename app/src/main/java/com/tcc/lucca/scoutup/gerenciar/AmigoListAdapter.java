@@ -29,6 +29,12 @@ public class AmigoListAdapter extends ArrayAdapter<Amigo> {
         this.layoutInflate = LayoutInflater.from(ctx);
     }
 
+    public void atualizarLista(List<Amigo> lista) {
+
+        this.info = lista;
+
+    }
+
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {

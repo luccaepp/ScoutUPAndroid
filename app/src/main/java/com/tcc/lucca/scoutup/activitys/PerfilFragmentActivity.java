@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import com.example.lucca.scoutup.R;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.tcc.lucca.scoutup.gerenciar.AmigoListAdapter;
 import com.tcc.lucca.scoutup.gerenciar.GrupoDAO;
 import com.tcc.lucca.scoutup.gerenciar.ListViewAdapter;
 import com.tcc.lucca.scoutup.gerenciar.SessaoDAO;
@@ -28,7 +28,9 @@ import com.tcc.lucca.scoutup.model.Tipo;
 import com.tcc.lucca.scoutup.model.Usuario;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class PerfilFragmentActivity extends Fragment {
 
@@ -93,7 +95,6 @@ public class PerfilFragmentActivity extends Fragment {
 
             }
         });
-
 
 
     }
@@ -161,32 +162,23 @@ public class PerfilFragmentActivity extends Fragment {
 
     private void atualizarAmigos() {
 
+        final AmigoListAdapter adapter = new AmigoListAdapter(getContext(), amigos);
+
+
         listViewAmigos = getView().findViewById(R.id.listViewAmigos);
 
-        Task<QuerySnapshot> query = usuarioDAO.getAmigos().get();
+        Map<String, Amigo> amigosMap = usuarioDatabase.getAmigos();
 
+        Collection<Amigo> amigos = amigosMap.values();
+        amigo
 
-//                List<Amigo> amigos = new ArrayList<>();
-//                List<DocumentSnapshot> docs = documentSnapshots.getDocuments();
-//                Log.d("TAGzao", Integer.toString(docs.size()));
-//
-//                for (DocumentSnapshot doc:docs) {
-//                    amigos.add(doc.toObject(Amigo.class));
-//            }
-//                setAmigos(amigos);
-//                if(amigos!=null) {
-//
-//                    AmigoListAdapter adapter = new AmigoListAdapter(getContext(), amigos);
-//
-//                    listViewAmigos.setAdapter(adapter);
-//                }else{
-//
-//                }
-//
-//            }
-//        });
-
-
+        usuarioDAO.getAmigos().get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot documentSnapshots) {
+                adapter.atualizarLista(documentSnapshots.toObjects(Amigo.class));
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void atualizarEspecialidades() {
