@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.model.Amigo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,13 +20,13 @@ import java.util.List;
 public class AmigoListAdapter extends ArrayAdapter<Amigo> {
 
 
-    private List<Amigo> info;
+    private List<Amigo> info = new ArrayList<>();
     private LayoutInflater layoutInflate;
 
 
-    public AmigoListAdapter(Context ctx, List<Amigo> info) {
-        super(ctx, 0, info);
-        this.info = info;
+    public AmigoListAdapter(Context ctx, List<Amigo> values) {
+        super(ctx, 0, values);
+        this.info = values;
         this.layoutInflate = LayoutInflater.from(ctx);
     }
 
@@ -48,4 +49,5 @@ public class AmigoListAdapter extends ArrayAdapter<Amigo> {
 
         return view;
     }
+
 }

@@ -28,9 +28,7 @@ import com.tcc.lucca.scoutup.model.Tipo;
 import com.tcc.lucca.scoutup.model.Usuario;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class PerfilFragmentActivity extends Fragment {
 
@@ -162,23 +160,27 @@ public class PerfilFragmentActivity extends Fragment {
 
     private void atualizarAmigos() {
 
-        final AmigoListAdapter adapter = new AmigoListAdapter(getContext(), amigos);
 
+        final AmigoListAdapter adapter = new AmigoListAdapter(getContext(), amigos);
 
         listViewAmigos = getView().findViewById(R.id.listViewAmigos);
 
-        Map<String, Amigo> amigosMap = usuarioDatabase.getAmigos();
+        String uid = firebaseUser.getUid();
 
-        Collection<Amigo> amigos = amigosMap.values();
-        amigo
-
-        usuarioDAO.getAmigos().get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        usuarioDAO.getAmigos(uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot documentSnapshots) {
-                adapter.atualizarLista(documentSnapshots.toObjects(Amigo.class));
-                adapter.notifyDataSetChanged();
+
+                List<Amigo> amigos = documentSnapshots.toObjects(Amigo.class);
+                adapter.atualizarLista(amigos);
+
+                listViewAmigos.setAdapter(adapter);
+
+
             }
         });
+
+
     }
 
     private void atualizarEspecialidades() {

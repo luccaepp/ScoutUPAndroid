@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -34,7 +33,6 @@ import com.tcc.lucca.scoutup.gerenciar.LoginClass;
 public class LoginActivity extends AppCompatActivity{
 
     private static final int RC_SIGN_IN = 0;
-    private static final String TAG = "TAG";
     private EditText etLogin;
     private EditText etSenha;
     private GoogleApiClient mGoogleApiClient;
@@ -86,20 +84,15 @@ public class LoginActivity extends AppCompatActivity{
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 loginClass.firebaseAuthWithFacebook(loginResult.getAccessToken(), rbEscotista.isChecked());
             }
 
             @Override
             public void onCancel() {
-                Log.d(TAG, "facebook:onCancel");
-                // ...
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
-                // ...
             }
         });
 

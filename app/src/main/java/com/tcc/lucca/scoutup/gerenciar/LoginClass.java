@@ -121,13 +121,8 @@ public class LoginClass {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                if (task.isSuccessful()) {
+                if (!task.isSuccessful()) {
 
-                    Log.d("TAG", "Sucesso");
-
-
-                } else {
-                    Log.d("TAG", "Deu Ruim");
                     cadastro();
 
 

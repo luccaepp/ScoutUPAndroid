@@ -1,7 +1,5 @@
 package com.tcc.lucca.scoutup.model;
 
-import java.util.Map;
-
 /**
  * Created by lucca on 19/07/17.
  */
@@ -15,7 +13,6 @@ public class Usuario {
     private String sessao;
     private String patrulha;
     private Tipo tipo;
-    private Map<String, Amigo> amigos;
     private Status status;
 
 
@@ -65,14 +62,6 @@ public class Usuario {
 
     public void setTipo(Tipo tipo) {
         this.tipo = tipo;
-    }
-
-    public Map<String, Amigo> getAmigos() {
-        return amigos;
-    }
-
-    public void setAmigos(Map<String, Amigo> amigos) {
-        this.amigos = amigos;
     }
 
     public Status getStatus() {

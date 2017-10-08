@@ -25,9 +25,7 @@ public class UsuarioDAO extends GenericDAO {
 
     }
 
-    public CollectionReference getAmigos() {
-
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    public CollectionReference getAmigos(String uid) {
 
         CollectionReference collectionRef = getDb().collection(getReferencia()).document(uid).collection("amigos");
 
