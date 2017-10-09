@@ -5,21 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.tcc.lucca.scoutup.R;
 
-public class EscoteiroMenuActivity extends AppCompatActivity {
+public class AdicionarAtividadeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_escoteiro_menu);
-
+        setContentView(R.layout.activity_adicionar_atividade);
     }
-
-
-    public void logout() {
-    }
-
-    public void configurarTabs() {
-    }
-
-
 }

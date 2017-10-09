@@ -7,9 +7,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.example.lucca.scoutup.R;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.gerenciar.LoginClass;
 import com.tcc.lucca.scoutup.gerenciar.ViewPagerAdapter;
 

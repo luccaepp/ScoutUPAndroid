@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.lucca.scoutup">
+    package="com.tcc.lucca.scoutup">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -67,14 +67,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.tcc.lucca.scoutup.activitys.Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.tcc.lucca.scoutup.activitys.Main3Activity"
-            android:label="@string/title_activity_main3"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name="com.tcc.lucca.scoutup.activitys.AdicionarAtividadeActivity"></activity>
     </application>
 
 </manifest>
