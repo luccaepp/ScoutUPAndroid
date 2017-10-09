@@ -3,6 +3,7 @@ package com.tcc.lucca.scoutup.activitys;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.tcc.lucca.scoutup.gerenciar.AmigoListAdapter;
 import com.tcc.lucca.scoutup.gerenciar.GrupoDAO;
 import com.tcc.lucca.scoutup.gerenciar.ListViewAdapter;
+import com.tcc.lucca.scoutup.gerenciar.PatrulhaDAO;
 import com.tcc.lucca.scoutup.gerenciar.SessaoDAO;
 import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
 import com.tcc.lucca.scoutup.model.Amigo;
 import com.tcc.lucca.scoutup.model.Grupo;
+import com.tcc.lucca.scoutup.model.Patrulha;
 import com.tcc.lucca.scoutup.model.Sessao;
-import com.tcc.lucca.scoutup.model.Tipo;
 import com.tcc.lucca.scoutup.model.Usuario;
 
 import java.util.ArrayList;
@@ -36,12 +38,14 @@ public class PerfilFragmentActivity extends Fragment {
     private UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
     private GrupoDAO grupoDAO = GrupoDAO.getInstance();
     private SessaoDAO sessaoDAO = SessaoDAO.getInstance();
+    private PatrulhaDAO patrulhaDAO = PatrulhaDAO.getInstance();
 
     private List<Amigo> amigos;
     private FirebaseUser firebaseUser;
     private Usuario usuarioDatabase;
     private Grupo grupoDatabase;
     private Sessao sessaoDatabase;
+    private Patrulha patrulhaDatabase;
 
     private ListView listViewInfo;
     private ListView listViewAmigos;
@@ -99,6 +103,19 @@ public class PerfilFragmentActivity extends Fragment {
 
     private void atualizarInfoPerfil() {
 
+
+        final List<String> info = new ArrayList<>();
+
+        info.add("SCOUT UP");
+
+        info.add(usuarioDatabase.getNome());
+        info.add(usuarioDatabase.getEmail());
+        info.add(usuarioDatabase.getTipo());
+
+        final ListViewAdapter adapter = new ListViewAdapter(getContext(), info);
+        listViewInfo.setAdapter(adapter);
+
+
         if (usuarioDatabase.getGrupo() != null) {
             String uidGrupo = usuarioDatabase.getGrupo();
             grupoDAO.buscarPorId(uidGrupo).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -107,6 +124,9 @@ public class PerfilFragmentActivity extends Fragment {
                     try {
                         Grupo grupo = documentSnapshot.toObject(Grupo.class);
                         setGrupoDatabase(grupo);
+                        info.add(grupoDatabase.getNome());
+                        adapter.atualizarLista(info);
+                        adapter.notifyDataSetChanged();
                     } catch (Exception e) {
                     }
 
@@ -121,33 +141,39 @@ public class PerfilFragmentActivity extends Fragment {
                         try {
                             Sessao sessao = documentSnapshot.toObject(Sessao.class);
                             setSessaoDatabase(sessao);
+                            info.add(sessaoDatabase.getNome());
+                            adapter.atualizarLista(info);
+                            adapter.notifyDataSetChanged();
+
                         } catch (Exception e) {
                         }
 
                     }
                 });
+
+                if (usuarioDatabase.getPatrulha() != null) {
+                    String uidPatrulha = usuarioDatabase.getPatrulha();
+                    patrulhaDAO.buscarPorId(uidPatrulha).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            try {
+                                Patrulha patrulha = documentSnapshot.toObject(Patrulha.class);
+                                setPatrulhaDatabase(patrulha);
+                                info.add(patrulhaDatabase.getNome());
+                                adapter.atualizarLista(info);
+                                adapter.notifyDataSetChanged();
+                            } catch (Exception e) {
+                            }
+
+                        }
+                    });
+
+
+                }
+
             }
         }
 
-        List<String> info = new ArrayList<>();
-        info.add("SCOUT UP");
-
-        info.add(usuarioDatabase.getNome());
-        info.add(usuarioDatabase.getEmail());
-        info.add(Tipo.devolveString(usuarioDatabase.getTipo()));
-
-
-        if (grupoDatabase != null) {
-            info.add(grupoDatabase.getNome());
-        }
-        if (sessaoDatabase != null) {
-            info.add(sessaoDatabase.getNome());
-        }
-
-        ListViewAdapter adapter = new ListViewAdapter(getContext(), info);
-        if (listViewInfo != null) {
-            listViewInfo.setAdapter(adapter);
-        }
     }
 
     public void setUsuarioDatabase(Usuario usuarioDatabase) {
@@ -161,7 +187,6 @@ public class PerfilFragmentActivity extends Fragment {
     private void atualizarAmigos() {
 
 
-        final AmigoListAdapter adapter = new AmigoListAdapter(getContext(), amigos);
 
         listViewAmigos = getView().findViewById(R.id.listViewAmigos);
 
@@ -171,12 +196,18 @@ public class PerfilFragmentActivity extends Fragment {
             @Override
             public void onSuccess(QuerySnapshot documentSnapshots) {
 
-                List<Amigo> amigos = documentSnapshots.toObjects(Amigo.class);
-                adapter.atualizarLista(amigos);
+                List<DocumentSnapshot> docs = documentSnapshots.getDocuments();
+                List<Amigo> amigos = new ArrayList<>();
+                Log.d("TAG", Integer.toString(docs.size()));
 
+                for (DocumentSnapshot doc : docs) {
+
+                    amigos.add(doc.toObject(Amigo.class));
+
+
+                }
+                AmigoListAdapter adapter = new AmigoListAdapter(getContext(), amigos);
                 listViewAmigos.setAdapter(adapter);
-
-
             }
         });
 
@@ -209,6 +240,14 @@ public class PerfilFragmentActivity extends Fragment {
 
     public void setAmigos(List<Amigo> amigos) {
         this.amigos = amigos;
+    }
+
+    public Patrulha getPatrulhaDatabase() {
+        return patrulhaDatabase;
+    }
+
+    public void setPatrulhaDatabase(Patrulha patrulhaDatabase) {
+        this.patrulhaDatabase = patrulhaDatabase;
     }
 }
 

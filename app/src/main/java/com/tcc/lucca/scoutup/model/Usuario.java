@@ -12,7 +12,7 @@ public class Usuario {
     private String grupo;
     private String sessao;
     private String patrulha;
-    private Tipo tipo;
+    private String tipo;
     private Status status;
 
 
@@ -56,19 +56,19 @@ public class Usuario {
         this.patrulha = patrulha;
     }
 
-    public Tipo getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
-    }
-
     public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

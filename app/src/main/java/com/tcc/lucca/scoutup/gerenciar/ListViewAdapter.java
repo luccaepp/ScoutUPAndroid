@@ -28,6 +28,11 @@ public class ListViewAdapter extends ArrayAdapter<String> {
         this.layoutInflate = LayoutInflater.from(ctx);
     }
 
+    public void atualizarLista(List<String> lista) {
+
+        this.info = lista;
+
+    }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {

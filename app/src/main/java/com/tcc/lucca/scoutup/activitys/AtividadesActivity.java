@@ -72,7 +72,7 @@ public class AtividadesActivity extends Fragment {
 
                 Usuario user = documentSnapshot.toObject(Usuario.class);
 
-                if (user.getTipo() == Tipo.escoteiro) {
+                if (user.getTipo().equals(Tipo.devolveString(Tipo.escoteiro))) {
 
                     fab.hide();
 

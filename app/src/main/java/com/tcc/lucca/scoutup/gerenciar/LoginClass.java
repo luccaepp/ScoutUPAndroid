@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -42,18 +42,6 @@ public class LoginClass {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    if (user.getDisplayName() != null) {
-
-                        Intent main = new Intent(context, MainActivity.class);
-                        context.startActivity(main);
-                        ((Activity) context).finish();
-
-
-                    }
-
-                }
             }
         };
 
@@ -117,17 +105,22 @@ public class LoginClass {
 
         String uid = mAuth.getCurrentUser().getUid();
 
-        usuarioDAO.buscarPorId(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        usuarioDAO.buscarPorId(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                if (!task.isSuccessful()) {
+                try {
+                    Usuario user = documentSnapshot.toObject(Usuario.class);
+                } catch (Exception e) {
 
                     cadastro();
 
 
                 }
+                Intent main = new Intent(context, MainActivity.class);
+                context.startActivity(main);
 
+                ((Activity) context).finish();
 
             }
         });
@@ -138,17 +131,23 @@ public class LoginClass {
 
     private void cadastro() {
 
-        Log.d("TAG", "Criando usuario");
 
         Usuario user = new Usuario();
         user.setNome(mAuth.getCurrentUser().getDisplayName());
         user.setEmail(mAuth.getCurrentUser().getEmail());
         if (isEscotista) {
-            user.setTipo(Tipo.escotista);
+            user.setTipo(Tipo.devolveString(Tipo.escotista));
         } else {
-            user.setTipo(Tipo.escoteiro);
+            user.setTipo(Tipo.devolveString(Tipo.escoteiro));
         }
         usuarioDAO.adicionar(user);
+        Intent main = new Intent(context, MainActivity.class);
+        context.startActivity(main);
+
+        ((Activity) context).finish();
+
+
+
 
     }
 
