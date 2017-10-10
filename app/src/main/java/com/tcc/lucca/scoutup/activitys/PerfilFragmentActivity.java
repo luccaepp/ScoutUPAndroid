@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.gerenciar.AmigoListAdapter;
 import com.tcc.lucca.scoutup.gerenciar.GrupoDAO;
@@ -117,16 +118,21 @@ public class PerfilFragmentActivity extends Fragment {
 
 
         if (usuarioDatabase.getGrupo() != null) {
-            String uidGrupo = usuarioDatabase.getGrupo();
+            final String uidGrupo = usuarioDatabase.getGrupo();
             grupoDAO.buscarPorId(uidGrupo).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     try {
                         Grupo grupo = documentSnapshot.toObject(Grupo.class);
                         setGrupoDatabase(grupo);
+
                         info.add(grupoDatabase.getNome());
+
+
                         adapter.atualizarLista(info);
                         adapter.notifyDataSetChanged();
+                        FirebaseMessaging.getInstance().subscribeToTopic("grupo " + uidGrupo);
+
                     } catch (Exception e) {
                     }
 
@@ -134,16 +140,20 @@ public class PerfilFragmentActivity extends Fragment {
             });
 
             if (usuarioDatabase.getSessao() != null) {
-                String uidSecao = usuarioDatabase.getSessao();
+                final String uidSecao = usuarioDatabase.getSessao();
                 sessaoDAO.buscarPorId(uidSecao).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         try {
                             Sessao sessao = documentSnapshot.toObject(Sessao.class);
                             setSessaoDatabase(sessao);
+
                             info.add(sessaoDatabase.getNome());
+
+
                             adapter.atualizarLista(info);
                             adapter.notifyDataSetChanged();
+                            FirebaseMessaging.getInstance().subscribeToTopic("sessao " + uidSecao);
 
                         } catch (Exception e) {
                         }
@@ -152,16 +162,21 @@ public class PerfilFragmentActivity extends Fragment {
                 });
 
                 if (usuarioDatabase.getPatrulha() != null) {
-                    String uidPatrulha = usuarioDatabase.getPatrulha();
+                    final String uidPatrulha = usuarioDatabase.getPatrulha();
                     patrulhaDAO.buscarPorId(uidPatrulha).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             try {
                                 Patrulha patrulha = documentSnapshot.toObject(Patrulha.class);
                                 setPatrulhaDatabase(patrulha);
+
                                 info.add(patrulhaDatabase.getNome());
+
+
                                 adapter.atualizarLista(info);
                                 adapter.notifyDataSetChanged();
+                                FirebaseMessaging.getInstance().subscribeToTopic("patrulha " + uidPatrulha);
+
                             } catch (Exception e) {
                             }
 
