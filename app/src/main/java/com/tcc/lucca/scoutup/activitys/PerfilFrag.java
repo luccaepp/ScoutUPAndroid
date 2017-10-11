@@ -33,7 +33,7 @@ import com.tcc.lucca.scoutup.model.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PerfilFragmentActivity extends Fragment {
+public class PerfilFrag extends Fragment {
 
 
     private UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();

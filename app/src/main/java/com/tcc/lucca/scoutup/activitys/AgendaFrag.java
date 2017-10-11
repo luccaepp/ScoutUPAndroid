@@ -20,7 +20,7 @@ import com.tcc.lucca.scoutup.model.Tipo;
 import com.tcc.lucca.scoutup.model.Usuario;
 
 
-public class AtividadesActivity extends Fragment {
+public class AgendaFrag extends Fragment {
 
     private Usuario usuario;
     private FloatingActionButton fab;
