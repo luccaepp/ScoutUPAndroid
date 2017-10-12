@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             adapter.addFragment(new AgendaFrag(), "");
             viewPager.setAdapter(adapter);
 
+
             final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
             tabLayout.setupWithViewPager(viewPager);
             tabLayout.setAnimation(null);

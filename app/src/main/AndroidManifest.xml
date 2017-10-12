@@ -45,7 +45,9 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.AdicionarAtividadeActivity" />
+        <activity
+            android:name=".activitys.AdicionarAtividadeActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activitys.LoginActivity" />
 
         <meta-data

@@ -45,6 +45,7 @@ public class AgendaFrag extends Fragment {
         TextView tvAgenda = root.findViewById(R.id.textView);
         Typeface type = Typeface.createFromAsset(getContext().getAssets(), "font/ClaireHandRegular.ttf");
         tvAgenda.setTypeface(type);
+
         fab = root.findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +59,9 @@ public class AgendaFrag extends Fragment {
 
             }
         });
+
+        fab.hide();
+
 
         return root;
     }
@@ -77,10 +81,9 @@ public class AgendaFrag extends Fragment {
 
                 Usuario user = documentSnapshot.toObject(Usuario.class);
 
-                if (user.getTipo().equals(Tipo.devolveString(Tipo.escoteiro))) {
+                if (user.getTipo().equals(Tipo.devolveString(Tipo.escotista))) {
 
-                    fab.hide();
-
+                    fab.show();
                 }
 
             }

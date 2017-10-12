@@ -1,9 +1,7 @@
 package com.tcc.lucca.scoutup.activitys;
 
 import android.content.Context;
-import android.location.Criteria;
 import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +12,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Locale;
 
@@ -48,28 +45,8 @@ public class MapsFrag extends SupportMapFragment implements OnMapReadyCallback, 
 
             mMap.getUiSettings().setZoomControlsEnabled(true);
 
-            Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
+            LatLng latlng = new LatLng(-25.451168, -49.277275);
 
-            Criteria criteria = new Criteria();
-
-            Location location = locationManager.getLastKnownLocation(locationManager
-                    .getBestProvider(criteria, false));
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-
-            LatLng latlng = new LatLng(latitude, longitude);
-
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(latlng);
-
-            try {
-                markerOptions.title(geo.getFromLocation(latitude, longitude, 1).get(0).getAddressLine(0));
-
-            } catch (Exception E) {
-                markerOptions.title("Localização inicial");
-            }
-
-            mMap.addMarker(markerOptions);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
 
         } catch (SecurityException ex) {
