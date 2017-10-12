@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -16,15 +17,20 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.tcc.lucca.scoutup.activitys.MainActivity;
+import com.tcc.lucca.scoutup.model.Tipo;
+import com.tcc.lucca.scoutup.model.Usuario;
 
 public class LoginClass {
 
-    String id;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser firebaseUser;
     private Context context;
+    private Usuario usuario;
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private boolean isEscotista;
 
 
     public LoginClass(final Context context) {
@@ -36,18 +42,6 @@ public class LoginClass {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    if (user.getDisplayName() != null) {
-
-                        Intent main = new Intent(context, MainActivity.class);
-                        context.startActivity(main);
-                        ((Activity) context).finish();
-
-
-                    }
-
-                }
             }
         };
 
@@ -80,30 +74,80 @@ public class LoginClass {
 
     }
 
-    public void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+    public void firebaseAuthWithGoogle(GoogleSignInAccount acct, final boolean checked) {
+        isEscotista = checked;
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
-
+                        verificarUsuarioCadastrado();
                     }
                 });
     }
 
-    public void firebaseAuthWithFacebook(AccessToken accessToken) {
+    public void firebaseAuthWithFacebook(AccessToken accessToken, final boolean checked) {
+        isEscotista = checked;
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
-
+                        verificarUsuarioCadastrado();
                     }
                 });
+
+    }
+
+    public void verificarUsuarioCadastrado() {
+
+        String uid = mAuth.getCurrentUser().getUid();
+
+        usuarioDAO.buscarPorId(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                try {
+                    Usuario user = documentSnapshot.toObject(Usuario.class);
+                } catch (Exception e) {
+
+                    cadastro();
+
+
+                }
+                Intent main = new Intent(context, MainActivity.class);
+                context.startActivity(main);
+
+                ((Activity) context).finish();
+
+            }
+        });
+
+
+    }
+
+
+    private void cadastro() {
+
+
+        Usuario user = new Usuario();
+        user.setNomeUsuario(mAuth.getCurrentUser().getDisplayName());
+        user.setEmail(mAuth.getCurrentUser().getEmail());
+        if (isEscotista) {
+            user.setTipo(Tipo.devolveString(Tipo.escotista));
+        } else {
+            user.setTipo(Tipo.devolveString(Tipo.escoteiro));
+        }
+        usuarioDAO.adicionar(user);
+        Intent main = new Intent(context, MainActivity.class);
+        context.startActivity(main);
+
+        ((Activity) context).finish();
+
+
+
 
     }
 
@@ -111,32 +155,15 @@ public class LoginClass {
         return mAuth;
     }
 
-    public void setmAuth(FirebaseAuth mAuth) {
-        this.mAuth = mAuth;
-    }
-
     public FirebaseAuth.AuthStateListener getmAuthListener() {
         return mAuthListener;
-    }
-
-    public void setmAuthListener(FirebaseAuth.AuthStateListener mAuthListener) {
-        this.mAuthListener = mAuthListener;
     }
 
     public FirebaseUser getFirebaseUser() {
         return firebaseUser;
     }
 
-    public void setFirebaseUser(FirebaseUser firebaseUser) {
-        this.firebaseUser = firebaseUser;
-    }
-
-
-    public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

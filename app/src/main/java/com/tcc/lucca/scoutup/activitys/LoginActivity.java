@@ -9,16 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.lucca.scoutup.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -28,51 +27,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.tcc.lucca.scoutup.gerenciar.CustomDialog;
+import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.gerenciar.LoginClass;
 
-import java.util.Arrays;
-
-public class LoginActivity extends AppCompatActivity implements CustomDialog.CustomDialogListener {
+public class LoginActivity extends AppCompatActivity{
 
     private static final int RC_SIGN_IN = 0;
-    public static CustomDialog customDialog;
     private EditText etLogin;
     private EditText etSenha;
-    private View view;
     private GoogleApiClient mGoogleApiClient;
     private CallbackManager callbackManager;
     private LoginButton loginButton;
     private LoginClass loginClass = new LoginClass(this);
-    private String metodo;
-
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-
-        cadastro(view);
-    }
-
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-
-        if (metodo.equals("google")) {
-
-            signInGoogle();
+    private RadioButton rbEscotista;
+    private RadioButton rbEscoteiro;
 
 
-        } else if (metodo.equals("face")) {
 
-            signInFacebook();
-
-
-        }
-
-    }
-
-    public void showNoticeDialog() {
-        DialogFragment dialog = new CustomDialog();
-        dialog.show(getSupportFragmentManager(), "Primeira vez aqui?");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +51,54 @@ public class LoginActivity extends AppCompatActivity implements CustomDialog.Cus
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_login);
+
+        callbackManager = CallbackManager.Factory.create();
+        rbEscoteiro = (RadioButton) findViewById(R.id.rbEscoteiro);
+        rbEscotista = (RadioButton) findViewById(R.id.rbEscotista);
+
+        rbEscoteiro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rbEscoteiro.setChecked(true);
+                rbEscotista.setChecked(false);
+
+            }
+        });
+
+        rbEscotista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                rbEscoteiro.setChecked(false);
+                rbEscotista.setChecked(true);
+            }
+        });
+
+
+
+
+
         loginButton = (LoginButton) findViewById(R.id.btFace);
-        loginButton.setReadPermissions("email");
+        loginButton.setReadPermissions("email", "public_profile");
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                loginClass.firebaseAuthWithFacebook(loginResult.getAccessToken(), rbEscotista.isChecked());
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+            }
+        });
+
+
+
+
         etLogin = (EditText) findViewById(R.id.eTxtUsuario);
         etSenha = (EditText) findViewById(R.id.eTxtSenha);
         SignInButton signInButton = (SignInButton) findViewById(R.id.btGoogle);
@@ -108,59 +125,16 @@ public class LoginActivity extends AppCompatActivity implements CustomDialog.Cus
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                view = v;
-                abrirFragment("google");
-
-            }
-        });
-
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                view = v;
-                abrirFragment("face");
-
-
-            }
-        });
-    }
-
-    public void abrirFragment(String metodo) {
-
-        this.metodo = metodo;
-        showNoticeDialog();
-
-    }
-
-    private void signInFacebook() {
-
-
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
-
-        callbackManager = CallbackManager.Factory.create();
-
-
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-
-                loginClass.firebaseAuthWithFacebook(loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
+                signInGoogle();
 
             }
         });
 
     }
+
+
+
+
 
 
     private void signInGoogle() {
@@ -179,12 +153,14 @@ public class LoginActivity extends AppCompatActivity implements CustomDialog.Cus
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
-                loginClass.firebaseAuthWithGoogle(account);
+
+                loginClass.firebaseAuthWithGoogle(account, rbEscotista.isChecked());
 
             }
         } else {
 
             callbackManager.onActivityResult(requestCode, resultCode, data);
+
 
         }
     }

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.lucca.scoutup.R;
+import com.tcc.lucca.scoutup.R;
 
 import java.util.List;
 
@@ -28,6 +28,11 @@ public class ListViewAdapter extends ArrayAdapter<String> {
         this.layoutInflate = LayoutInflater.from(ctx);
     }
 
+    public void atualizarLista(List<String> lista) {
+
+        this.info = lista;
+
+    }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {

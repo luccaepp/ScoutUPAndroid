@@ -1,80 +1,98 @@
 package com.tcc.lucca.scoutup.model;
 
+import java.sql.Timestamp;
 import java.util.List;
-
-/**
- * Created by lucca on 19/07/17.
- */
 
 public class Atividade {
 
-    private String inicio;
+    private String nome;
+    private String desc;
+    private String endereco;
+    private String lat;
+    private String lon;
+    private List<String> itens;
+    private Timestamp horaInicio;
+    private Timestamp horaFim;
+    private List<String> confirmados;
+    private String sessao;
 
-    private String termino;
-
-    private String tipo;
-
-    private String titulo;
-
-    private Local local;
-
-    private List<String> materiais;
-
-    private List<Participante> participantes;
-
-    public String getInicio() {
-        return inicio;
+    public String getNome() {
+        return nome;
     }
 
-    public void setInicio(String inicio) {
-        this.inicio = inicio;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getTermino() {
-        return termino;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setTermino(String termino) {
-        this.termino = termino;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getEndereco() {
+        return endereco;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getLat() {
+        return lat;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setLat(String lat) {
+        this.lat = lat;
     }
 
-    public Local getLocal() {
-        return local;
+    public String getLon() {
+        return lon;
     }
 
-    public void setLocal(Local local) {
-        this.local = local;
+    public void setLon(String lon) {
+        this.lon = lon;
     }
 
-    public List<String> getMateriais() {
-        return materiais;
+    public List<String> getItens() {
+        return itens;
     }
 
-    public void setMateriais(List<String> materiais) {
-        this.materiais = materiais;
+    public void setItens(List<String> itens) {
+        this.itens = itens;
     }
 
-    public List<Participante> getParticipantes() {
-        return participantes;
+    public Timestamp getHoraInicio() {
+        return horaInicio;
     }
 
-    public void setParticipantes(List<Participante> participantes) {
-        this.participantes = participantes;
+    public void setHoraInicio(Timestamp horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public Timestamp getHoraFim() {
+        return horaFim;
+    }
+
+    public void setHoraFim(Timestamp horaFim) {
+        this.horaFim = horaFim;
+    }
+
+    public List<String> getConfirmados() {
+        return confirmados;
+    }
+
+    public void setConfirmados(List<String> confirmados) {
+        this.confirmados = confirmados;
+    }
+
+    public String getSessao() {
+        return sessao;
+    }
+
+    public void setSessao(String sessao) {
+        this.sessao = sessao;
     }
 }

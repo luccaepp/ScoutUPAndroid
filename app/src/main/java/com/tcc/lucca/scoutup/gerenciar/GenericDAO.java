@@ -1,82 +1,58 @@
 package com.tcc.lucca.scoutup.gerenciar;
 
-import com.firebase.client.Firebase;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Map;
 
 public class GenericDAO<T> {
 
-    private Class<T> type;
-    private FirebaseAuth auth;
-    private Firebase firebase;
-    private DatabaseReference databaseReference;
-    private FirebaseDatabase database;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private Class classeUsada;
     private String referencia;
 
-
-
-    public GenericDAO(Class<T> type) {
-        this.type = type;
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        database = FirebaseDatabase.getInstance();
-
-
-
+    public GenericDAO(Class c) {
+        this.classeUsada = c;
     }
-
-    public Query getClassFromDatabase(String uid) {
-
-        return databaseReference.child(getReferencia() + "/" + uid);
-    }
-
 
     public void adicionar(T entidade) {
 
-        String key = database.getReference(referencia).push().getKey();
+        db.collection(referencia).add(entidade);
 
-        databaseReference.child(referencia).child(key).setValue(entidade);
+    }
 
+    public void deletar(String id) {
+
+        db.collection(referencia).document(id).delete();
+
+    }
+
+    public void update(Map<String, Object> lista, String id) {
+
+        db.collection(referencia).document(id).update(lista);
+
+    }
+
+    public Task<QuerySnapshot> listar() {
+
+
+        return db.collection(referencia).get();
+
+    }
+
+    public DocumentReference buscarPorId(String id) {
+
+        DocumentReference documentReference = getDb().collection(getReferencia()).document(id);
+
+        return documentReference;
 
 
     }
 
-    public Query listarTodos() {
-
-        Query query = databaseReference.child(referencia);
-
-
-        return query;
-    }
-
-
-    public Query buscarPorAtributoString(String path, String nomeAtributo, String id) {
-
-        Query query = databaseReference.child(path).orderByChild(nomeAtributo).equalTo(id);
-
-
-        return query;
-    }
-
-    public void excluir(T entidade) {
-
-        String key = database.getReference(referencia).push().getKey();
-
-        databaseReference.child(referencia).child(key).setValue(null);
-
-
-    }
-
-    public void alterar(T entidade) {
-
-        String key = database.getReference(referencia).push().getKey();
-
-
-        databaseReference.child(referencia).child(key).setValue(entidade);
-
-
+    public FirebaseFirestore getDb() {
+        return db;
     }
 
     public String getReferencia() {
@@ -87,35 +63,5 @@ public class GenericDAO<T> {
         this.referencia = referencia;
     }
 
-    public FirebaseAuth getAuth() {
-        return auth;
-    }
 
-    public void setAuth(FirebaseAuth auth) {
-        this.auth = auth;
-    }
-
-    public Firebase getFirebase() {
-        return firebase;
-    }
-
-    public void setFirebase(Firebase firebase) {
-        this.firebase = firebase;
-    }
-
-    public DatabaseReference getDatabaseReference() {
-        return databaseReference;
-    }
-
-    public void setDatabaseReference(DatabaseReference databaseReference) {
-        this.databaseReference = databaseReference;
-    }
-
-    public FirebaseDatabase getDatabase() {
-        return database;
-    }
-
-    public void setDatabase(FirebaseDatabase database) {
-        this.database = database;
-    }
 }

@@ -6,7 +6,17 @@ package com.tcc.lucca.scoutup.model;
 
 public enum Tipo {
     escoteiro,
-    escotista,
-    secao,
-    grupo
+    escotista;
+
+    public static String devolveString(Tipo tipo) {
+
+        if (tipo == escoteiro) {
+
+            return "escoteiro";
+        } else {
+            return "escotista";
+
+
+        }
+    }
 }

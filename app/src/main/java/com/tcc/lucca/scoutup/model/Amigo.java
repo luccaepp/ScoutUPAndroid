@@ -1,22 +1,15 @@
 package com.tcc.lucca.scoutup.model;
 
 /**
- * Created by lucca on 02/10/17.
+ * Created by lucca on 08/10/17.
  */
 
 public class Amigo {
 
-    private String chave;
     private String nome;
+    private String chave;
     private Status status;
 
-    public String getChave() {
-        return chave;
-    }
-
-    public void setChave(String chave) {
-        this.chave = chave;
-    }
 
     public String getNome() {
         return nome;
@@ -24,6 +17,14 @@ public class Amigo {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getChave() {
+        return chave;
+    }
+
+    public void setChave(String chave) {
+        this.chave = chave;
     }
 
     public Status getStatus() {

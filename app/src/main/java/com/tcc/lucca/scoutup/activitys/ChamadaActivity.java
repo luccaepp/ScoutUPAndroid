@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.lucca.scoutup.R;
+import com.tcc.lucca.scoutup.R;
 
 public class ChamadaActivity extends Fragment {
 

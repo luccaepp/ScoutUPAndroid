@@ -1,7 +1,5 @@
 package com.tcc.lucca.scoutup.model;
 
-import java.util.HashMap;
-
 /**
  * Created by lucca on 19/07/17.
  */
@@ -9,40 +7,21 @@ import java.util.HashMap;
 public class Usuario {
 
 
-    private String nome;
+    private String nomeUsuario;
     private String email;
-    private String foto;
     private String grupo;
-    private Secao secao;
-    private int idade;
-    private Patrulha patrulha;
-    private String id;
-    private Tipo tipo;
-    private HashMap<String, Amigo> amigos;
+    private String sessao;
+    private String patrulha;
+    private String tipo;
+    private Status status;
 
-    public Patrulha getPatrulha() {
-        return patrulha;
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 
-    public void setPatrulha(Patrulha patrulha) {
-        this.patrulha = patrulha;
-    }
-
-    public HashMap<String, Amigo> getAmigos() {
-        return amigos;
-    }
-
-    public void setAmigos(HashMap<String, Amigo> amigos) {
-        this.amigos = amigos;
-    }
-
-    public String getNome() {
-
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 
     public String getEmail() {
@@ -53,14 +32,6 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
     public String getGrupo() {
         return grupo;
     }
@@ -69,36 +40,35 @@ public class Usuario {
         this.grupo = grupo;
     }
 
-    public Secao getSecao() {
-        return secao;
+    public String getSessao() {
+        return sessao;
     }
 
-    public void setSecao(Secao secao) {
-        this.secao = secao;
+    public void setSessao(String sessao) {
+        this.sessao = sessao;
     }
 
-    public int getIdade() {
-        return idade;
+    public String getPatrulha() {
+        return patrulha;
     }
 
-    public void setIdade(int idade) {
-        this.idade = idade;
+    public void setPatrulha(String patrulha) {
+        this.patrulha = patrulha;
     }
 
-    public String getId() {
-
-        return id;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    public Tipo getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(Tipo tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 }
