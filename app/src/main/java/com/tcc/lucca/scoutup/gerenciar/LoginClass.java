@@ -133,7 +133,7 @@ public class LoginClass {
 
 
         Usuario user = new Usuario();
-        user.setNome(mAuth.getCurrentUser().getDisplayName());
+        user.setNomeUsuario(mAuth.getCurrentUser().getDisplayName());
         user.setEmail(mAuth.getCurrentUser().getEmail());
         if (isEscotista) {
             user.setTipo(Tipo.devolveString(Tipo.escotista));

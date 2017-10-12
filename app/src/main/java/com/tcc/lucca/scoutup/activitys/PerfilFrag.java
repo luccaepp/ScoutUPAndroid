@@ -109,7 +109,7 @@ public class PerfilFrag extends Fragment {
 
         info.add("SCOUT UP");
 
-        info.add(usuarioDatabase.getNome());
+        info.add(usuarioDatabase.getNomeUsuario());
         info.add(usuarioDatabase.getEmail());
         info.add(usuarioDatabase.getTipo());
 

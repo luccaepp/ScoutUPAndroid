@@ -7,7 +7,7 @@ package com.tcc.lucca.scoutup.model;
 public class Usuario {
 
 
-    private String nome;
+    private String nomeUsuario;
     private String email;
     private String grupo;
     private String sessao;
@@ -16,12 +16,12 @@ public class Usuario {
     private Status status;
 
 
-    public String getNome() {
-        return nome;
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 
     public String getEmail() {
