@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -17,6 +19,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.gerenciar.ListItemMaterialAdapter;
 
@@ -27,6 +33,7 @@ import java.util.List;
 public class AdicionarAtividadeActivity extends AppCompatActivity {
 
 
+    private static final String TAG = "tag";
     private FragmentManager fragmentManager;
     private EditText editTextNome;
     private EditText editTextOutro;
@@ -50,12 +57,67 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
 
         fragmentTransaction.commitAllowingStateLoss();
 
+
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        autocompleteFragment.setHint("Endereço");
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                Log.i(TAG, "Place: " + place.getName());
+
+                MapsFrag maps = (MapsFrag) getSupportFragmentManager().findFragmentById(R.id.container);
+
+
+                MapsFrag newFragment = new MapsFrag();
+                Bundle args = new Bundle();
+                args.putParcelable("LatLng", place.getLatLng());
+                Log.d(TAG, place.getLatLng().toString());
+                newFragment.setArguments(args);
+
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+
+                transaction.replace(R.id.container, newFragment);
+                transaction.addToBackStack("pilha");
+
+                transaction.commit();
+
+
+            }
+
+            @Override
+            public void onError(Status status) {
+                Log.i(TAG, "Ocorreu um erro: " + status);
+
+            }
+        });
+
+
+
         adapter = new ListItemMaterialAdapter(this, materiais);
 
         listMateriais.setAdapter(adapter);
 
+        listMateriais.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                materiais.remove(i);
+                adapter.setInfo(materiais);
+                adapter.notifyDataSetChanged();
+                view.invalidate();
+                setListViewHeightBasedOnItems();
+
+                return false;
+            }
+        });
+
 
     }
+
 
     private void initComponents() {
 

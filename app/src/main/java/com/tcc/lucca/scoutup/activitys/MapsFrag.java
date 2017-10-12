@@ -12,6 +12,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Locale;
 
@@ -22,10 +23,15 @@ public class MapsFrag extends SupportMapFragment implements OnMapReadyCallback, 
     private GoogleMap mMap;
     private LocationManager locationManager;
 
+    public MapsFrag() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getMapAsync(this);
+
+
     }
 
     @Override
@@ -35,19 +41,39 @@ public class MapsFrag extends SupportMapFragment implements OnMapReadyCallback, 
 
             locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
-            googleMap.setMyLocationEnabled(true);
-
-            googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-
             mMap = googleMap;
+
+            mMap.getUiSettings().setScrollGesturesEnabled(false);
 
             mMap.setOnMapClickListener(this);
 
             mMap.getUiSettings().setZoomControlsEnabled(true);
 
-            LatLng latlng = new LatLng(-25.451168, -49.277275);
+            try {
+                LatLng latLng = (LatLng) getArguments().get("LatLng");
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
+                if (latLng != null) {
+
+                    Log.d(TAG, latLng.toString());
+
+
+                    MarkerOptions marker = new MarkerOptions();
+                    marker.position(latLng);
+                    marker.title("Local Selecionando");
+                    mMap.addMarker(marker);
+                    mMap.getMinZoomLevel();
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
+
+
+                }
+            } catch (Exception e) {
+            }
+
+
+
+
+
+
 
         } catch (SecurityException ex) {
 
