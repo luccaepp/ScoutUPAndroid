@@ -1,27 +1,27 @@
 package com.tcc.lucca.scoutup.model;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Atividade {
 
-    private String nome;
+    private String titulo;
     private String desc;
-    private String endereco;
-    private String lat;
-    private String lon;
-    private List<String> itens;
-    private Timestamp horaInicio;
-    private Timestamp horaFim;
-    private List<String> confirmados;
-    private String sessao;
+    private Local local;
+    private Map<String, String> materiais;
+    private Timestamp inicio;
+    private Timestamp termino;
+    private String tipo;
+    private Map<String, Participante> participantes;
 
-    public String getNome() {
-        return nome;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getDesc() {
@@ -32,67 +32,51 @@ public class Atividade {
         this.desc = desc;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public Local getLocal() {
+        return local;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setLocal(Local local) {
+        this.local = local;
     }
 
-    public String getLat() {
-        return lat;
+    public Map<String, String> getMateriais() {
+        return materiais;
     }
 
-    public void setLat(String lat) {
-        this.lat = lat;
+    public void setMateriais(Map<String, String> materiais) {
+        this.materiais = materiais;
     }
 
-    public String getLon() {
-        return lon;
+    public Timestamp getInicio() {
+        return inicio;
     }
 
-    public void setLon(String lon) {
-        this.lon = lon;
+    public void setInicio(Timestamp inicio) {
+        this.inicio = inicio;
     }
 
-    public List<String> getItens() {
-        return itens;
+    public Timestamp getTermino() {
+        return termino;
     }
 
-    public void setItens(List<String> itens) {
-        this.itens = itens;
+    public void setTermino(Timestamp termino) {
+        this.termino = termino;
     }
 
-    public Timestamp getHoraInicio() {
-        return horaInicio;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setHoraInicio(Timestamp horaInicio) {
-        this.horaInicio = horaInicio;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
-    public Timestamp getHoraFim() {
-        return horaFim;
+    public Map<String, Participante> getParticipantes() {
+        return participantes;
     }
 
-    public void setHoraFim(Timestamp horaFim) {
-        this.horaFim = horaFim;
-    }
-
-    public List<String> getConfirmados() {
-        return confirmados;
-    }
-
-    public void setConfirmados(List<String> confirmados) {
-        this.confirmados = confirmados;
-    }
-
-    public String getSessao() {
-        return sessao;
-    }
-
-    public void setSessao(String sessao) {
-        this.sessao = sessao;
+    public void setParticipantes(Map<String, Participante> participantes) {
+        this.participantes = participantes;
     }
 }

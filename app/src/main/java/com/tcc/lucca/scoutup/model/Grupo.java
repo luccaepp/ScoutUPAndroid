@@ -1,16 +1,30 @@
 package com.tcc.lucca.scoutup.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by lucca on 01/09/17.
  */
 
 public class Grupo {
 
+    private int numeral;
     private String nome;
     private String cidade;
     private String estado;
-    private int numeral;
+    private Long timeStamp;
+    private Map<String, String >criador;
+    private Map<String, Sessao> secoes;
 
+
+    public int getNumeral() {
+        return numeral;
+    }
+
+    public void setNumeral(int numeral) {
+        this.numeral = numeral;
+    }
 
     public String getNome() {
         return nome;
@@ -36,11 +50,27 @@ public class Grupo {
         this.estado = estado;
     }
 
-    public int getNumeral() {
-        return numeral;
+    public Long getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setNumeral(int numeral) {
-        this.numeral = numeral;
+    public void setTimeStamp(Long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public Map<String, String> getCriador() {
+        return criador;
+    }
+
+    public void setCriador(Map<String, String> criador) {
+        this.criador = criador;
+    }
+
+    public Map<String, Sessao> getSecoes() {
+        return secoes;
+    }
+
+    public void setSecoes(Map<String, Sessao> secoes) {
+        this.secoes = secoes;
     }
 }

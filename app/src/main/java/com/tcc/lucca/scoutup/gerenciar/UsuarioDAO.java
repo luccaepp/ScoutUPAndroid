@@ -68,7 +68,6 @@ public class UsuarioDAO extends GenericDAO {
                     Usuario user = dataSnapshot.getValue(Usuario.class);
                     user.setToken(token);
                     getDatabaseReference().child(getReferencia()).child(uid).setValue(user);
-                    Log.d("TAG", token);
                 }
             }
 

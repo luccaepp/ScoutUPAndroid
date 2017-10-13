@@ -203,7 +203,7 @@ public class PerfilFrag extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                HashMap<String, Amigo> amigos = dataSnapshot.getValue(Usuario.class).getAmigos();
+                HashMap<String, Amigo> amigos = (HashMap<String, Amigo>) dataSnapshot.getValue(Usuario.class).getAmigos();
                 if (amigos == null) {
 
                     amigos = new HashMap<String, Amigo>();
