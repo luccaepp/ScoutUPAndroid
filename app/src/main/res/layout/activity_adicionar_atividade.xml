@@ -306,11 +306,11 @@
             android:inputType="textMultiLine"
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@+id/guideline20"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline19"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintTop_toTopOf="@+id/guideline22" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline21"
@@ -318,7 +318,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5"
-            tools:layout_editor_absoluteX="206dp"
+            tools:layout_editor_absoluteX="192dp"
             tools:layout_editor_absoluteY="25dp" />
 
         <FrameLayout
@@ -370,7 +370,7 @@
         <Button
             android:id="@+id/button7"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
@@ -383,7 +383,9 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@+id/guideline23"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton9" />
+            app:layout_constraintTop_toTopOf="@+id/etItem"
+            app:layout_constraintBottom_toBottomOf="@+id/etItem"
+            android:layout_marginBottom="0dp" />
 
 
 
@@ -393,7 +395,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.87"
-            tools:layout_editor_absoluteX="358dp"
+            tools:layout_editor_absoluteX="334dp"
             tools:layout_editor_absoluteY="25dp" />
 
         <android.support.constraint.Guideline
@@ -403,7 +405,7 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_end="70dp"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="673dp" />
+            tools:layout_editor_absoluteY="1234dp" />
 
         <Button
             android:id="@+id/button8"
@@ -423,6 +425,20 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline24" />
 
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@+id/guideline19"
+            android:layout_marginTop="9dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline22" />
+
         <ListView
             android:id="@+id/listViewMateriais"
             android:layout_width="0dp"
@@ -439,7 +455,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etItem"
-            app:layout_constraintVertical_bias="0.401" />
+            app:layout_constraintVertical_bias="1.0" />
+
+        <android.support.constraint.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline22"
+            app:layout_constraintGuide_begin="237dp"
+            android:orientation="horizontal" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -15,6 +15,8 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.gerenciar.LoginClass;
+import com.tcc.lucca.scoutup.gerenciar.SharedPrefManager;
+import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
 import com.tcc.lucca.scoutup.gerenciar.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
 
+           String token =  SharedPrefManager.getInstance(this).getToken();
+
+            UsuarioDAO dao = UsuarioDAO.getInstance();
+
+            dao.saveToken(token);
 
             ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
             ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());

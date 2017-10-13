@@ -11,11 +11,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -30,9 +33,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.R.id.list;
+
 public class AdicionarAtividadeActivity extends AppCompatActivity {
 
 
+    private Spinner spinner;
     private static final String TAG = "tag";
     private FragmentManager fragmentManager;
     private EditText editTextNome;
@@ -47,7 +53,23 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_atividade);
         initComponents();
+        List<String> list = new ArrayList<String>();
+        list.add("Atividade normal (sede)");
+        list.add("Bivaque");
+        list.add("Bivaque noturno");
+        list.add("Acampamento");
+        list.add("Acantonamento");
+        list.add("Jornada");
+        list.add("Atividade Náutica");
+        list.add("Atividade Aérea");
+        list.add("Visita a outro Grupo");
+        list.add("Atividades Especiais");
+        list.add("Outro");
 
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -125,6 +147,7 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
         Typeface type = Typeface.createFromAsset(this.getAssets(), "font/ClaireHandRegular.ttf");
         tvAgenda.setTypeface(type);
 
+        spinner = (Spinner) findViewById(R.id.spinner);
         editTextNome = (EditText) findViewById(R.id.etNome);
         editTextNome.requestFocus();
         editTextOutro = (EditText) findViewById(R.id.etItem);

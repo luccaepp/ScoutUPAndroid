@@ -11,12 +11,21 @@ public class Usuario {
 
     private String nome;
     private String email;
+    private String token;
     private String grupo;
     private HashMap<String, String> secao;
     private HashMap<String, String> patrulha;
     private String tipo;
     private Status status;
     private HashMap<String, Amigo> amigos;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public HashMap<String, Amigo> getAmigos() {
         return amigos;
