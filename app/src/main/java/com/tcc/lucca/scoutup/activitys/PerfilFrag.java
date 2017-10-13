@@ -11,12 +11,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.gerenciar.AmigoListAdapter;
 import com.tcc.lucca.scoutup.gerenciar.GrupoDAO;
@@ -31,6 +30,7 @@ import com.tcc.lucca.scoutup.model.Sessao;
 import com.tcc.lucca.scoutup.model.Usuario;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PerfilFrag extends Fragment {
@@ -41,7 +41,7 @@ public class PerfilFrag extends Fragment {
     private SessaoDAO sessaoDAO = SessaoDAO.getInstance();
     private PatrulhaDAO patrulhaDAO = PatrulhaDAO.getInstance();
 
-    private List<Amigo> amigos;
+    private HashMap<String, Amigo> amigos;
     private FirebaseUser firebaseUser;
     private Usuario usuarioDatabase;
     private Grupo grupoDatabase;
@@ -90,15 +90,20 @@ public class PerfilFrag extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = firebaseUser.getUid();
 
-        usuarioDAO.buscarPorId(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Usuario user = documentSnapshot.toObject(Usuario.class);
-                setUsuarioDatabase(user);
+       usuarioDAO.buscarPorId(uid).addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
 
-            }
-        });
+               if(dataSnapshot.exists()) {
+                   setUsuarioDatabase(dataSnapshot.getValue(Usuario.class));
+               }
+           }
 
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+
+           }
+       });
 
     }
 
@@ -109,7 +114,7 @@ public class PerfilFrag extends Fragment {
 
         info.add("SCOUT UP");
 
-        info.add(usuarioDatabase.getNomeUsuario());
+        info.add(usuarioDatabase.getNome());
         info.add(usuarioDatabase.getEmail());
         info.add(usuarioDatabase.getTipo());
 
@@ -119,77 +124,64 @@ public class PerfilFrag extends Fragment {
 
         if (usuarioDatabase.getGrupo() != null) {
             final String uidGrupo = usuarioDatabase.getGrupo();
-            grupoDAO.buscarPorId(uidGrupo).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            Log.d("TAG", uidGrupo);
+            grupoDAO.buscarPorId(uidGrupo).addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    try {
-                        Grupo grupo = documentSnapshot.toObject(Grupo.class);
-                        setGrupoDatabase(grupo);
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
+                    if(dataSnapshot.exists()){
+                        setGrupoDatabase(dataSnapshot.getValue(Grupo.class));
                         info.add(grupoDatabase.getNome());
-
-
                         adapter.atualizarLista(info);
                         adapter.notifyDataSetChanged();
-                        FirebaseMessaging.getInstance().subscribeToTopic("grupo " + uidGrupo);
 
-                    } catch (Exception e) {
-                    }
+                        if (usuarioDatabase.getSecao() != null) {
+                            String uidSecao = usuarioDatabase.getSecao().get("nome");
+                            Log.d("TAG", uidSecao);
 
-                }
-            });
+                            info.add(uidSecao);
+                            adapter.atualizarLista(info);
+                            adapter.notifyDataSetChanged();
+                        }
 
-            if (usuarioDatabase.getSessao() != null) {
-                final String uidSecao = usuarioDatabase.getSessao();
-                sessaoDAO.buscarPorId(uidSecao).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        try {
-                            Sessao sessao = documentSnapshot.toObject(Sessao.class);
-                            setSessaoDatabase(sessao);
 
-                            info.add(sessaoDatabase.getNome());
+
+
+                        if (usuarioDatabase.getPatrulha() != null) {
+
+                            String uidPatrulha = usuarioDatabase.getPatrulha().get("nome");
+                            Log.d("TAG", uidPatrulha);
+
+
+                            info.add(uidPatrulha);
 
 
                             adapter.atualizarLista(info);
                             adapter.notifyDataSetChanged();
-                            FirebaseMessaging.getInstance().subscribeToTopic("sessao " + uidSecao);
 
-                        } catch (Exception e) {
                         }
+
 
                     }
-                });
 
-                if (usuarioDatabase.getPatrulha() != null) {
-                    final String uidPatrulha = usuarioDatabase.getPatrulha();
-                    patrulhaDAO.buscarPorId(uidPatrulha).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            try {
-                                Patrulha patrulha = documentSnapshot.toObject(Patrulha.class);
-                                setPatrulhaDatabase(patrulha);
-
-                                info.add(patrulhaDatabase.getNome());
-
-
-                                adapter.atualizarLista(info);
-                                adapter.notifyDataSetChanged();
-                                FirebaseMessaging.getInstance().subscribeToTopic("patrulha " + uidPatrulha);
-
-                            } catch (Exception e) {
-                            }
-
-                        }
-                    });
 
 
                 }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+
+
+
+
             }
         }
 
-    }
 
     public void setUsuarioDatabase(Usuario usuarioDatabase) {
         this.usuarioDatabase = usuarioDatabase;
@@ -207,24 +199,29 @@ public class PerfilFrag extends Fragment {
 
         String uid = firebaseUser.getUid();
 
-        usuarioDAO.getAmigos(uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        usuarioDAO.buscarPorId(uid).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onSuccess(QuerySnapshot documentSnapshots) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                List<DocumentSnapshot> docs = documentSnapshots.getDocuments();
-                List<Amigo> amigos = new ArrayList<>();
-                Log.d("TAG", Integer.toString(docs.size()));
+                HashMap<String, Amigo> amigos = dataSnapshot.getValue(Usuario.class).getAmigos();
+                if (amigos == null) {
 
-                for (DocumentSnapshot doc : docs) {
-
-                    amigos.add(doc.toObject(Amigo.class));
-
+                    amigos = new HashMap<String, Amigo>();
 
                 }
-                AmigoListAdapter adapter = new AmigoListAdapter(getContext(), amigos);
+                AmigoListAdapter adapter = new AmigoListAdapter(getContext(), new ArrayList<Amigo>(amigos.values()));
+                setAmigos(amigos);
                 listViewAmigos.setAdapter(adapter);
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
+
 
 
     }
@@ -249,11 +246,11 @@ public class PerfilFrag extends Fragment {
         this.sessaoDatabase = sessaoDatabase;
     }
 
-    public List<Amigo> getAmigos() {
+    public HashMap<String, Amigo> getAmigos() {
         return amigos;
     }
 
-    public void setAmigos(List<Amigo> amigos) {
+    public void setAmigos(HashMap<String, Amigo> amigos) {
         this.amigos = amigos;
     }
 

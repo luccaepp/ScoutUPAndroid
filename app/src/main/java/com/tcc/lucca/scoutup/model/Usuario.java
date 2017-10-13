@@ -1,5 +1,7 @@
 package com.tcc.lucca.scoutup.model;
 
+import java.util.HashMap;
+
 /**
  * Created by lucca on 19/07/17.
  */
@@ -7,21 +9,29 @@ package com.tcc.lucca.scoutup.model;
 public class Usuario {
 
 
-    private String nomeUsuario;
+    private String nome;
     private String email;
     private String grupo;
-    private String sessao;
-    private String patrulha;
+    private HashMap<String, String> secao;
+    private HashMap<String, String> patrulha;
     private String tipo;
     private Status status;
+    private HashMap<String, Amigo> amigos;
 
-
-    public String getNomeUsuario() {
-        return nomeUsuario;
+    public HashMap<String, Amigo> getAmigos() {
+        return amigos;
     }
 
-    public void setNomeUsuario(String nomeUsuario) {
-        this.nomeUsuario = nomeUsuario;
+    public void setAmigos(HashMap<String, Amigo> amigos) {
+        this.amigos = amigos;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {
@@ -40,19 +50,19 @@ public class Usuario {
         this.grupo = grupo;
     }
 
-    public String getSessao() {
-        return sessao;
+    public HashMap<String, String> getSecao() {
+        return secao;
     }
 
-    public void setSessao(String sessao) {
-        this.sessao = sessao;
+    public void setSecao(HashMap<String, String> secao) {
+        this.secao = secao;
     }
 
-    public String getPatrulha() {
+    public HashMap<String, String> getPatrulha() {
         return patrulha;
     }
 
-    public void setPatrulha(String patrulha) {
+    public void setPatrulha(HashMap<String, String> patrulha) {
         this.patrulha = patrulha;
     }
 

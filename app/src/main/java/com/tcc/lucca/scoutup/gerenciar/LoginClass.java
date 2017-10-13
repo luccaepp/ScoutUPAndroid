@@ -17,6 +17,9 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.tcc.lucca.scoutup.activitys.MainActivity;
 import com.tcc.lucca.scoutup.model.Tipo;
@@ -105,40 +108,41 @@ public class LoginClass {
 
         String uid = mAuth.getCurrentUser().getUid();
 
-        usuarioDAO.buscarPorId(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        usuarioDAO.buscarPorId(uid).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                try {
-                    Usuario user = documentSnapshot.toObject(Usuario.class);
-                } catch (Exception e) {
-
+                if(!dataSnapshot.exists()){
                     cadastro();
-
-
                 }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
                 Intent main = new Intent(context, MainActivity.class);
                 context.startActivity(main);
 
                 ((Activity) context).finish();
 
-            }
-        });
 
 
     }
-
 
     private void cadastro() {
 
 
         Usuario user = new Usuario();
-        user.setNomeUsuario(mAuth.getCurrentUser().getDisplayName());
+        user.setNome(mAuth.getCurrentUser().getDisplayName());
         user.setEmail(mAuth.getCurrentUser().getEmail());
+        user.setTipo(Tipo.devolveString(Tipo.escoteiro));
         if (isEscotista) {
             user.setTipo(Tipo.devolveString(Tipo.escotista));
-        } else {
-            user.setTipo(Tipo.devolveString(Tipo.escoteiro));
         }
         usuarioDAO.adicionar(user);
         Intent main = new Intent(context, MainActivity.class);

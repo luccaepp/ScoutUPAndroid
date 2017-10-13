@@ -10,10 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
 import com.tcc.lucca.scoutup.model.Tipo;
@@ -73,21 +74,37 @@ public class AgendaFrag extends Fragment {
 
         String uid = firebaseUser.getUid();
 
-        UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
+        final UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
 
-        usuarioDAO.buscarPorId(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        usuarioDAO.buscarPorId(uid).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
 
-                Usuario user = documentSnapshot.toObject(Usuario.class);
+                    Usuario user = dataSnapshot.getValue(Usuario.class);
 
-                if (user.getTipo().equals(Tipo.devolveString(Tipo.escotista))) {
+                    if (user.getTipo().equals(Tipo.devolveString(Tipo.escotista))) {
 
-                    fab.show();
+                        if(user.getSecao() != null){
+
+                            fab.show();
+
+
+                        }
+
+                    }
+
                 }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
+
+
 
 
     }
