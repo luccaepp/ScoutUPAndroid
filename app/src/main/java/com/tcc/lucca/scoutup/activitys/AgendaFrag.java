@@ -145,70 +145,75 @@ public class AgendaFrag extends Fragment {
         listView.setAdapter(adapter);
 
         final AtividadeDAO dao = AtividadeDAO.getInstance();
-
-            dao.listar(usuario.getGrupo(), usuario.getSecao().get("chave")).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-
-                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+try {
+    dao.listar(usuario.getGrupo(), usuario.getSecao().get("chave")).addChildEventListener(new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
 
-                        String chaveAtiv = data.getValue().toString();
-
-                        dao.setReferencia("atividade");
-
-                        dao.buscarPorId(chaveAtiv).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+            for (DataSnapshot data : dataSnapshot.getChildren()) {
 
 
+                String chaveAtiv = data.getValue().toString();
 
-                                Atividade atividade = dataSnapshot.getValue(Atividade.class);
+                dao.setReferencia("atividade");
 
-                                if (dataSnapshot.getValue() != null) {
-
-                                    atividades.add(atividade);
-                                    adapter.atualizarLista(atividades);
-                                    adapter.notifyDataSetChanged();
-
-                                } else {
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
+                dao.buscarPorId(chaveAtiv).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
 
+                        Atividade atividade = dataSnapshot.getValue(Atividade.class);
+
+                        if (dataSnapshot.getValue() != null) {
+
+                            atividades.add(atividade);
+                            adapter.atualizarLista(atividades);
+                            adapter.notifyDataSetChanged();
+
+                        } else {
+
+                        }
                     }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
+                    }
+                });
 
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                }
+            }
 
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                }
+        }
 
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                }
+        }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                }
-            });
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    });
+}catch (Exception e){
+
+
+
+
+}
 
 
     }
