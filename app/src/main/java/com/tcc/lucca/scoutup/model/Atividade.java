@@ -13,11 +13,11 @@ public class Atividade implements Parcelable {
     private String titulo;
     private String desc;
     private Local local;
-  //  private Map<String, String> materiais;
+//    private Map<String, String> materiais;
     private Long inicio;
     private Long termino;
     private String tipo;
-  //  private Map<String, Participante> participantes;
+//    private Map<String, Participante> participantes;
 
 
     public Atividade() {
@@ -102,4 +102,28 @@ public class Atividade implements Parcelable {
 //    public void setMateriais(Map<String, String> materiais) {
 //        this.materiais = materiais;
 //    }
+
+
+
+
+    public Long getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(Long inicio) {
+        this.inicio = inicio;
+    }
+
+    public Long getTermino() {
+        return termino;
+    }
+
+    public void setTermino(Long termino) {
+        this.termino = termino;
+    }
+
+
+    public static Creator<Atividade> getCREATOR() {
+        return CREATOR;
+    }
 }

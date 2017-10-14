@@ -23,6 +23,7 @@ import com.tcc.lucca.scoutup.gerenciar.ViewPagerAdapter;
 public class MainActivity extends AppCompatActivity {
 
     private static final int TAG_CODE_PERMISSION_LOCATION = 1;
+    private static final int TAG_CODE_PERMISSION_CALENDAR = 2;
     private LoginClass loginClass = new LoginClass(this);
 
 
@@ -31,18 +32,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
                         PackageManager.PERMISSION_GRANTED) {
-        } else {
-
 
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION}, TAG_CODE_PERMISSION_LOCATION);
         }
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.WRITE_CALENDAR,
+                    Manifest.permission.READ_CALENDAR}, TAG_CODE_PERMISSION_CALENDAR);
+        }
 
 
         if (loginClass.getFirebaseUser() == null) {
