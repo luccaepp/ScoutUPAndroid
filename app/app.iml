@@ -122,12 +122,13 @@
     <orderEntry type="library" exported="" name="support-compat-25.3.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-storage-11.4.2" level="project" />
     <orderEntry type="library" exported="" name="support-v4-25.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-auth-base-license-11.4.2" level="project" />
     <orderEntry type="library" exported="" name="firebase-storage-common-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="play-services-auth-base-license-11.4.2" level="project" />
     <orderEntry type="library" exported="" name="support-media-compat-25.3.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-ui-storage-0.6.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-common-11.4.2" level="project" />
-    <orderEntry type="library" exported="" name="firebase-perf-11.4.2" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-25.3.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-perf-11.4.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-base-11.4.2" level="project" />
     <orderEntry type="library" exported="" name="firebase-firestore-11.4.2" level="project" />
     <orderEntry type="library" exported="" name="firebase-iid-11.4.2" level="project" />
@@ -139,6 +140,8 @@
     <orderEntry type="library" exported="" name="customtabs-25.3.0" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-25.3.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-auth-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="palette-v7-25.3.0" level="project" />
+    <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-25.3.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-25.3.0" level="project" />

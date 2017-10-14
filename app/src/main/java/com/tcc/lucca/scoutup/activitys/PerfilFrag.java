@@ -3,6 +3,7 @@ package com.tcc.lucca.scoutup.activitys;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,14 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.gerenciar.AmigoListAdapter;
 import com.tcc.lucca.scoutup.gerenciar.GrupoDAO;
@@ -42,6 +51,8 @@ public class PerfilFrag extends Fragment {
     private GrupoDAO grupoDAO = GrupoDAO.getInstance();
     private SessaoDAO sessaoDAO = SessaoDAO.getInstance();
     private PatrulhaDAO patrulhaDAO = PatrulhaDAO.getInstance();
+
+    private ImageView imageView;
 
     private HashMap<String, Amigo> amigos;
     private FirebaseUser firebaseUser;
@@ -85,6 +96,7 @@ public class PerfilFrag extends Fragment {
         listViewInfo = container.findViewById(R.id.listViewInformacoes);
         listViewAmigos = container.findViewById(R.id.listViewAmigos);
         listViewEspec = container.findViewById(R.id.listViewEspecialidades);
+        imageView = container.findViewById(R.id.imgPerfil);
 
         listViewAmigos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -125,6 +137,18 @@ public class PerfilFrag extends Fragment {
 
     private void atualizarInfoPerfil() {
 
+
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference imagesRef = storageRef.child("fotoPerfil/"+firebaseUser.getUid());
+
+
+
+        Glide.with(this /* context */)
+                .using(new FirebaseImageLoader())
+                .load(imagesRef)
+                .into(imageView);
 
         final List<String> info = new ArrayList<>();
 
