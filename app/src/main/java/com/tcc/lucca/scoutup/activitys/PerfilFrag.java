@@ -124,7 +124,6 @@ public class PerfilFrag extends Fragment {
 
         if (usuarioDatabase.getGrupo() != null) {
             final String uidGrupo = usuarioDatabase.getGrupo();
-            Log.d("TAG", uidGrupo);
             grupoDAO.buscarPorId(uidGrupo).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -137,7 +136,6 @@ public class PerfilFrag extends Fragment {
 
                         if (usuarioDatabase.getSecao() != null) {
                             String uidSecao = usuarioDatabase.getSecao().get("nome");
-                            Log.d("TAG", uidSecao);
 
                             info.add(uidSecao);
                             adapter.atualizarLista(info);

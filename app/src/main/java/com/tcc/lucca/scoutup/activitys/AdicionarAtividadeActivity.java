@@ -39,7 +39,6 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
 
 
     private Spinner spinner;
-    private static final String TAG = "tag";
     private FragmentManager fragmentManager;
     private EditText editTextNome;
     private EditText editTextOutro;
@@ -87,7 +86,6 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                Log.i(TAG, "Place: " + place.getName());
 
                 MapsFrag maps = (MapsFrag) getSupportFragmentManager().findFragmentById(R.id.container);
 
@@ -95,7 +93,6 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
                 MapsFrag newFragment = new MapsFrag();
                 Bundle args = new Bundle();
                 args.putParcelable("LatLng", place.getLatLng());
-                Log.d(TAG, place.getLatLng().toString());
                 newFragment.setArguments(args);
 
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -111,7 +108,6 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
 
             @Override
             public void onError(Status status) {
-                Log.i(TAG, "Ocorreu um erro: " + status);
 
             }
         });

@@ -40,12 +40,16 @@ public class AgendaFrag extends Fragment {
     private Usuario usuario;
     private FloatingActionButton fab;
     private ListView listView;
+    private List<Atividade> atividades;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        atividades = new ArrayList<>();
+
 
         initData();
 
@@ -134,52 +138,41 @@ public class AgendaFrag extends Fragment {
 
     private void carregarAtividades() {
 
+        Log.d("TAG", "carregando lista");
         final AtividadeDAO dao = AtividadeDAO.getInstance();
 
         dao.listar(usuario.getGrupo(), usuario.getSecao().get("chave")).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-
-                List<String> ids = new ArrayList<String>();
-
+                Log.d("TAG", "entrando no listener");
 
                 for (DataSnapshot data:dataSnapshot.getChildren()){
 
-                    dataSnapshot.getValue().toString();
+                    Log.d("TAG", "data "+data.getValue().toString());
 
-                    MapAtividadePH ativ = dataSnapshot.getValue(MapAtividadePH.class);
-
-                    if(ativ!=null){
-                        Log.d("Tag", " ph "+ativ.getChavePH());
-                        Log.d("Tag", " ativ "+ativ.getChaveAtividade());
-                        ids.add(ativ.getChaveAtividade());
-
-                    }
-                }
-
-                if (ids != null ) {
-
-                    final List<Atividade> atividades = new ArrayList<>();
-
-                    for (int i = 0; i < ids.size(); i++) {
-
-                        String chaveAtiv = ids.get(i);
+                        String chaveAtiv = data.getValue().toString();
 
                         dao.setReferencia("atividade");
-
 
                         dao.buscarPorId(chaveAtiv).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                Log.d("Tag", " data "+dataSnapshot.getValue().toString());
 
                                 Atividade atividade = dataSnapshot.getValue(Atividade.class);
-                                Log.d("Tag", " ph "+dataSnapshot.getValue().toString());
 
-                                atividades.add(atividade);
-                                AtividadeListAdapter adapter = new AtividadeListAdapter(getContext(), atividades);
-                                listView.setAdapter(adapter);
+                                if(dataSnapshot.getValue()!=null) {
+
+                                    atividades.add(atividade);
+                                    Log.d("TAG", dataSnapshot.getValue().toString());
+
+
+                                    AtividadeListAdapter adapter = new AtividadeListAdapter(getContext(), atividades);
+                                    listView.setAdapter(adapter);
+                                }else{
+                                    Log.d("TAG", "Deu ruim");
+
+                                }
                             }
 
                             @Override
@@ -188,10 +181,10 @@ public class AgendaFrag extends Fragment {
                             }
                         });
 
-                    }
 
 
                 }
+
 
             }
 

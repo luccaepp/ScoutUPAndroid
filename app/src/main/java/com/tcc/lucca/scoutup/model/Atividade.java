@@ -10,11 +10,11 @@ public class Atividade {
     private String titulo;
     private String desc;
     private Local local;
-    private Map<String, String> materiais;
-    private Timestamp inicio;
-    private Timestamp termino;
+  //  private Map<String, String> materiais;
+    private Long inicio;
+    private Long termino;
     private String tipo;
-    private Map<String, Participante> participantes;
+  //  private Map<String, Participante> participantes;
 
     public String getTitulo() {
         return titulo;
@@ -40,29 +40,8 @@ public class Atividade {
         this.local = local;
     }
 
-    public Map<String, String> getMateriais() {
-        return materiais;
-    }
 
-    public void setMateriais(Map<String, String> materiais) {
-        this.materiais = materiais;
-    }
 
-    public Timestamp getInicio() {
-        return inicio;
-    }
-
-    public void setInicio(Timestamp inicio) {
-        this.inicio = inicio;
-    }
-
-    public Timestamp getTermino() {
-        return termino;
-    }
-
-    public void setTermino(Timestamp termino) {
-        this.termino = termino;
-    }
 
     public String getTipo() {
         return tipo;
@@ -72,11 +51,18 @@ public class Atividade {
         this.tipo = tipo;
     }
 
-    public Map<String, Participante> getParticipantes() {
-        return participantes;
-    }
-
-    public void setParticipantes(Map<String, Participante> participantes) {
-        this.participantes = participantes;
-    }
+//    public Map<String, Participante> getParticipantes() {
+//        return participantes;
+//    }
+//
+//    public void setParticipantes(Map<String, Participante> participantes) {
+//        this.participantes = participantes;
+//    }
+//public Map<String, String> getMateriais() {
+//    return materiais;
+//}
+//
+//    public void setMateriais(Map<String, String> materiais) {
+//        this.materiais = materiais;
+//    }
 }
