@@ -129,7 +129,7 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
                 view.invalidate();
                 setListViewHeightBasedOnItems();
 
-                return false;
+                return true;
             }
         });
 

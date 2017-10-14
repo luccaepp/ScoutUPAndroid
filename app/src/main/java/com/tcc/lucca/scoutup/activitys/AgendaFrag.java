@@ -3,12 +3,14 @@ package com.tcc.lucca.scoutup.activitys;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -55,6 +57,7 @@ public class AgendaFrag extends Fragment {
         initData();
 
 
+
     }
 
 
@@ -67,6 +70,22 @@ public class AgendaFrag extends Fragment {
         View root = inflater.inflate(R.layout.activity_atividades, container, false);
 
         listView = root.findViewById(R.id.listViewAgenda);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Atividade atividade = atividades.get(i);
+                Intent intent = new Intent(getContext(), AtividadeActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("atividade", atividade);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+
+            }
+        });
+
 
         TextView tvAgenda = root.findViewById(R.id.textView);
         Typeface type = Typeface.createFromAsset(getContext().getAssets(), "font/ClaireHandRegular.ttf");
@@ -225,4 +244,8 @@ try {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+
+
+
 }

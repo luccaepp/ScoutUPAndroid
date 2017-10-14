@@ -1,5 +1,6 @@
 package com.tcc.lucca.scoutup.activitys;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -83,6 +85,20 @@ public class PerfilFrag extends Fragment {
         listViewInfo = container.findViewById(R.id.listViewInformacoes);
         listViewAmigos = container.findViewById(R.id.listViewAmigos);
         listViewEspec = container.findViewById(R.id.listViewEspecialidades);
+
+        listViewAmigos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Amigo amigo = new ArrayList<Amigo>(amigos.values()).get(i);
+                Intent intent = new Intent(getContext(), PerfilVisitadoActivity.class);
+                Bundle bundle= new Bundle();
+                bundle.putParcelable("amigo", amigo);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+
 
     }
 

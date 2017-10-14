@@ -1,11 +1,14 @@
 package com.tcc.lucca.scoutup.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Atividade {
+public class Atividade implements Parcelable {
 
     private String titulo;
     private String desc;
@@ -15,6 +18,28 @@ public class Atividade {
     private Long termino;
     private String tipo;
   //  private Map<String, Participante> participantes;
+
+
+    public Atividade() {
+    }
+
+    protected Atividade(Parcel in) {
+        titulo = in.readString();
+        desc = in.readString();
+        tipo = in.readString();
+    }
+
+    public static final Creator<Atividade> CREATOR = new Creator<Atividade>() {
+        @Override
+        public Atividade createFromParcel(Parcel in) {
+            return new Atividade(in);
+        }
+
+        @Override
+        public Atividade[] newArray(int size) {
+            return new Atividade[size];
+        }
+    };
 
     public String getTitulo() {
         return titulo;
@@ -49,6 +74,18 @@ public class Atividade {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(titulo);
+        parcel.writeString(desc);
+        parcel.writeString(tipo);
     }
 
 //    public Map<String, Participante> getParticipantes() {
