@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             UsuarioDAO dao = UsuarioDAO.getInstance();
 
             dao.saveToken(token);
+
 
             ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
             ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());

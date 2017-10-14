@@ -2,6 +2,7 @@ package com.tcc.lucca.scoutup.gerenciar;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 /**
  * Created by lucca on 13/10/17.
@@ -35,6 +36,7 @@ public class SharedPrefManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_ACESS_TOKEN, token);
         editor.apply();
+
         return true;
 
     }

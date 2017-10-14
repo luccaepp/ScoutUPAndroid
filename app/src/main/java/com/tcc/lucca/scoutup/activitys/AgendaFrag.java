@@ -144,20 +144,15 @@ public class AgendaFrag extends Fragment {
         adapter = new AtividadeListAdapter(getContext(), atividades);
         listView.setAdapter(adapter);
 
-        Log.d("TAG", "carregando lista");
         final AtividadeDAO dao = AtividadeDAO.getInstance();
-
-        try {
 
             dao.listar(usuario.getGrupo(), usuario.getSecao().get("chave")).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                    Log.d("TAG", "entrando no listener");
 
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
 
-                        Log.d("TAG", "data " + data.getValue().toString());
 
                         String chaveAtiv = data.getValue().toString();
 
@@ -167,7 +162,6 @@ public class AgendaFrag extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                Log.d("TAG", "adicona lista a partir daqui");
 
 
                                 Atividade atividade = dataSnapshot.getValue(Atividade.class);
@@ -179,7 +173,6 @@ public class AgendaFrag extends Fragment {
                                     adapter.notifyDataSetChanged();
 
                                 } else {
-                                    Log.d("TAG", "Deu ruim");
 
                                 }
                             }
@@ -216,10 +209,6 @@ public class AgendaFrag extends Fragment {
 
                 }
             });
-        }catch (Exception e){
-
-
-        }
 
 
     }

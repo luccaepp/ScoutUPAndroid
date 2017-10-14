@@ -1,6 +1,8 @@
 package com.tcc.lucca.scoutup.gerenciar;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -68,6 +70,7 @@ public class UsuarioDAO extends GenericDAO {
                     Usuario user = dataSnapshot.getValue(Usuario.class);
                     user.setToken(token);
                     getDatabaseReference().child(getReferencia()).child(uid).setValue(user);
+
                 }
             }
 
