@@ -40,7 +40,9 @@ public class AgendaFrag extends Fragment {
     private Usuario usuario;
     private FloatingActionButton fab;
     private ListView listView;
-    private List<Atividade> atividades;
+    private List<Atividade> atividades = new ArrayList<>();
+    private AtividadeListAdapter adapter;
+
 
 
     @Override
@@ -48,7 +50,6 @@ public class AgendaFrag extends Fragment {
 
         super.onCreate(savedInstanceState);
 
-        atividades = new ArrayList<>();
 
 
         initData();
@@ -71,6 +72,7 @@ public class AgendaFrag extends Fragment {
         Typeface type = Typeface.createFromAsset(getContext().getAssets(), "font/ClaireHandRegular.ttf");
         tvAgenda.setTypeface(type);
 
+
         fab = root.findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +88,7 @@ public class AgendaFrag extends Fragment {
         });
 
         fab.hide();
+
 
 
         return root;
@@ -138,18 +141,23 @@ public class AgendaFrag extends Fragment {
 
     private void carregarAtividades() {
 
+        adapter = new AtividadeListAdapter(getContext(), atividades);
+        listView.setAdapter(adapter);
+
         Log.d("TAG", "carregando lista");
         final AtividadeDAO dao = AtividadeDAO.getInstance();
 
-        dao.listar(usuario.getGrupo(), usuario.getSecao().get("chave")).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        try {
 
-                Log.d("TAG", "entrando no listener");
+            dao.listar(usuario.getGrupo(), usuario.getSecao().get("chave")).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                for (DataSnapshot data:dataSnapshot.getChildren()){
+                    Log.d("TAG", "entrando no listener");
 
-                    Log.d("TAG", "data "+data.getValue().toString());
+                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+
+                        Log.d("TAG", "data " + data.getValue().toString());
 
                         String chaveAtiv = data.getValue().toString();
 
@@ -159,17 +167,18 @@ public class AgendaFrag extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                                Log.d("TAG", "adicona lista a partir daqui");
+
+
                                 Atividade atividade = dataSnapshot.getValue(Atividade.class);
 
-                                if(dataSnapshot.getValue()!=null) {
+                                if (dataSnapshot.getValue() != null) {
 
                                     atividades.add(atividade);
-                                    Log.d("TAG", dataSnapshot.getValue().toString());
+                                    adapter.atualizarLista(atividades);
+                                    adapter.notifyDataSetChanged();
 
-
-                                    AtividadeListAdapter adapter = new AtividadeListAdapter(getContext(), atividades);
-                                    listView.setAdapter(adapter);
-                                }else{
+                                } else {
                                     Log.d("TAG", "Deu ruim");
 
                                 }
@@ -182,33 +191,35 @@ public class AgendaFrag extends Fragment {
                         });
 
 
+                    }
+
 
                 }
 
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-            }
+                }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-            }
+                }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-            }
+                }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
+                }
+            });
+        }catch (Exception e){
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-
+        }
 
 
     }
