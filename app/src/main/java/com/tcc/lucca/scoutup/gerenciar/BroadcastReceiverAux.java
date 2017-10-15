@@ -29,7 +29,7 @@ public class BroadcastReceiverAux extends BroadcastReceiver {
         String titulo = intent.getExtras().getString("titulo");
         String local = intent.getExtras().getString("local");
 
-        if(tipo!=null || local!= null || titulo != null){
+        if(tipo!=null){
 
             gerarNotificacao(context, new Intent(context, MainActivity.class), "Nova mensagem", titulo, local + "  "+tipo );
 
@@ -37,7 +37,28 @@ public class BroadcastReceiverAux extends BroadcastReceiver {
 
         }else{
 
-            gerarNotificacao(context, new Intent(context, MainActivity.class), "Nova mensagem", "Deu ruim","deu bem ruim");
+            if(local!= null ){
+
+                gerarNotificacao(context, new Intent(context, MainActivity.class), "Nova mensagem", "Deu ruim no titulo","deu bem ruim");
+
+
+
+            }else{
+
+                if(titulo != null){
+
+                    gerarNotificacao(context, new Intent(context, MainActivity.class), "Nova mensagem", "Deu ruim titulo","deu bem ruim local");
+
+
+
+                }else{
+
+                    gerarNotificacao(context, new Intent(context, MainActivity.class), "Nova mensagem", "Deu ruim","deu bem ruim");
+
+
+                }
+            }
+
 
         }
 
@@ -52,14 +73,14 @@ public class BroadcastReceiverAux extends BroadcastReceiver {
         builder.setTicker(ticker);
         builder.setContentTitle(titulo);
         builder.setContentText(descricao);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
+        builder.setSmallIcon(R.mipmap.ic_launcher_round);
+        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_round));
         builder.setContentIntent(p);
 
         Notification n = builder.build();
         n.vibrate = new long[]{150, 300, 150, 600};
         n.flags = Notification.FLAG_AUTO_CANCEL;
-        nm.notify(R.mipmap.ic_launcher, n);
+        nm.notify(R.mipmap.ic_launcher_round, n);
 
         try{
             Uri som = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

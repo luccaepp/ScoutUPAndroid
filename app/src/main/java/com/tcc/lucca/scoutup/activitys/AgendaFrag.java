@@ -243,6 +243,7 @@ public class AgendaFrag extends Fragment {
                                     bundle.putString("local", local);
                                     bundle.putString("tipo", atividade.getTipo());
                                     bundle.putString("id", dataSnapshot.getKey());
+                                        intent.putExtras(bundle);
 
                                         Date now = new Date();
                                         int id = Integer.parseInt(new SimpleDateFormat("ddHHmmss",  Locale.US).format(now));
@@ -362,10 +363,16 @@ public class AgendaFrag extends Fragment {
                                         bundle.putString("local", local);
                                         bundle.putString("tipo", atividade.getTipo());
                                         bundle.putString("id", dataSnapshot.getKey());
+                                        intent.putExtras(bundle);
 
 
-                                        Date now = new Date();
-                                        int id = Integer.parseInt(new SimpleDateFormat("ddHHmmss",  Locale.US).format(now));
+
+                                        Calendar calendar = Calendar.getInstance();
+                                        calendar.setTimeInMillis(atividade.getInicio());
+                                        Date date = calendar.getTime();
+
+
+                                        int id = Integer.parseInt(new SimpleDateFormat("ddHHmmss",  Locale.US).format(date));
 
                                         if(PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_NO_CREATE) == null) {
 
