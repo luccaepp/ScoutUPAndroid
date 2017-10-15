@@ -1,20 +1,12 @@
 package com.tcc.lucca.scoutup.activitys;
 
-import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,38 +16,27 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.common.primitives.Bytes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.gerenciar.AtividadeDAO;
-import com.tcc.lucca.scoutup.gerenciar.AtividadeListAdapter;
+import com.tcc.lucca.scoutup.adapters.AtividadeListAdapter;
 import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
-import com.tcc.lucca.scoutup.model.Amigo;
 import com.tcc.lucca.scoutup.model.Atividade;
-import com.tcc.lucca.scoutup.model.Local;
-import com.tcc.lucca.scoutup.model.MapAtividadePH;
 import com.tcc.lucca.scoutup.model.Tipo;
 import com.tcc.lucca.scoutup.model.Usuario;
 
 import java.io.IOException;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
 
 import static android.content.Context.ALARM_SERVICE;
 

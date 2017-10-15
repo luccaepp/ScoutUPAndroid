@@ -1,4 +1,4 @@
-package com.tcc.lucca.scoutup.gerenciar;
+package com.tcc.lucca.scoutup.backgroundTasks;
 
 import android.content.Intent;
 import android.util.Log;

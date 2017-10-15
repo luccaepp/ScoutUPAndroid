@@ -1,4 +1,4 @@
-package com.tcc.lucca.scoutup.gerenciar;
+package com.tcc.lucca.scoutup.backgroundTasks;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -20,8 +19,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.tcc.lucca.scoutup.activitys.MainActivity;
+import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
 import com.tcc.lucca.scoutup.model.Tipo;
 import com.tcc.lucca.scoutup.model.Usuario;
 

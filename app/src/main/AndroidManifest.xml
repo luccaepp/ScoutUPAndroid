@@ -20,20 +20,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <service android:name=".gerenciar.MyFirebaseInstanceIDService">
+        <service android:name=".backgroundTasks.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <service android:name=".backgroundTasks.GeofenceTransitionService" />
+
+
         <service
-            android:name=".gerenciar.MyFirebaseMessagingService"
+            android:name=".backgroundTasks.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <receiver android:name=".gerenciar.BroadcastReceiverAux" android:label="BroadcastReceiverAux">
+        <service android:name=".backgroundTasks.CalculoGeolocalizacaoService" />
+        <service android:name=".backgroundTasks.GeofenceTransitionsIntentService" />
+
+        <receiver android:name=".backgroundTasks.BroadcastReceiverAux" android:label="BroadcastReceiverAux">
             <intent-filter>
                 <action android:name="ALARME_DISPARADO"/>
                 <category android:name="android.intent.category.DEFAULT"/>

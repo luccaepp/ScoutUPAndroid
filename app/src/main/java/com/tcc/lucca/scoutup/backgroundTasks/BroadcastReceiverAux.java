@@ -1,4 +1,4 @@
-package com.tcc.lucca.scoutup.gerenciar;
+package com.tcc.lucca.scoutup.backgroundTasks;
 
 
 import android.app.Notification;
@@ -15,8 +15,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.tcc.lucca.scoutup.R;
-import com.tcc.lucca.scoutup.activitys.MainActivity;
-import com.tcc.lucca.scoutup.model.Atividade;
 
 public class BroadcastReceiverAux extends BroadcastReceiver {
 
@@ -25,42 +23,13 @@ public class BroadcastReceiverAux extends BroadcastReceiver {
 
         Log.d("Script", "-> Alarme");
 
-        String tipo = intent.getExtras().getString("tipo");
-        String titulo = intent.getExtras().getString("titulo");
-        String local = intent.getExtras().getString("local");
+        String id = intent.getExtras().getString("id");
+        gerarNotificacao(context, intent, intent.getExtras().getString("id"), intent.getExtras().getString("titulo"), intent.getExtras().getString("tipo"));
 
-        if(tipo!=null){
+        Intent localizar = new Intent(context, CalculoGeolocalizacaoService.class);
+        localizar.putExtra("id", id );
+        context.startService(localizar);
 
-            gerarNotificacao(context, new Intent(context, MainActivity.class), "Nova mensagem", titulo, local + "  "+tipo );
-
-            Log.d("Script", "-> noti");
-
-        }else{
-
-            if(local!= null ){
-
-                gerarNotificacao(context, new Intent(context, MainActivity.class), "Nova mensagem", "Deu ruim no titulo","deu bem ruim");
-
-
-
-            }else{
-
-                if(titulo != null){
-
-                    gerarNotificacao(context, new Intent(context, MainActivity.class), "Nova mensagem", "Deu ruim titulo","deu bem ruim local");
-
-
-
-                }else{
-
-                    gerarNotificacao(context, new Intent(context, MainActivity.class), "Nova mensagem", "Deu ruim","deu bem ruim");
-
-
-                }
-            }
-
-
-        }
 
     }
 

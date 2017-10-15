@@ -28,7 +28,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tcc.lucca.scoutup.R;
-import com.tcc.lucca.scoutup.gerenciar.LoginClass;
+import com.tcc.lucca.scoutup.backgroundTasks.LoginClass;
 
 public class LoginActivity extends AppCompatActivity{
 

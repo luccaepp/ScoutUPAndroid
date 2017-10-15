@@ -1,8 +1,7 @@
-package com.tcc.lucca.scoutup.gerenciar;
+package com.tcc.lucca.scoutup.backgroundTasks;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 /**
  * Created by lucca on 13/10/17.

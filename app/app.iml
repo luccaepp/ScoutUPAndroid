@@ -176,6 +176,7 @@
     <orderEntry type="library" exported="" name="firebase-perf-license-11.4.2" level="project" />
     <orderEntry type="library" exported="" name="facebook-core-4.27.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-database-license-11.4.2" level="project" />
+    <orderEntry type="library" exported="" name="play-services-location-11.4.2" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-database-connection-11.4.2" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-26.1.0" level="project" />
@@ -202,6 +203,7 @@
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="facebook-login-4.27.0" level="project" />
     <orderEntry type="library" exported="" name="constraint-layout-solver-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="play-services-location-license-11.4.2" level="project" />
     <orderEntry type="library" exported="" name="firebase-appindexing-11.4.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-26.1.0" level="project" />

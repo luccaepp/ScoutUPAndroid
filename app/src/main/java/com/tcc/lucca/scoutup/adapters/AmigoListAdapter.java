@@ -1,4 +1,4 @@
-package com.tcc.lucca.scoutup.gerenciar;
+package com.tcc.lucca.scoutup.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

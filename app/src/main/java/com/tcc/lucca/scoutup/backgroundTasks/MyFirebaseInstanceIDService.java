@@ -1,6 +1,4 @@
-package com.tcc.lucca.scoutup.gerenciar;
-
-import android.util.Log;
+package com.tcc.lucca.scoutup.backgroundTasks;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,7 +16,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -27,13 +25,11 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.tcc.lucca.scoutup.R;
-import com.tcc.lucca.scoutup.gerenciar.ListItemMaterialAdapter;
+import com.tcc.lucca.scoutup.adapters.ListItemMaterialAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import static android.R.id.list;
 
 public class AdicionarAtividadeActivity extends AppCompatActivity {
 

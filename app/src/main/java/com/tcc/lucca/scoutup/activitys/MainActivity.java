@@ -10,15 +10,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.tcc.lucca.scoutup.R;
-import com.tcc.lucca.scoutup.gerenciar.LoginClass;
-import com.tcc.lucca.scoutup.gerenciar.SharedPrefManager;
+import com.tcc.lucca.scoutup.backgroundTasks.LoginClass;
+import com.tcc.lucca.scoutup.backgroundTasks.SharedPrefManager;
 import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
-import com.tcc.lucca.scoutup.gerenciar.ViewPagerAdapter;
+import com.tcc.lucca.scoutup.adapters.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
