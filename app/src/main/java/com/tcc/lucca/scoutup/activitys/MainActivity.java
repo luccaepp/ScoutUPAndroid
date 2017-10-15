@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int TAG_CODE_PERMISSION_LOCATION = 1;
     private static final int TAG_CODE_PERMISSION_CALENDAR = 2;
+    public static android.content.Context CONTEXT;
     private LoginClass loginClass = new LoginClass(this);
 
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        CONTEXT = this;
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
