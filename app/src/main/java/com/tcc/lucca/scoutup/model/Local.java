@@ -5,22 +5,22 @@ package com.tcc.lucca.scoutup.model;
  */
 
 public class Local {
-    private Long lat;
-    private Long lng;
+    private Double lat;
+    private Double lng;
 
-    public Long getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(Long lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 
-    public Long getLng() {
+    public Double getLng() {
         return lng;
     }
 
-    public void setLng(Long lng) {
+    public void setLng(Double lng) {
         this.lng = lng;
     }
 }

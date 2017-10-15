@@ -1,6 +1,8 @@
 package com.tcc.lucca.scoutup.activitys;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -23,6 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.common.primitives.Bytes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -42,14 +45,19 @@ import com.tcc.lucca.scoutup.model.Tipo;
 import com.tcc.lucca.scoutup.model.Usuario;
 
 import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
+
+import static android.content.Context.ALARM_SERVICE;
 
 
 public class AgendaFrag extends Fragment {
@@ -169,6 +177,7 @@ public class AgendaFrag extends Fragment {
         listView.setAdapter(adapter);
 
         final AtividadeDAO dao = AtividadeDAO.getInstance();
+
         try {
             dao.listar(usuario.getGrupo(), usuario.getSecao().get("chave")).addChildEventListener(new ChildEventListener() {
                 @Override
@@ -180,6 +189,8 @@ public class AgendaFrag extends Fragment {
 
                         String chaveAtiv = data.getValue().toString();
 
+                        Log.d("Script", "ativ"+chaveAtiv);
+
                         dao.setReferencia("atividade");
 
                         dao.buscarPorId(chaveAtiv).addValueEventListener(new ValueEventListener() {
@@ -187,65 +198,72 @@ public class AgendaFrag extends Fragment {
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
 
+
                                 Atividade atividade = dataSnapshot.getValue(Atividade.class);
 
+
                                 if (dataSnapshot.getValue() != null) {
+
 
                                     atividades.add(atividade);
                                     adapter.atualizarLista(atividades);
                                     adapter.notifyDataSetChanged();
-                                    Local local = atividade.getLocal();
+
                                     Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
-                                    LatLng latLng = new LatLng(local.getLat(), local.getLng());
-                                    String lat = local.getLat() + "";
-                                    String lng = local.getLng() + "";
-                                    String adress = null;
+
+                                    double lat = atividade.getLocal().getLat();
+                                    double lng = atividade.getLocal().getLng();
+                                    String local = "";
+
+
                                     try {
-                                        adress = geo.getFromLocation(Double.parseDouble(lat), Double.parseDouble(lng), 1).get(0).getAddressLine(0);
-//                                Intent intent = new Intent(Intent.ACTION_INSERT)
-//                                        .setData(CalendarContract.Events.CONTENT_URI)
-//                                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, atividade.getInicio())
-//                                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, atividade.getTermino())
-//                                        .putExtra(CalendarContract.Events.TITLE, atividade.getTitulo())
-//                                        .putExtra(CalendarContract.Events.DESCRIPTION, atividade.getDesc())
-//                                        .putExtra(CalendarContract.Events.EVENT_LOCATION, adress);
-//                                startActivity(intent);
-                                        long calID = 3;
-
-                                        ContentResolver cr = getActivity().getContentResolver();
-                                        ContentValues values = new ContentValues();
-                                        values.put(CalendarContract.Events.DTSTART, atividade.getInicio());
-                                        values.put(CalendarContract.Events.DTEND, atividade.getTermino());
-                                        values.put(CalendarContract.Events.TITLE, atividade.getTitulo());
-                                        values.put(CalendarContract.Events.DESCRIPTION, atividade.getDesc());
-                                        values.put(CalendarContract.Events.EVENT_LOCATION, adress);
-                                        values.put(CalendarContract.Events.CALENDAR_ID, calID);
-                                        values.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
+                                        local = geo.getFromLocation(lat, lng, 1).get(0).getAddressLine(0);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
 
 
+                                    Long current = Long.parseLong(System.currentTimeMillis() + "");
 
-                                        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                                            // TODO: Consider calling
-                                            //    ActivityCompat#requestPermissions
-                                            // here to request the missing permissions, and then overriding
-                                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                            //                                          int[] grantResults)
-                                            // to handle the case where the user grants the permission. See the documentation
-                                            // for ActivityCompat#requestPermissions for more details.
-                                            return;
+                                    Log.d("Script", " current "+Long.toString(current));
+
+                                    Long inicio = Long.parseLong(atividade.getInicio() + "");
+
+                                    Log.d("Script"," inicio " +Long.toString(inicio));
+
+
+                                    if (current < inicio) {
+
+                                        Log.d("Script", "ainda vai acontecer");
+
+
+                                        Intent intent = new Intent("ALARME_DISPARADO");
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("titulo", atividade.getTitulo());
+                                    bundle.putString("local", local);
+                                    bundle.putString("tipo", atividade.getTipo());
+                                    bundle.putString("id", dataSnapshot.getKey());
+
+                                        Date now = new Date();
+                                        int id = Integer.parseInt(new SimpleDateFormat("ddHHmmss",  Locale.US).format(now));
+
+
+                                        if(PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_NO_CREATE) == null) {
+
+                                            Log.d("Script", "Novo alarme "+  atividade.getTitulo());
+
+
+                                            PendingIntent p = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                                            AlarmManager alarme = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+                                            alarme.set(AlarmManager.RTC_WAKEUP, atividade.getInicio(), p);
+                                        }else{
+
+                                            Log.d("Script", "Ja existe");
+
+
                                         }
-                                        Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-                                        Log.d("TAG","passou uri");
-
-// get the event ID that is the last element in the Uri
-                                long eventID = Long.parseLong(uri.getLastPathSegment());
-
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-
+                                }
 
 
 
@@ -286,6 +304,126 @@ public class AgendaFrag extends Fragment {
 
         }
     });
+
+
+            dao.listar(usuario.getGrupo(), usuario.getGrupo()).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+
+                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+
+
+                        String chaveAtiv = data.getValue().toString();
+
+                        dao.setReferencia("atividade");
+
+                        dao.buscarPorId(chaveAtiv).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+
+                                Atividade atividade = dataSnapshot.getValue(Atividade.class);
+
+                                if (dataSnapshot.getValue() != null) {
+
+
+                                    atividades.add(atividade);
+                                    adapter.atualizarLista(atividades);
+                                    adapter.notifyDataSetChanged();
+
+                                    Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
+
+                                    double lat = atividade.getLocal().getLat();
+                                    double lng = atividade.getLocal().getLng();
+                                    String local = "";
+
+
+                                    try {
+                                        local = geo.getFromLocation(lat, lng, 1).get(0).getAddressLine(0);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+                                    Long current = Long.parseLong(System.currentTimeMillis() + "");
+
+                                    Long inicio = Long.parseLong(atividade.getInicio() + "");
+
+
+                                    if (current < inicio) {
+
+
+
+                                        Intent intent = new Intent("ALARME_DISPARADO");
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("titulo", atividade.getTitulo());
+                                        bundle.putString("local", local);
+                                        bundle.putString("tipo", atividade.getTipo());
+                                        bundle.putString("id", dataSnapshot.getKey());
+
+
+                                        Date now = new Date();
+                                        int id = Integer.parseInt(new SimpleDateFormat("ddHHmmss",  Locale.US).format(now));
+
+                                        if(PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_NO_CREATE) == null) {
+
+                                            Log.d("Script", "Novo alarme "+  atividade.getTitulo());
+
+
+                                            PendingIntent p = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                                            AlarmManager alarme = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+                                            alarme.set(AlarmManager.RTC_WAKEUP, atividade.getInicio(), p);
+                                        }else{
+
+                                            Log.d("Script", "Ja existe");
+
+
+                                        }
+                                    }
+
+
+
+                                } else {
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+                    }
+
+
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
 }catch (Exception e){
 
 
