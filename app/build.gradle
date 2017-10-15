@@ -1,9 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    dexOptions {
-        javaMaxHeapSize "4g"
-    }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -73,23 +71,3 @@ dependencies {
 apply plugin: 'com.google.gms.google-services'
 
 
-
-
-
-
-
-
-
-
-
-
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        def requested = details.requested
-        if (requested.group == 'com.android.support') {
-            if (!requested.name.startsWith("multidex")) {
-                details.useVersion '25.3.0'
-            }
-        }
-    }
-}
