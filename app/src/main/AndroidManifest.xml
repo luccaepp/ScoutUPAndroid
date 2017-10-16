@@ -26,7 +26,6 @@
             </intent-filter>
         </service>
 
-        <service android:name=".backgroundTasks.GeofenceTransitionService" />
 
 
         <service
@@ -38,7 +37,6 @@
             </intent-filter>
         </service>
         <service android:name=".backgroundTasks.CalculoGeolocalizacaoService" />
-        <service android:name=".backgroundTasks.GeofenceTransitionsIntentService" />
 
         <receiver android:name=".backgroundTasks.BroadcastReceiverAux" android:label="BroadcastReceiverAux">
             <intent-filter>
