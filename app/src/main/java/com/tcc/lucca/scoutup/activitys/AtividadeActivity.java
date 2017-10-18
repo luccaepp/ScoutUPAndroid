@@ -12,12 +12,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.model.Atividade;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class AtividadeActivity extends AppCompatActivity {
 
@@ -90,7 +94,7 @@ public class AtividadeActivity extends AppCompatActivity {
         Log.d("TAG", "escreve");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference();
-        reference.child("atividade").child(idAtividade).child("confirmados").child(idUsuario).setValue(true);
+        reference.child("atividade").child(idAtividade).child("confirmados").child(idUsuario).child("isParticipante").setValue(true);
 
 
     }
@@ -131,9 +135,42 @@ public class AtividadeActivity extends AppCompatActivity {
         tvEndereco.setText(adress);
         carregarMap();
 
+        carregarConfirmacao();
+
     }
 
+    private void carregarConfirmacao() {
 
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference();
+        reference.child("atividade").child(idAtividade).child("confirmados").child(idUsuario).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+
+                try{
+                    HashMap<String, Boolean> map = (HashMap<String, Boolean>) dataSnapshot.getValue();
+
+                    boolean isParticipante = map.get("isParticipante");
+                    aSwitch.setChecked(isParticipante);
+                }catch (Exception e){
+
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
 
 
     private void initComponents() {
