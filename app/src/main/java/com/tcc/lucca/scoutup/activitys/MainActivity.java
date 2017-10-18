@@ -98,13 +98,15 @@ public class MainActivity extends AppCompatActivity {
 
             adapter.addFragment(new PerfilFrag(), "");
             adapter.addFragment(new AgendaFrag(), "");
+            adapter.addFragment(new ProgressaoFragment(), "");
             viewPager.setAdapter(adapter);
 
             final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
             tabLayout.setupWithViewPager(viewPager);
             tabLayout.setAnimation(null);
-            tabLayout.getTabAt(0).setIcon(R.drawable.maoverde);
-            tabLayout.getTabAt(1).setIcon(R.drawable.fogomarrom);
+            tabLayout.getTabAt(0).setIcon(R.drawable.maoverdepequena);
+            tabLayout.getTabAt(1).setIcon(R.drawable.fogomarrompequeno);
+            tabLayout.getTabAt(2).setIcon(R.drawable.florlismarrompequena);
 
 
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -113,14 +115,24 @@ public class MainActivity extends AppCompatActivity {
 
                     if (tabLayout.getSelectedTabPosition() == 0) {
 
-                        tabLayout.getTabAt(0).setIcon(R.drawable.maoverde);
-                        tabLayout.getTabAt(1).setIcon(R.drawable.fogomarrom);
+                        tabLayout.getTabAt(0).setIcon(R.drawable.maoverdepequena);
+                        tabLayout.getTabAt(1).setIcon(R.drawable.fogomarrompequeno);
+                        tabLayout.getTabAt(2).setIcon(R.drawable.florlismarrompequena);
                     }
 
                     if (tabLayout.getSelectedTabPosition() == 1) {
-                        tabLayout.getTabAt(0).setIcon(R.drawable.maomarrom);
-                        tabLayout.getTabAt(1).setIcon(R.drawable.fogoverde);
+                        tabLayout.getTabAt(0).setIcon(R.drawable.maomarrompequena);
+                        tabLayout.getTabAt(1).setIcon(R.drawable.fogoverdepequeno);
+                        tabLayout.getTabAt(2).setIcon(R.drawable.florlismarrompequena);
 
+
+                    }
+
+                    if(tabLayout.getSelectedTabPosition() == 2){
+
+                        tabLayout.getTabAt(0).setIcon(R.drawable.maomarrompequena);
+                        tabLayout.getTabAt(1).setIcon(R.drawable.fogomarrompequeno);
+                        tabLayout.getTabAt(2).setIcon(R.drawable.florlisverdepequena);
                     }
                 }
 

@@ -101,7 +101,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btnstyle"
+            android:background="@drawable/btneditarperfil"
 
             android:onClick="horaFim"
             android:text="Hora Fim"
@@ -120,7 +120,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
 
-            android:background="@drawable/btnstyle"
+            android:background="@drawable/btneditarperfil"
             android:onClick="horaInicio"
             android:text="Hora Inicio"
             app:layout_constraintHorizontal_bias="0.0"
@@ -231,9 +231,7 @@
             android:layout_height="wrap_content"
 
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="105dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="130dp" />
+            app:layout_constraintGuide_begin="91dp" />
 
         <Button
             android:id="@+id/btnDataFim"
@@ -243,7 +241,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:background="@drawable/btnstyle"
+            android:background="@drawable/btneditarperfil"
             android:onClick="dataFim"
 
             android:text="Data Fim"
@@ -261,7 +259,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/btnstyle"
+            android:background="@drawable/btneditarperfil"
             android:onClick="dataInicio"
             android:text="Data Inicio"
             app:layout_constraintHorizontal_bias="0.563"
