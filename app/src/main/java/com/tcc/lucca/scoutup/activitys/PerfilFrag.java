@@ -148,8 +148,6 @@ public class PerfilFrag extends Fragment {
 
         final List<String> info = new ArrayList<>();
 
-        info.add("SCOUT UP");
-
         info.add(usuarioDatabase.getNome());
         info.add(usuarioDatabase.getEmail());
         info.add(usuarioDatabase.getTipo());

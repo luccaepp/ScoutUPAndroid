@@ -36,6 +36,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -116,7 +118,7 @@ public class AgendaFrag extends Fragment {
     private String getDate(long time) {
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         cal.setTimeInMillis(time);
-        String date = DateFormat.format("HH:mm dd/MM/yyyy", cal).toString();
+        String date = DateFormat.format("HH:mm - dd/MM/yyyy", cal).toString();
         return date;
     }
 

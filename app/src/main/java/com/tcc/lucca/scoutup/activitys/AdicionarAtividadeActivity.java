@@ -3,6 +3,7 @@ package com.tcc.lucca.scoutup.activitys;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Typeface;
+import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,8 +26,10 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.model.LatLng;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.adapters.ListItemMaterialAdapter;
+import com.tcc.lucca.scoutup.adapters.PlaceAutoCompleteAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,6 +45,7 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
     private List<String> materiais = new ArrayList<>();
     private ListItemMaterialAdapter adapter;
     private ListView listMateriais;
+    private AutoCompleteTextView mACTVAddress;
 
 
     @Override
@@ -61,6 +66,9 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
         list.add("Atividades Especiais");
         list.add("Outro");
 
+        mACTVAddress = (AutoCompleteTextView) findViewById(R.id.place_autocomplete_fragment);
+        mACTVAddress.setAdapter(new PlaceAutoCompleteAdapter(this));
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -74,21 +82,21 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
 
         fragmentTransaction.commitAllowingStateLoss();
 
-
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        autocompleteFragment.setHint("Endereço");
-
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        mACTVAddress.setHint("Endereço");
+        mACTVAddress.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onPlaceSelected(Place place) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                Address address = (Address) adapterView.getItemAtPosition(i);
+
 
                 MapsFrag maps = (MapsFrag) getSupportFragmentManager().findFragmentById(R.id.container);
 
 
                 MapsFrag newFragment = new MapsFrag();
                 Bundle args = new Bundle();
-                args.putParcelable("LatLng", place.getLatLng());
+                args.putParcelable("LatLng", new LatLng(address.getLatitude(), address.getLongitude()));
                 newFragment.setArguments(args);
 
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -99,15 +107,8 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
 
                 transaction.commit();
 
-
-            }
-
-            @Override
-            public void onError(Status status) {
-
             }
         });
-
 
 
         adapter = new ListItemMaterialAdapter(this, materiais);

@@ -1,6 +1,7 @@
 package com.tcc.lucca.scoutup.adapters;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,9 +49,19 @@ public class AtividadeListAdapter extends ArrayAdapter<Atividade> {
         TextView tvDataInicio = view.findViewById(R.id.tvInicio);
         TextView tvDataFim = view.findViewById(R.id.tvFim);
 
-        txtItem.setText(info.getTitulo()+" - "+info.getTipo());
-        tvDataFim.setText("Fim "+getDate(info.getTermino()));
-        tvDataInicio.setText("Inicio "+getDate(info.getInicio()));
+        txtItem.setText(info.getTitulo());
+        tvDataInicio.setText(getDate(info.getInicio()));
+
+        Long current = Long.parseLong(System.currentTimeMillis() + "");
+
+        Long inicio = Long.parseLong(info.getInicio() + "");
+
+
+        if (current > inicio) {
+
+            txtItem.setPaintFlags(txtItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        }
 
 
 
@@ -62,7 +73,7 @@ public class AtividadeListAdapter extends ArrayAdapter<Atividade> {
     private String getDate(long time) {
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         cal.setTimeInMillis(time);
-        String date = DateFormat.format("HH:mm dd/MM/yyyy", cal).toString();
+        String date = DateFormat.format("HH:mm - dd/MM/yyyy", cal).toString();
         return date;
     }
 

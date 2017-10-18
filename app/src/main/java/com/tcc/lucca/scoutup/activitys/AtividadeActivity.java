@@ -117,8 +117,8 @@ public class AtividadeActivity extends AppCompatActivity {
         tvAtividade.setTypeface(type);
 
         tvDataInicio.setText("Inicio: "+dataInicio);
+        tvDataFim.setText("Fim: "+dataFim);
 
-        tvDataFim.setText("Termino: "+dataFim);
 
         Geocoder geo = new Geocoder(this);
 
