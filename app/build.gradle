@@ -42,8 +42,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.firebaseui:firebase-ui-storage:0.6.0'
 
+
+    compile 'com.firebaseui:firebase-ui-storage:0.6.0'
     compile 'com.google.firebase:firebase-messaging:11.4.2'
     compile 'com.google.android.gms:play-services-auth:11.4.2'
     compile 'com.google.firebase:firebase-core:11.4.2'
@@ -66,11 +67,11 @@ dependencies {
     compile 'com.android.support:support-v4:26.+'
     compile 'com.google.android.gms:play-services-maps:11.4.2'
     compile 'com.google.android.gms:play-services-location:11.4.2'
-
     compile 'com.google.android.gms:play-services-places:11.4.2'
     testCompile 'junit:junit:4.12'
 }
 
 apply plugin: 'com.google.gms.google-services'
+
 
 

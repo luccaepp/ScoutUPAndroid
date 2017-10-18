@@ -1,11 +1,13 @@
 package com.tcc.lucca.scoutup.activitys;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +15,15 @@ import android.view.View;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.backgroundTasks.LoginClass;
 import com.tcc.lucca.scoutup.backgroundTasks.SharedPrefManager;
 import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
 import com.tcc.lucca.scoutup.adapters.ViewPagerAdapter;
+import com.tcc.lucca.scoutup.model.Usuario;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,9 +65,32 @@ public class MainActivity extends AppCompatActivity {
 
            String token =  SharedPrefManager.getInstance(this).getToken();
 
-            UsuarioDAO dao = UsuarioDAO.getInstance();
+            final UsuarioDAO dao = UsuarioDAO.getInstance();
 
             dao.saveToken(token);
+
+            dao.buscarPorId(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    Usuario user = dataSnapshot.getValue(Usuario.class);
+
+                    if(user.getGrupo() == null){
+
+
+
+
+                    }
+
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
 
 
             ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -70,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
             adapter.addFragment(new PerfilFrag(), "");
             adapter.addFragment(new AgendaFrag(), "");
             viewPager.setAdapter(adapter);
-
 
             final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
             tabLayout.setupWithViewPager(viewPager);

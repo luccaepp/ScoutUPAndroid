@@ -1,16 +1,24 @@
 package com.tcc.lucca.scoutup.activitys;
 
+import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DialogTitle;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -29,6 +37,8 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.backgroundTasks.LoginClass;
+
+import java.util.Calendar;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -219,4 +229,33 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
+    public void esqueceuSenha(View view) {
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        final EditText edittext = new EditText(this);
+        edittext.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        alert.setMessage("Por favor, insira o seu email");
+        alert.setTitle("Recuperar Senha");
+
+        alert.setView(edittext);
+
+        alert.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                String YouEditTextValue = edittext.getText().toString();
+                Toast.makeText(getApplicationContext(), YouEditTextValue, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // what ever you want to do with No option.
+            }
+        });
+
+        alert.show();
+
+
+    }
 }

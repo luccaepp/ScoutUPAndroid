@@ -25,9 +25,6 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
-
-
         <service
             android:name=".backgroundTasks.MyFirebaseMessagingService"
             android:enabled="true"
@@ -38,11 +35,14 @@
         </service>
         <service android:name=".backgroundTasks.CalculoGeolocalizacaoService" />
 
-        <receiver android:name=".backgroundTasks.BroadcastReceiverAux" android:label="BroadcastReceiverAux">
+        <receiver
+            android:name=".backgroundTasks.BroadcastReceiverAux"
+            android:label="BroadcastReceiverAux">
             <intent-filter>
-                <action android:name="ALARME_DISPARADO"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="com.tcc.lucca.scoutup.model.Atividade"/>
+                <action android:name="ALARME_DISPARADO" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.tcc.lucca.scoutup.model.Atividade" />
             </intent-filter>
         </receiver>
 
@@ -96,7 +96,7 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".activitys.AtividadeActivity" />
-        <activity android:name=".activitys.PerfilVisitadoActivity"></activity>
+        <activity android:name=".activitys.PerfilVisitadoActivity" />
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -43,22 +45,19 @@ import static android.content.Context.ALARM_SERVICE;
 
 public class AgendaFrag extends Fragment {
 
-    private static final int TAG_CODE_PERMISSION_CALENDAR = 2;
     private Usuario usuario;
     private FloatingActionButton fab;
     private ListView listView;
     private List<Atividade> atividades = new ArrayList<>();
+    private List<String> listaIds = new ArrayList<>();
     private AtividadeListAdapter adapter;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-
         initData();
-
 
     }
 
@@ -79,6 +78,10 @@ public class AgendaFrag extends Fragment {
                 Intent intent = new Intent(getContext(), AtividadeActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("atividade", atividade);
+                bundle.putParcelable("local", new LatLng(atividade.getLocal().getLat(), atividade.getLocal().getLng()));
+                bundle.putString("fim", getDate(atividade.getTermino()));
+                bundle.putString("inicio", getDate(atividade.getInicio()));
+                bundle.putString("id", listaIds.get(i));
                 intent.putExtras(bundle);
                 startActivity(intent);
 
@@ -110,6 +113,12 @@ public class AgendaFrag extends Fragment {
         return root;
     }
 
+    private String getDate(long time) {
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time);
+        String date = DateFormat.format("HH:mm dd/MM/yyyy", cal).toString();
+        return date;
+    }
 
     private void initData() {
 
@@ -168,7 +177,7 @@ public class AgendaFrag extends Fragment {
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
 
 
-                        String chaveAtiv = data.getValue().toString();
+                        final String chaveAtiv = data.getValue().toString();
 
                         Log.d("Script", "ativ"+chaveAtiv);
 
@@ -187,6 +196,7 @@ public class AgendaFrag extends Fragment {
 
 
                                     atividades.add(atividade);
+                                    listaIds.add(chaveAtiv);
                                     adapter.atualizarLista(atividades);
                                     adapter.notifyDataSetChanged();
 
@@ -206,11 +216,7 @@ public class AgendaFrag extends Fragment {
 
                                     Long current = Long.parseLong(System.currentTimeMillis() + "");
 
-                                    Log.d("Script", " current "+Long.toString(current));
-
                                     Long inicio = Long.parseLong(atividade.getInicio() + "");
-
-                                    Log.d("Script"," inicio " +Long.toString(inicio));
 
 
                                     if (current < inicio) {
@@ -296,7 +302,7 @@ public class AgendaFrag extends Fragment {
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
 
 
-                        String chaveAtiv = data.getValue().toString();
+                        final String chaveAtiv = data.getValue().toString();
 
                         dao.setReferencia("atividade");
 
@@ -312,6 +318,7 @@ public class AgendaFrag extends Fragment {
 
 
                                     atividades.add(atividade);
+                                    listaIds.add(chaveAtiv);
                                     adapter.atualizarLista(atividades);
                                     adapter.notifyDataSetChanged();
 
