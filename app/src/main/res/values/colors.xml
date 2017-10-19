@@ -11,4 +11,6 @@
     <color name="azul">#638cea</color>
     <color name="laranja">#e8aa23</color>
     <color name="rosa">#ed4583</color>
+    <color name="vermelhoclaro">#f80000</color>
+    <color name="vermelhoescuro">#8a0000</color>
 </resources>
