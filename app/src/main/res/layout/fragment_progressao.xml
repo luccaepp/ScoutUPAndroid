@@ -138,6 +138,8 @@
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="8dp"
                         android:text="Azimute"
+                        android:textSize="10dp"
+
                         android:textAlignment="center"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -187,6 +189,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
+                        android:textSize="10dp"
+
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="8dp"
                         android:text="Conquista"
@@ -240,6 +244,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
+                        android:textSize="10dp"
+
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="8dp"
                         android:text="Escalada"
@@ -297,12 +303,13 @@
 
                     <TextView
                         android:id="@+id/textView16"
+                        android:textSize="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="Introdução"
+                        android:text="Período Introdutório"
                         android:textAlignment="center"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -431,6 +438,8 @@
                         android:layout_marginTop="8dp"
                         android:text="Serviços"
                         android:textAlignment="center"
+                        android:textSize="10dp"
+
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -442,7 +451,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:text="0%"
+                        android:text="0"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent" />
@@ -479,9 +488,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
+                        android:textSize="10dp"
+
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="Habilidades"
+                        android:text="Habilidades Escoteiras"
                         android:textAlignment="center"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -494,7 +505,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:text="0%"
+                        android:text="0"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent" />
@@ -534,6 +545,8 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="8dp"
+                        android:textSize="10dp"
+
                         android:text="Cultura"
                         android:textAlignment="center"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -547,7 +560,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:text="0%"
+                        android:text="0"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent" />
@@ -586,7 +599,9 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="Introdução"
+                        android:text="Ciencia e Tecnologia"
+                        android:textSize="10dp"
+
                         android:textAlignment="center"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -599,7 +614,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:text="0%"
+                        android:text="0"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent" />
@@ -639,6 +654,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
+                        android:textSize="10dp"
+
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="8dp"
                         android:text="Esportes"
@@ -654,7 +671,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:text="0%"
+                        android:text="0"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent" />
