@@ -57,7 +57,8 @@ public class PerfilFrag extends Fragment {
     private Sessao sessaoDatabase;
     private Patrulha patrulhaDatabase;
 
-    private ListView listViewInfo;
+    private TextView tvNome, tvEmail, tvGrupo, tvSessao;
+
     private ListView listViewAmigos;
     private ListView listViewEspec;
 
@@ -89,10 +90,13 @@ public class PerfilFrag extends Fragment {
     }
 
     private void initComponents(View container) {
-        listViewInfo = container.findViewById(R.id.listViewInformacoes);
         listViewAmigos = container.findViewById(R.id.listViewAmigos);
         listViewEspec = container.findViewById(R.id.listViewEspecialidades);
         imageView = container.findViewById(R.id.imgPerfil);
+        tvNome = container.findViewById(R.id.textViewNome);
+        tvEmail = container.findViewById(R.id.textViewEmail);
+        tvGrupo = container.findViewById(R.id.textViewGrupo);
+        tvSessao = container.findViewById(R.id.textViewSessao);
 
         listViewAmigos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -146,15 +150,9 @@ public class PerfilFrag extends Fragment {
                 .load(imagesRef)
                 .into(imageView);
 
-        final List<String> info = new ArrayList<>();
 
-        info.add(usuarioDatabase.getNome());
-        info.add(usuarioDatabase.getEmail());
-        info.add(usuarioDatabase.getTipo());
-
-        final ListViewAdapter adapter = new ListViewAdapter(getContext(), info);
-        listViewInfo.setAdapter(adapter);
-
+       tvNome.setText(usuarioDatabase.getNome());
+        tvEmail.setText(usuarioDatabase.getEmail());
 
         if (usuarioDatabase.getGrupo() != null) {
             final String uidGrupo = usuarioDatabase.getGrupo();
@@ -164,33 +162,12 @@ public class PerfilFrag extends Fragment {
 
                     if(dataSnapshot.exists()){
                         setGrupoDatabase(dataSnapshot.getValue(Grupo.class));
-                        info.add(grupoDatabase.getNome());
-                        adapter.atualizarLista(info);
-                        adapter.notifyDataSetChanged();
+                        tvGrupo.setText("Grupo: "+grupoDatabase.getNome());
 
                         if (usuarioDatabase.getSecao() != null) {
                             String uidSecao = usuarioDatabase.getSecao().get("nome");
 
-                            info.add(uidSecao);
-                            adapter.atualizarLista(info);
-                            adapter.notifyDataSetChanged();
-                        }
-
-
-
-
-                        if (usuarioDatabase.getPatrulha() != null) {
-
-                            String uidPatrulha = usuarioDatabase.getPatrulha().get("nome");
-                            Log.d("TAG", uidPatrulha);
-
-
-                            info.add(uidPatrulha);
-
-
-                            adapter.atualizarLista(info);
-                            adapter.notifyDataSetChanged();
-
+                            tvSessao.setText("Sessão: "+uidSecao);
                         }
 
 

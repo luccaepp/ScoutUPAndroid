@@ -35,4 +35,12 @@ public class ProgressaoFragment extends Fragment {
         return root;
 
     }
+
+
+
+
+
 }
+
+
+

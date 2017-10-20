@@ -60,7 +60,6 @@ public class GenericDAO<T> {
 
         Query query = databaseReference.child(referencia);
 
-
         return query;
     }
 

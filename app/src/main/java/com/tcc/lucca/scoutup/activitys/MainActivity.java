@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -164,6 +165,64 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
         finish();
+
+    }
+
+    public void abrirPeriodoIntro(View view){
+
+        startActivity(new Intent(this, PeriodoIntrodutorioActivity.class));
+
+    }
+    public void abrirAreaCultura(View view){
+
+        Intent intent = new Intent(this, AreaEspecialidadeActivity.class);
+
+        intent.putExtra("area", "cultura");
+
+        startActivity(intent);
+
+
+    }
+    public void abrirAreaServicos(View view){
+
+        Intent intent = new Intent(this, AreaEspecialidadeActivity.class);
+
+        intent.putExtra("area", "servicos");
+
+        startActivity(intent);
+
+
+    }
+    public void abrirAreaEsporte(View view){
+        Intent intent = new Intent(this, AreaEspecialidadeActivity.class);
+
+        intent.putExtra("area", "esportes");
+
+        startActivity(intent);
+
+    }
+    public void abrirAreaHabilidades(View view){
+        Intent intent = new Intent(this, AreaEspecialidadeActivity.class);
+
+        intent.putExtra("area", "habilidades");
+
+        startActivity(intent);
+
+    }
+    public void abrirAreaCiencia(View view){
+
+        Intent intent = new Intent(this, AreaEspecialidadeActivity.class);
+
+        intent.putExtra("area", "ciencia e tecnologia");
+
+        startActivity(intent);
+
+
+
+    }
+    public void abrirAtividadeRamo(View view){
+
+        startActivity(new Intent(this, TarefasRamoActivity.class));
 
     }
 

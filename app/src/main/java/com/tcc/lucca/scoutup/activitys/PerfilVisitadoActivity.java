@@ -48,6 +48,8 @@ public class PerfilVisitadoActivity extends AppCompatActivity {
     private PatrulhaDAO patrulhaDAO = PatrulhaDAO.getInstance();
 
     private ImageView imageView;
+    private TextView tvNome, tvEmail, tvGrupo, tvSessao;
+
 
     private HashMap<String, Amigo> amigos;
     private Usuario usuarioDatabase;
@@ -81,7 +83,10 @@ public class PerfilVisitadoActivity extends AppCompatActivity {
         Typeface type = Typeface.createFromAsset(this.getAssets(), "font/ClaireHandRegular.ttf");
         tvAgenda.setTypeface(type);
 
-        listViewInfo = (ListView) findViewById(R.id.listViewInformacoes);
+        tvNome = findViewById(R.id.textViewNome);
+        tvEmail = findViewById(R.id.textViewEmail);
+        tvGrupo = findViewById(R.id.textViewGrupo);
+        tvSessao = findViewById(R.id.textViewSessao);
         listViewAmigos = (ListView) findViewById(R.id.listViewAmigos);
         listViewEspec = (ListView) findViewById(R.id.listViewEspecialidades);
         imageView = (ImageView) findViewById(R.id.imgPerfil);
@@ -134,15 +139,10 @@ public class PerfilVisitadoActivity extends AppCompatActivity {
                 .load(imagesRef)
                 .into(imageView);
 
-        final List<String> info = new ArrayList<>();
 
-        info.add("SCOUT UP");
-        info.add(usuarioDatabase.getNome());
-        info.add(usuarioDatabase.getEmail());
-        info.add(usuarioDatabase.getTipo());
+        tvNome.setText(usuarioDatabase.getNome());
+        tvEmail.setText(usuarioDatabase.getEmail());
 
-        final ListViewAdapter adapter = new ListViewAdapter(this, info);
-        listViewInfo.setAdapter(adapter);
 
         if (usuarioDatabase.getGrupo() != null) {
             final String uidGrupo = usuarioDatabase.getGrupo();
@@ -152,31 +152,15 @@ public class PerfilVisitadoActivity extends AppCompatActivity {
 
                     if(dataSnapshot.exists()){
                         setGrupoDatabase(dataSnapshot.getValue(Grupo.class));
-                        info.add(grupoDatabase.getNome());
-                        adapter.atualizarLista(info);
-                        adapter.notifyDataSetChanged();
+                        tvGrupo.setText("Grupo: "+grupoDatabase.getNome());
 
                         if (usuarioDatabase.getSecao() != null) {
                             String uidSecao = usuarioDatabase.getSecao().get("nome");
 
-                            info.add(uidSecao);
-                            adapter.atualizarLista(info);
-                            adapter.notifyDataSetChanged();
+                            tvSessao.setText("Sessão: "+sessaoDatabase.getNome());
                         }
 
-                        if (usuarioDatabase.getPatrulha() != null) {
 
-                            String uidPatrulha = usuarioDatabase.getPatrulha().get("nome");
-                            Log.d("TAG", uidPatrulha);
-
-
-                            info.add(uidPatrulha);
-
-
-                            adapter.atualizarLista(info);
-                            adapter.notifyDataSetChanged();
-
-                        }
                     }
                 }
 

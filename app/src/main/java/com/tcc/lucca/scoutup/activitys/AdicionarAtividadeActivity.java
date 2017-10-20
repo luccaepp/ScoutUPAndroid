@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -42,6 +43,8 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private EditText editTextNome;
     private EditText editTextOutro;
+    private EditText editTextOutroItem;
+    private EditText editTextDesc;
     private List<String> materiais = new ArrayList<>();
     private ListItemMaterialAdapter adapter;
     private ListView listMateriais;
@@ -53,7 +56,9 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_atividade);
         initComponents();
-        List<String> list = new ArrayList<String>();
+        editTextOutroItem.setVisibility(View.INVISIBLE);
+
+        final List<String> list = new ArrayList<String>();
         list.add("Atividade normal (sede)");
         list.add("Bivaque");
         list.add("Bivaque noturno");
@@ -69,10 +74,39 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
         mACTVAddress = (AutoCompleteTextView) findViewById(R.id.place_autocomplete_fragment);
         mACTVAddress.setAdapter(new PlaceAutoCompleteAdapter(this));
 
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+
+                if(i+1 ==  list.size()){
+
+                    editTextOutroItem.setVisibility(View.VISIBLE);
+
+
+                }else{
+
+                    editTextOutroItem.setVisibility(View.INVISIBLE);
+
+                }
+
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
 
         fragmentManager = getSupportFragmentManager();
 
@@ -119,14 +153,13 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-
                 materiais.remove(i);
                 adapter.setInfo(materiais);
                 adapter.notifyDataSetChanged();
                 view.invalidate();
                 setListViewHeightBasedOnItems();
 
-                return true;
+                return false;
             }
         });
 
@@ -142,8 +175,10 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
 
         spinner = (Spinner) findViewById(R.id.spinner);
         editTextNome = (EditText) findViewById(R.id.etNome);
+        editTextDesc = (EditText) findViewById(R.id.editText4);
         editTextNome.requestFocus();
         editTextOutro = (EditText) findViewById(R.id.etItem);
+        editTextOutroItem = (EditText) findViewById(R.id.etOutro);
         listMateriais = (ListView) findViewById(R.id.listViewMateriais);
 
 
@@ -152,6 +187,7 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
     public void adicionarMaterial(View view) {
 
         String material = editTextOutro.getText().toString().trim();
+        Log.d("Tag", material);
         materiais = adapter.getInfo();
         materiais.add(material);
         adapter.setInfo(materiais);

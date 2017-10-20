@@ -8,9 +8,14 @@
     <color name="marromFundo">#4e3828</color>
     <color name="marromClaroFundo">#8f6546</color>
     <color name="corLetra">#e1dec5</color>
+    <color name="marrom">#83806b</color>
     <color name="azul">#638cea</color>
+    <color name="azulescuro">#3469e4</color>
     <color name="laranja">#e8aa23</color>
     <color name="rosa">#ed4583</color>
-    <color name="vermelhoclaro">#f80000</color>
-    <color name="vermelhoescuro">#8a0000</color>
+    <color name="verm">#da2f34</color>
+    <color name="vermelhoclaro">#a9a84a</color>
+    <color name="vermelhoescuro">#6a6a26</color>
+    <color name="cinza">#8b8b8b</color>
+    <color name="dourado">#eec217</color>
 </resources>

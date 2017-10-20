@@ -147,8 +147,6 @@ public class AtividadeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-
-
                 try{
                     HashMap<String, Boolean> map = (HashMap<String, Boolean>) dataSnapshot.getValue();
 
