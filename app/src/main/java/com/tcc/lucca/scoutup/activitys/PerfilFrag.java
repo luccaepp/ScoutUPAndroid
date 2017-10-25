@@ -143,8 +143,6 @@ public class PerfilFrag extends Fragment {
         StorageReference storageRef = storage.getReference();
         StorageReference imagesRef = storageRef.child("fotoPerfil/"+firebaseUser.getUid());
 
-
-
         Glide.with(this /* context */)
                 .using(new FirebaseImageLoader())
                 .load(imagesRef)

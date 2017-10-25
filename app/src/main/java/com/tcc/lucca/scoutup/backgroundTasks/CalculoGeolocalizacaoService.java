@@ -40,6 +40,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.activitys.MainActivity;
@@ -62,17 +64,17 @@ import java.util.UUID;
 
 public class CalculoGeolocalizacaoService extends Service {
 
-    private GoogleApiClient mGoogleApiClient;
     private Atividade atividade;
-    public static final String TAG = "ServicoLocalizacao";
-    String idAtividade;
-    private Location lastLocation;
+    private String idAtividade;
 
 
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
 
         final String id = intent.getStringExtra("id");
+
+        idAtividade = id;
+
 
         final AtividadeDAO dao = new AtividadeDAO();
 
@@ -102,6 +104,7 @@ public class CalculoGeolocalizacaoService extends Service {
                             if(location.distanceTo(targetLocation)<30){
 
                                 gerarNotificacao(getApplicationContext(), intent, id, "Verificador de presença", "voce está dentro da area da atividade");
+                                salvarChamada();
 
                             }else{
 
@@ -125,6 +128,16 @@ public class CalculoGeolocalizacaoService extends Service {
 
 
         return START_STICKY;
+    }
+
+    private void salvarChamada() {
+
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+        reference.child("atividade").child(idAtividade).child("presentes").child(FirebaseAuth.getInstance().getUid()).setValue(true);
+
+
     }
 
 

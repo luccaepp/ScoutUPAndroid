@@ -153,9 +153,12 @@ public class LoginClass {
         Usuario user = new Usuario();
         user.setNome(mAuth.getCurrentUser().getDisplayName());
         user.setEmail(mAuth.getCurrentUser().getEmail());
-        user.setTipo(Tipo.devolveString(Tipo.escoteiro));
         if (isEscotista) {
             user.setTipo(Tipo.devolveString(Tipo.escotista));
+        }else{
+
+            user.setTipo(Tipo.devolveString(Tipo.escoteiro));
+
         }
         usuarioDAO.adicionar(user);
         Intent main = new Intent(context, MainActivity.class);

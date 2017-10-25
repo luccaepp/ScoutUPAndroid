@@ -26,6 +26,7 @@ import com.tcc.lucca.scoutup.model.progressao.Especialidades;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static com.tcc.lucca.scoutup.R.id.listViewAmigos;
 
@@ -35,6 +36,7 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
     private Areas area;
     private ListView listView;
     private List<Especialidade> especialidadeList= new ArrayList<Especialidade>();
+    private List<String> idList= new ArrayList<String>();
 
 
     @Override
@@ -66,7 +68,9 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
                    Especialidade esp = espSnap.getValue(Especialidade.class);
 
+                    idList.add(key);
                     especialidadeList.add(esp);
+
                 }
 
 
@@ -94,7 +98,18 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
 
                 bundle.putParcelable("especialidade", esp);
+
+                try{
+
+                    bundle.putString("requisitos", esp.getRequisitos());
+
+                }catch (Exception e){
+
+
+
+                }
                 bundle.putStringArrayList("lista", (ArrayList<String>) esp.getItens());
+                bundle.putString("id", idList.get(i));
 
                 intent.putExtras(bundle);
 

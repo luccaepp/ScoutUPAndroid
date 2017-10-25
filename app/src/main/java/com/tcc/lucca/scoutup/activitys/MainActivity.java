@@ -76,14 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
                     Usuario user = dataSnapshot.getValue(Usuario.class);
 
-                    if(user.getGrupo() == null){
-
-
-
-
-                    }
-
-
 
                 }
 
@@ -196,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
     public void abrirAreaEsporte(View view){
         Intent intent = new Intent(this, AreaEspecialidadeActivity.class);
 
-        intent.putExtra("area", "esportes");
+        intent.putExtra("area", "desportos");
 
         startActivity(intent);
 
@@ -204,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
     public void abrirAreaHabilidades(View view){
         Intent intent = new Intent(this, AreaEspecialidadeActivity.class);
 
-        intent.putExtra("area", "habilidades");
+        intent.putExtra("area", "habilidades escoteiras");
 
         startActivity(intent);
 

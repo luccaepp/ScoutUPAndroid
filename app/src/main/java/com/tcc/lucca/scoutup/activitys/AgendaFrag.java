@@ -137,14 +137,20 @@ public class AgendaFrag extends Fragment {
 
                     Usuario user = dataSnapshot.getValue(Usuario.class);
 
-                    if (user.getTipo().equals(Tipo.devolveString(Tipo.escotista))) {
+                    try {
+                        if (user.getTipo().equals(Tipo.devolveString(Tipo.escotista))) {
 
-                        if (user.getSecao() != null) {
+                            if (user.getSecao() != null) {
 
-                            fab.show();
+                                fab.show();
 
+
+                            }
 
                         }
+                    }catch (Exception e){
+
+
 
                     }
                     setUsuario(user);

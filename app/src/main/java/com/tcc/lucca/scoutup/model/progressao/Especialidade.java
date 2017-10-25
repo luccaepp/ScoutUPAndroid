@@ -17,9 +17,17 @@ public class Especialidade implements Parcelable {
 
     private String nome;
     private List<String> itens = new ArrayList<>();
+    private int nivel;
+    private String requisitos;
 
 
     public Especialidade() {
+
+
+
+
+
+
     }
 
     protected Especialidade(Parcel in) {
@@ -37,6 +45,19 @@ public class Especialidade implements Parcelable {
             return new Especialidade[size];
         }
     };
+
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
+    }
+
+    public static Creator<Especialidade> getCREATOR() {
+        return CREATOR;
+    }
 
     public String getNome() {
         return nome;
@@ -62,5 +83,13 @@ public class Especialidade implements Parcelable {
 
     public void setItens(List<String> itens) {
         this.itens = itens;
+    }
+
+    public String getRequisitos() {
+        return requisitos;
+    }
+
+    public void setRequisitos(String requisitos) {
+        this.requisitos = requisitos;
     }
 }
