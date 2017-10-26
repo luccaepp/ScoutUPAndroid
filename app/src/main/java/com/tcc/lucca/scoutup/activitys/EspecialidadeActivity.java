@@ -58,8 +58,8 @@ public class EspecialidadeActivity extends AppCompatActivity {
             tvPreRequisitos.setText(requisitos);
 
 
-        } catch (Exception e) {
 
+        } catch (Exception e) {
 
         }
 
