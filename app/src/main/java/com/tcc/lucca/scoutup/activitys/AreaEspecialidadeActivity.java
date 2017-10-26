@@ -10,8 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.adapters.AmigoListAdapter;
@@ -64,20 +66,45 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
                 for(DataSnapshot espSnap : dataSnapshot.getChildren()){
 
-                   String key =  espSnap.getKey();
+                   final String key =  espSnap.getKey();
 
-                   Especialidade esp = espSnap.getValue(Especialidade.class);
+                   final Especialidade esp = espSnap.getValue(Especialidade.class);
 
-                    idList.add(key);
-                    especialidadeList.add(esp);
+                    FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("especialidades").child(key).child("nivel").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                            try{
+                                int nivel = Integer.parseInt(dataSnapshot.getValue().toString());
+                                esp.setNivel(nivel);
+
+                            }catch (Exception e){
+
+                            }
+
+                            idList.add(key);
+                            especialidadeList.add(esp);
+                            ListViewEspecialidadeAdapter adapter = new ListViewEspecialidadeAdapter(getApplicationContext(), especialidadeList);
+                            listView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
 
                 }
 
 
-                ListViewEspecialidadeAdapter adapter = new ListViewEspecialidadeAdapter(getApplicationContext(), especialidadeList);
 
 
-                listView.setAdapter(adapter);
 
             }
 

@@ -46,10 +46,46 @@ public class ListViewEspecialidadeAdapter extends ArrayAdapter<Especialidade> {
         if (view == null) {
             view = layoutInflate.inflate(R.layout.especialidades, viewGroup, false);
         }
+        ImageView imageView = view.findViewById(R.id.imageView27);
+
+
+        try{
+
+            int nivel = info.getNivel();
+            if(nivel ==1){
+
+                imageView.setImageResource(R.drawable.nivelum);
+
+
+
+            }
+            if(nivel ==2){
+
+                imageView.setImageResource(R.drawable.niveldois);
+
+
+
+            }
+            if(nivel ==3){
+
+
+                imageView.setImageResource(R.drawable.niveltres);
+
+
+            }
+            if(nivel == 0){
+
+                imageView.setImageResource(R.drawable.nivelzero);
+
+
+            }
+
+        }catch (Exception e){
+            imageView.setImageResource(R.drawable.nivelzero);
+
+        }
 
         TextView txtItem = view.findViewById(R.id.textView26);
-        ImageView imageView = view.findViewById(R.id.imageView27);
-        imageView.setImageResource(R.drawable.logoicon);
         txtItem.setText(info.getNome());
 
         return view;

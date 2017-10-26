@@ -68,6 +68,8 @@ public class EspecialidadeActivity extends AppCompatActivity {
 
             adapter = new ListViewItemEspecialidadeAdapter(getApplicationContext(), especialidade.getItens(), id, isFeita);
 
+            final int size = especialidade.getItens().size();
+
             listViewItensEsp.setAdapter(adapter);
 
             final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -78,15 +80,56 @@ public class EspecialidadeActivity extends AppCompatActivity {
 
                     try {
 
-                        Log.d("TAG", dataSnapshot.toString());
+                        int contItens = 0;
 
 
                         for (DataSnapshot snap: dataSnapshot.getChildren()) {
 
                            isFeita.put(snap.getKey().toString(), (Boolean) snap.getValue());
 
+                            for (Boolean b:isFeita.values()) {
+
+                                if(b){
+                                    ++contItens;
+
+
+                                }
+
+                            }
+
+                            if(contItens>=(size/3)){
+
+                                if(contItens>=((size/3)*2)){
+
+                                    if(contItens==size){
+
+                                        FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("especialidades").child(id).child("nivel").setValue(3);
+
+
+
+                                    }else{
+                                        FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("especialidades").child(id).child("nivel").setValue(2);
+
+
+                                    }
+                                }else{
+
+                                    FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("especialidades").child(id).child("nivel").setValue(1);
+
+
+
+
+                                }
+                            }else{
+                                FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("especialidades").child(id).child("nivel").setValue(0);
+
+
+                            }
+
+                            contItens=0;
                             adapter.atualizarListaFeitas(isFeita);
                             adapter.notifyDataSetChanged();
+
 
 
                         }
