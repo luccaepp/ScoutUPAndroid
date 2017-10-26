@@ -3,6 +3,7 @@ package com.tcc.lucca.scoutup.activitys;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -13,7 +14,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
-import com.tcc.lucca.scoutup.adapters.ListViewAtividadesRamoAdapter;
 import com.tcc.lucca.scoutup.adapters.ListViewPeriodoIntrodutorioAdapter;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class PeriodoIntrodutorioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_periodo_introdutorio);
 
-        TextView tvProgressao = (TextView) findViewById(R.id.textView);
+        TextView tvProgressao = (TextView) findViewById(R.id.textViewTitulo);
         Typeface type = Typeface.createFromAsset(this.getAssets(), "font/ClaireHandRegular.ttf");
         tvProgressao.setTypeface(type);
 
@@ -69,14 +69,11 @@ public class PeriodoIntrodutorioActivity extends AppCompatActivity {
 
                         try {
 
-                            int contItens = 0;
-
                             for (DataSnapshot snap: dataSnapshot.getChildren()) {
 
                                 isFeita.put(snap.getKey().toString(), (Boolean) snap.getValue());
-
-
                             }
+
 
                         } catch (Exception e) {
                         }
@@ -107,5 +104,7 @@ public class PeriodoIntrodutorioActivity extends AppCompatActivity {
 
 
     }
+
+
 
 }

@@ -103,7 +103,8 @@
         <activity android:name=".activitys.TarefasRamoActivity" />
         <activity android:name=".activitys.AreaEspecialidadeActivity" />
         <activity android:name=".activitys.EspecialidadeActivity" />
-        <activity android:name=".activitys.InsigniaActivity"></activity>
+        <activity android:name=".activitys.InsigniaActivity" />
+        <activity android:name=".activitys.ModalidadeActivity"></activity>
     </application>
 
 </manifest>

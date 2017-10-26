@@ -95,8 +95,6 @@ public class ListViewAtividadesRamoAdapter  extends ArrayAdapter<String> {
 
     private void cadastrarItem(int i, boolean b) {
 
-        Log.d("TAG", "cadastrando: "+i +b);
-
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         i++;

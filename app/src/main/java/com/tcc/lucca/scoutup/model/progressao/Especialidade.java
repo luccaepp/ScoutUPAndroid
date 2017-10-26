@@ -19,6 +19,7 @@ public class Especialidade implements Parcelable {
     private List<String> itens = new ArrayList<>();
     private int nivel;
     private String requisitos;
+    private String area;
 
 
     public Especialidade() {
@@ -91,5 +92,13 @@ public class Especialidade implements Parcelable {
 
     public void setRequisitos(String requisitos) {
         this.requisitos = requisitos;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 }

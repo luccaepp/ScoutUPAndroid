@@ -14,7 +14,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.adapters.ListViewAtividadesRamoAdapter;
-import com.tcc.lucca.scoutup.adapters.ListViewItemEspecialidadeAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class TarefasRamoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarefas_ramo);
 
-        TextView tvProgressao = (TextView) findViewById(R.id.textView);
+        TextView tvProgressao = (TextView) findViewById(R.id.textViewTitulo);
         Typeface type = Typeface.createFromAsset(this.getAssets(), "font/ClaireHandRegular.ttf");
         tvProgressao.setTypeface(type);
 

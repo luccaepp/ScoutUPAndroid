@@ -36,8 +36,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -92,7 +90,7 @@ public class AgendaFrag extends Fragment {
         });
 
 
-        TextView tvAgenda = root.findViewById(R.id.textView);
+        TextView tvAgenda = root.findViewById(R.id.textViewTitulo);
         Typeface type = Typeface.createFromAsset(getContext().getAssets(), "font/ClaireHandRegular.ttf");
         tvAgenda.setTypeface(type);
 

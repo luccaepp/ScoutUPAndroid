@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, AreaEspecialidadeActivity.class);
 
-        intent.putExtra("area", "servicos");
+        intent.putExtra("area", "serviços");
 
         startActivity(intent);
 
@@ -240,6 +240,35 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
+
+    public void abrirBasica(View view){
+
+        Intent intent = new Intent(this, ModalidadeActivity.class);
+
+        intent.putExtra("modalidade", "mateiro");
+
+        startActivity(intent);
+    }
+
+    public void abrirNaval(View view){
+
+        Intent intent = new Intent(this, ModalidadeActivity.class);
+
+        intent.putExtra("modalidade", "naval");
+
+        startActivity(intent);
+    }
+
+    public void abrirAerea(View view){
+
+        Intent intent = new Intent(this, ModalidadeActivity.class);
+
+        intent.putExtra("modalidade", "aeronauta");
+
+        startActivity(intent);
+    }
+
+
 
 
 

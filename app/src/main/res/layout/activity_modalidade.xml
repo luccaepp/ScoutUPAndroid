@@ -4,9 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tcc.lucca.scoutup.activitys.InsigniaActivity"
     android:background="@color/verdeFundo"
-    >
+    tools:context="com.tcc.lucca.scoutup.activitys.ModalidadeActivity">
+
+
+
+    <android.support.constraint.Guideline
+        android:layout_width="match_parent"
+        android:id="@+id/guideline49"
+        android:layout_height="match_parent"
+        app:layout_constraintGuide_begin="91dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteY="91dp"
+        tools:layout_editor_absoluteX="0dp"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -18,24 +28,24 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintBottom_toTopOf="@+id/guideline50">
+        app:layout_constraintBottom_toTopOf="@+id/guideline49">
 
         <TextView
             android:id="@+id/textViewTitulo"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
             android:layout_marginTop="8dp"
-            android:text="INSIGNIA"
+            android:text="MODALIDADE"
+            android:textAlignment="viewStart"
             android:textColor="#e7cfa1"
             android:textSize="35dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.488" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -51,28 +61,27 @@
             app:srcCompat="@drawable/logoclara" />
     </android.support.constraint.ConstraintLayout>
 
-
-    <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/guideline50"
-        app:layout_constraintGuide_begin="91dp"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteY="91dp"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Concedida pela Diretoria de Nível Local, ão Sênior ou Guia que possuir 3 especialidades, no nível 3, dentre as seguintes"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline49" />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline50" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </android.support.constraint.ConstraintLayout>

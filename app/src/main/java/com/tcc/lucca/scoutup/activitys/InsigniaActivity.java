@@ -14,7 +14,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.adapters.ListViewInsigniasAdapter;
-import com.tcc.lucca.scoutup.adapters.ListViewPeriodoIntrodutorioAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class InsigniaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insignia);
 
-        TextView tvTitulo = findViewById(R.id.textView);
+        TextView tvTitulo = findViewById(R.id.textViewTitulo);
         Typeface type = Typeface.createFromAsset(this.getAssets(), "font/ClaireHandRegular.ttf");
         tvTitulo.setTypeface(type);
 

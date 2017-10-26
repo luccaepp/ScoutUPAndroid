@@ -21,9 +21,7 @@ import com.tcc.lucca.scoutup.adapters.ListViewEspecialidadeAdapter;
 import com.tcc.lucca.scoutup.gerenciar.AreaDAO;
 import com.tcc.lucca.scoutup.model.Amigo;
 import com.tcc.lucca.scoutup.model.Usuario;
-import com.tcc.lucca.scoutup.model.progressao.Areas;
 import com.tcc.lucca.scoutup.model.progressao.Especialidade;
-import com.tcc.lucca.scoutup.model.progressao.Especialidades;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,11 +33,11 @@ import static com.tcc.lucca.scoutup.R.id.listViewAmigos;
 public class AreaEspecialidadeActivity extends AppCompatActivity {
 
 
-    private Areas area;
     private ListView listView;
     private List<Especialidade> especialidadeList= new ArrayList<Especialidade>();
     private List<String> idList= new ArrayList<String>();
     private ListViewEspecialidadeAdapter adapter;
+    private String area;
 
 
     @Override
@@ -57,7 +55,52 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
         final String area = getIntent().getStringExtra("area");
         tvAgenda.setText(area);
+        this.area = area;
 
+        carrega();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Especialidade esp = especialidadeList.get(i);
+
+                Intent intent = new Intent(getApplicationContext(), EspecialidadeActivity.class);
+
+                Bundle bundle = new Bundle();
+
+                bundle.putParcelable("especialidade", esp);
+
+                try{
+
+                    bundle.putString("requisitos", esp.getRequisitos());
+
+                }catch (Exception e){
+
+
+
+                }
+                bundle.putStringArrayList("lista", (ArrayList<String>) esp.getItens());
+                bundle.putString("id", idList.get(i));
+                bundle.putString("area", area);
+
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+
+
+
+            }
+        });
+
+
+
+
+
+
+    }
+
+    private void carrega() {
 
         final AreaDAO dao = new AreaDAO();
 
@@ -76,9 +119,9 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
                 for(DataSnapshot espSnap : dataSnapshot.getChildren()){
 
-                   final String key =  espSnap.getKey();
+                    final String key =  espSnap.getKey();
 
-                   final Especialidade esp = espSnap.getValue(Especialidade.class);
+                    final Especialidade esp = espSnap.getValue(Especialidade.class);
 
                     FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(area).child("especialidades").child(key).child("nivel").addValueEventListener(new ValueEventListener() {
                         @Override
@@ -128,42 +171,6 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
             }
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Especialidade esp = especialidadeList.get(i);
-
-                Intent intent = new Intent(getApplicationContext(), EspecialidadeActivity.class);
-
-                Bundle bundle = new Bundle();
-
-                bundle.putParcelable("especialidade", esp);
-
-                try{
-
-                    bundle.putString("requisitos", esp.getRequisitos());
-
-                }catch (Exception e){
-
-
-
-                }
-                bundle.putStringArrayList("lista", (ArrayList<String>) esp.getItens());
-                bundle.putString("id", idList.get(i));
-                bundle.putString("area", area);
-
-                intent.putExtras(bundle);
-
-                startActivity(intent);
-
-
-
-            }
-        });
-
-
-
 
 
 
@@ -179,11 +186,4 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
     }
 
-    public Areas getArea() {
-        return area;
-    }
-
-    public void setArea(Areas area) {
-        this.area = area;
-    }
 }

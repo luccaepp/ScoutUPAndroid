@@ -27,6 +27,7 @@ public class ListViewPeriodoIntrodutorioAdapter  extends ArrayAdapter<String> {
     private List<String> info = new ArrayList<>();
     private LayoutInflater layoutInflate;
     private HashMap<String, Boolean> isFeita;
+    private int count = 0;
 
 
     public ListViewPeriodoIntrodutorioAdapter(Context ctx, List<String> values, HashMap<String, Boolean> isFeita) {
@@ -41,11 +42,15 @@ public class ListViewPeriodoIntrodutorioAdapter  extends ArrayAdapter<String> {
     public void atualizarLista(List<String> lista) {
 
         this.info = lista;
+        count = 0 ;
+
 
     }
     public void atualizarListaFeitas(HashMap<String, Boolean> isFeita) {
 
         this.isFeita = isFeita;
+        count = 0 ;
+
 
     }
 
@@ -63,6 +68,8 @@ public class ListViewPeriodoIntrodutorioAdapter  extends ArrayAdapter<String> {
         try{
 
             boolean b = isFeita.get(Integer.toString(i+1));
+
+
 
             checkBox.setChecked(b);
 
@@ -89,10 +96,8 @@ public class ListViewPeriodoIntrodutorioAdapter  extends ArrayAdapter<String> {
 
 
 
+
     private void cadastrarItem(int i, boolean b) {
-
-        Log.d("TAG", "cadastrando: "+i +b);
-
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         i++;

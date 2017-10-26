@@ -28,7 +28,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline49">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textViewTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -1176,7 +1176,7 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-
+                    android:onClick="abrirBasica"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/guideline45"
@@ -1189,6 +1189,10 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         app:srcCompat="@drawable/basica"
+
+
+
+
                         android:layout_marginRight="8dp"
                         app:layout_constraintRight_toRightOf="parent"
                         android:layout_marginLeft="8dp"
@@ -1234,6 +1238,7 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:onClick="abrirNaval"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="@+id/guideline45"
                     app:layout_constraintRight_toLeftOf="@+id/guideline46"
@@ -1295,6 +1300,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="@+id/guideline46"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:onClick="abrirAerea"
 
                     android:background="@color/azul"
                     android:layout_marginRight="0dp"

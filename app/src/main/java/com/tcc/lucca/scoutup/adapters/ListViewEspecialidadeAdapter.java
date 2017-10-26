@@ -24,7 +24,7 @@ import java.util.List;
 public class ListViewEspecialidadeAdapter extends ArrayAdapter<Especialidade> {
 
 
-    private List<Especialidade> info = new ArrayList<>();
+    private List<Especialidade> info;
     private LayoutInflater layoutInflate;
 
 

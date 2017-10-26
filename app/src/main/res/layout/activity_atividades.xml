@@ -23,7 +23,7 @@
 
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textViewTitulo"
             android:layout_width="169dp"
             android:layout_height="48dp"
             android:layout_marginBottom="8dp"
@@ -83,6 +83,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
+        android:divider="@null"
         android:background="@color/verdeFundo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

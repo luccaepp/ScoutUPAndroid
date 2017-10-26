@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +19,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.adapters.AmigoListAdapter;
 import com.tcc.lucca.scoutup.gerenciar.GrupoDAO;
-import com.tcc.lucca.scoutup.adapters.ListViewAdapter;
 import com.tcc.lucca.scoutup.gerenciar.PatrulhaDAO;
 import com.tcc.lucca.scoutup.gerenciar.SessaoDAO;
 import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
@@ -38,7 +37,6 @@ import com.tcc.lucca.scoutup.model.Usuario;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class PerfilFrag extends Fragment {
 
@@ -57,7 +55,7 @@ public class PerfilFrag extends Fragment {
     private Sessao sessaoDatabase;
     private Patrulha patrulhaDatabase;
 
-    private TextView tvNome, tvEmail, tvGrupo, tvSessao;
+    private TextView tvNome, tvEmail, tvGrupo, tvSessao, porcentMateiro, porcentNaval, porcentAereo;
 
     private ListView listViewAmigos;
     private ListView listViewEspec;
@@ -78,7 +76,7 @@ public class PerfilFrag extends Fragment {
 
         View root = inflater.inflate(R.layout.activity_perfil_fragment, container, false);
 
-        TextView tvPerfil = root.findViewById(R.id.textView);
+        TextView tvPerfil = root.findViewById(R.id.textViewTitulo);
         Typeface type = Typeface.createFromAsset(getContext().getAssets(), "font/ClaireHandRegular.ttf");
         tvPerfil.setTypeface(type);
 
@@ -133,7 +131,16 @@ public class PerfilFrag extends Fragment {
            }
        });
 
+
+
+
+
+
     }
+
+
+
+
 
     private void atualizarInfoPerfil() {
 
