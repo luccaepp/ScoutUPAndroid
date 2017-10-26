@@ -15,7 +15,7 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.tcc.lucca.scoutup"
         minSdkVersion 21

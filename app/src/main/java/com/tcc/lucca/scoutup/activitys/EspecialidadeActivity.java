@@ -29,6 +29,7 @@ public class EspecialidadeActivity extends AppCompatActivity {
     private ListView listViewItensEsp;
     private String id;
     private String requisitos;
+    private String area;
     private ListViewItemEspecialidadeAdapter adapter;
 
     @Override
@@ -44,6 +45,7 @@ public class EspecialidadeActivity extends AppCompatActivity {
 
         especialidade = getIntent().getExtras().getParcelable("especialidade");
         id = getIntent().getExtras().getString("id");
+        area = getIntent().getExtras().getString("area");
         especialidade.setItens(getIntent().getExtras().getStringArrayList("lista"));
 
         tvTitulo.setText(especialidade.getNome());
@@ -66,7 +68,7 @@ public class EspecialidadeActivity extends AppCompatActivity {
 
             final HashMap<String, Boolean> isFeita = new HashMap<String,Boolean>();
 
-            adapter = new ListViewItemEspecialidadeAdapter(getApplicationContext(), especialidade.getItens(), id, isFeita);
+            adapter = new ListViewItemEspecialidadeAdapter(getApplicationContext(), especialidade.getItens(), id, isFeita, area);
 
             final int size = especialidade.getItens().size();
 
@@ -74,7 +76,7 @@ public class EspecialidadeActivity extends AppCompatActivity {
 
             final FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference();
-            reference.child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("especialidades").child(id).addValueEventListener(new ValueEventListener() {
+            reference.child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(area).child("especialidades").child(id).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -103,25 +105,29 @@ public class EspecialidadeActivity extends AppCompatActivity {
 
                                     if(contItens==size){
 
-                                        FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("especialidades").child(id).child("nivel").setValue(3);
+                                        FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(area).child("especialidades").child(id).child("nivel").setValue(3);
+                                        adapter.notifyDataSetChanged();
 
 
 
                                     }else{
-                                        FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("especialidades").child(id).child("nivel").setValue(2);
+                                        FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(area).child("especialidades").child(id).child("nivel").setValue(2);
+                                        adapter.notifyDataSetChanged();
+
 
 
                                     }
                                 }else{
 
-                                    FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("especialidades").child(id).child("nivel").setValue(1);
+                                    FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(area).child("especialidades").child(id).child("nivel").setValue(1);
+                                    adapter.notifyDataSetChanged();
 
 
 
 
                                 }
                             }else{
-                                FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("especialidades").child(id).child("nivel").setValue(0);
+                                FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(area).child("especialidades").child(id).child("nivel").setValue(0);
 
 
                             }
@@ -137,7 +143,7 @@ public class EspecialidadeActivity extends AppCompatActivity {
 
 
                     } catch (Exception e) {
-                        adapter = new ListViewItemEspecialidadeAdapter(getApplicationContext(), especialidade.getItens(), id, isFeita);
+                        adapter = new ListViewItemEspecialidadeAdapter(getApplicationContext(), especialidade.getItens(), id, isFeita, area);
                         adapter.atualizarListaFeitas(isFeita);
                         adapter.notifyDataSetChanged();
                     }

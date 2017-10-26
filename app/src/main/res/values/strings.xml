@@ -23,6 +23,9 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_main3">Main3Activity</string>
     <string name="title_activity_maps">Map</string>
+    <string name="atividades_do_ramo">ATIVIDADES DO RAMO</string>
+    <string name="textview">TextView</string>
+    <string name="todo">TODO</string>
 
 
 </resources>

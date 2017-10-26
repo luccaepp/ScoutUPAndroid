@@ -39,6 +39,7 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
     private ListView listView;
     private List<Especialidade> especialidadeList= new ArrayList<Especialidade>();
     private List<String> idList= new ArrayList<String>();
+    private ListViewEspecialidadeAdapter adapter;
 
 
     @Override
@@ -48,12 +49,13 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.lvEspecialidades);
 
+        adapter = new ListViewEspecialidadeAdapter(getApplicationContext(), null);
 
         TextView tvAgenda = findViewById(R.id.textViewTitulo);
         Typeface type = Typeface.createFromAsset(this.getAssets(), "font/ClaireHandRegular.ttf");
         tvAgenda.setTypeface(type);
 
-        String area = getIntent().getStringExtra("area");
+        final String area = getIntent().getStringExtra("area");
         tvAgenda.setText(area);
 
 
@@ -63,6 +65,14 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                HashMap<String, Especialidade> list = (HashMap<String, Especialidade>) dataSnapshot.getValue();
+
+                final int size = list.size();
+
+                idList = new ArrayList<>();
+                especialidadeList = new ArrayList<>();
+
+
 
                 for(DataSnapshot espSnap : dataSnapshot.getChildren()){
 
@@ -70,7 +80,7 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
                    final Especialidade esp = espSnap.getValue(Especialidade.class);
 
-                    FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("especialidades").child(key).child("nivel").addValueEventListener(new ValueEventListener() {
+                    FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(area).child("especialidades").child(key).child("nivel").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -83,11 +93,17 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
                             }
 
-                            idList.add(key);
-                            especialidadeList.add(esp);
-                            ListViewEspecialidadeAdapter adapter = new ListViewEspecialidadeAdapter(getApplicationContext(), especialidadeList);
-                            listView.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
+                            if(especialidadeList.size()<size){
+
+                                idList.add(key);
+                                especialidadeList.add(esp);
+                                adapter = new ListViewEspecialidadeAdapter(getApplicationContext(), especialidadeList);
+                                listView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+
+                            }
+
+
 
                         }
 
@@ -97,10 +113,8 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
                         }
                     });
 
-
-
-
                 }
+
 
 
 
@@ -137,6 +151,7 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
                 }
                 bundle.putStringArrayList("lista", (ArrayList<String>) esp.getItens());
                 bundle.putString("id", idList.get(i));
+                bundle.putString("area", area);
 
                 intent.putExtras(bundle);
 
@@ -155,7 +170,14 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        adapter.notifyDataSetChanged();
+
+
+    }
 
     public Areas getArea() {
         return area;

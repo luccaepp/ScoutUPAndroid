@@ -20,6 +20,7 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:windowSoftInputMode="adjustResize"
         android:theme="@style/AppTheme.NoActionBar">
         <service android:name=".backgroundTasks.MyFirebaseInstanceIDService">
             <intent-filter>

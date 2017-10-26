@@ -31,17 +31,19 @@ public class ListViewItemEspecialidadeAdapter extends ArrayAdapter<String> {
 
     private List<String> info = new ArrayList<>();
     private LayoutInflater layoutInflate;
-    private String especialidadeID;
+    private String especialidadeID, area;
     private HashMap<String, Boolean> isFeita;
     private CheckBox checkBox;
+    private TextView textView;
 
 
-    public ListViewItemEspecialidadeAdapter(Context ctx, List<String> values, String especialidadeID, HashMap<String, Boolean> isFeita) {
+    public ListViewItemEspecialidadeAdapter(Context ctx, List<String> values, String especialidadeID, HashMap<String, Boolean> isFeita, String area) {
         super(ctx, 0, values);
         this.info = values;
         this.layoutInflate = LayoutInflater.from(ctx);
         this.especialidadeID = especialidadeID;
         this.isFeita = isFeita;
+        this.area = area;
     }
 
     public void atualizarLista(List<String> lista) {
@@ -72,19 +74,22 @@ public class ListViewItemEspecialidadeAdapter extends ArrayAdapter<String> {
 
             checkBox.setChecked(b);
 
+        }catch (Exception e){
+            checkBox.setChecked(false);
 
-        }catch (Exception e){}
+        }
 
-
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onClick(View view) {
+                CheckBox temp = (CheckBox)view;
 
-                    cadastrarItem(i, b);
+                cadastrarItem(i, temp.isChecked());
 
             }
-
         });
+
+
 
 
 
@@ -99,10 +104,12 @@ public class ListViewItemEspecialidadeAdapter extends ArrayAdapter<String> {
 
     private void cadastrarItem(int i, boolean b) {
 
+        Log.d("TAG", "cadastrando: "+i +b);
+
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         i++;
-        databaseReference.child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("especialidades").child(especialidadeID).child(Integer.toString(i)).setValue(b);
+        databaseReference.child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(area).child("especialidades").child(especialidadeID).child(Integer.toString(i)).setValue(b);
 
 
     }
