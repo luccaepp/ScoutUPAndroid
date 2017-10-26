@@ -783,7 +783,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.25"
+                    app:layout_constraintGuide_percent="0.20"
                     tools:layout_editor_absoluteX="95dp"
                     tools:layout_editor_absoluteY="25dp" />
 
@@ -792,7 +792,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.5"
+                    app:layout_constraintGuide_percent="0.4"
                     tools:layout_editor_absoluteX="189dp"
                     tools:layout_editor_absoluteY="25dp" />
 
@@ -801,7 +801,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.75"
+                    app:layout_constraintGuide_percent="0.6"
+                    tools:layout_editor_absoluteX="283dp"
+                    tools:layout_editor_absoluteY="25dp" />
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline56"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.8"
                     tools:layout_editor_absoluteX="283dp"
                     tools:layout_editor_absoluteY="25dp" />
 
@@ -809,7 +817,7 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-
+                    android:onClick="abrirIMMA"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/guideline42"
@@ -869,6 +877,7 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:onClick="abrirDesafioComu"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="@+id/guideline42"
                     app:layout_constraintRight_toLeftOf="@+id/guideline43"
@@ -926,7 +935,7 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-
+                    android:onClick="abrirConeSul"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="@+id/guideline43"
                     app:layout_constraintRight_toLeftOf="@+id/guideline44"
@@ -984,13 +993,13 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-
+                    android:onClick="abrirLusu"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="@+id/guideline44"
                     app:layout_constraintTop_toTopOf="parent"
 
                     android:layout_marginRight="0dp"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/guideline56"
 
 
                     android:background="@color/azulescuro">
@@ -1000,16 +1009,14 @@
                         android:id="@+id/imageView15"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        app:srcCompat="@drawable/luso"
-                        android:layout_marginRight="8dp"
-                        app:layout_constraintRight_toRightOf="parent"
-                        android:layout_marginLeft="8dp"
-                        app:layout_constraintLeft_toLeftOf="parent"
                         android:layout_marginBottom="8dp"
-                        app:layout_constraintBottom_toTopOf="@+id/textView41"
+                        android:layout_marginLeft="8dp"
                         android:layout_marginTop="8dp"
+                        app:layout_constraintBottom_toTopOf="@+id/textView41"
+                        app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView42"
-                        app:layout_constraintVertical_bias="0.615" />
+                        app:layout_constraintVertical_bias="0.615"
+                        app:srcCompat="@drawable/luso" />
 
                     <TextView
                         android:id="@+id/textView42"
@@ -1035,6 +1042,65 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:text="0%"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/bordo"
+                    android:onClick="abrirSaber"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/guideline56"
+
+                    app:layout_constraintRight_toRightOf="parent"
+
+
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <ImageView
+                        android:id="@+id/imageView22"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintBottom_toTopOf="@+id/textView56"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView55"
+                        app:layout_constraintVertical_bias="0.615"
+                        app:srcCompat="@drawable/aprender" />
+
+                    <TextView
+                        android:id="@+id/textView55"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Aprender"
+                        android:textAlignment="center"
+                        android:textColor="#ffffff"
+                        android:textSize="10dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView56"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:text="0%"
+                        android:textColor="#ffffff"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent" />

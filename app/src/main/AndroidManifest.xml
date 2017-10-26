@@ -20,8 +20,8 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:windowSoftInputMode="adjustResize"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:windowSoftInputMode="adjustResize">
         <service android:name=".backgroundTasks.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -102,7 +102,8 @@
         <activity android:name=".activitys.PeriodoIntrodutorioActivity" />
         <activity android:name=".activitys.TarefasRamoActivity" />
         <activity android:name=".activitys.AreaEspecialidadeActivity" />
-        <activity android:name=".activitys.EspecialidadeActivity"></activity>
+        <activity android:name=".activitys.EspecialidadeActivity" />
+        <activity android:name=".activitys.InsigniaActivity"></activity>
     </application>
 
 </manifest>

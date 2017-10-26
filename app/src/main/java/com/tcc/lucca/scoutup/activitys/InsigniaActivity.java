@@ -13,57 +13,62 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
-import com.tcc.lucca.scoutup.adapters.ListViewAtividadesRamoAdapter;
+import com.tcc.lucca.scoutup.adapters.ListViewInsigniasAdapter;
 import com.tcc.lucca.scoutup.adapters.ListViewPeriodoIntrodutorioAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PeriodoIntrodutorioActivity extends AppCompatActivity {
+public class InsigniaActivity extends AppCompatActivity {
 
     private ListView listView;
     private HashMap<String, Boolean> isFeita;
-    private ListViewPeriodoIntrodutorioAdapter adapter;
-
+    private String insignia;
+    private ListViewInsigniasAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_periodo_introdutorio);
+        setContentView(R.layout.activity_insignia);
 
-        TextView tvProgressao = (TextView) findViewById(R.id.textView);
+        TextView tvTitulo = findViewById(R.id.textView);
         Typeface type = Typeface.createFromAsset(this.getAssets(), "font/ClaireHandRegular.ttf");
-        tvProgressao.setTypeface(type);
+        tvTitulo.setTypeface(type);
 
         listView = findViewById(R.id.listView);
+
+        final String insignia = getIntent().getStringExtra("insignia");
+        this.insignia = insignia;
+        tvTitulo.setText(insignia);
+
 
         caregarItens();
 
 
 
-
     }
 
-
     private void caregarItens() {
+
 
 
         isFeita = new HashMap<String, Boolean>();
 
 
-        FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("atividadesSenior").child("Periodo Introdutorio").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("atividadesSenior").child("Insignias").child(insignia).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
 
                 final ArrayList<String> lista = (ArrayList<String>) dataSnapshot.getValue();
-                adapter = new ListViewPeriodoIntrodutorioAdapter(getApplicationContext(), lista, isFeita);
 
+                adapter = new ListViewInsigniasAdapter(getApplicationContext(), lista, isFeita, insignia);
                 listView.setAdapter(adapter);
+
 
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference reference = database.getReference();
-                reference.child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("atividadesRamo").child("periodoIntrodutorio").addValueEventListener(new ValueEventListener() {
+                reference.child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("atividadesRamo").child("insignias").child(insignia).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -74,6 +79,8 @@ public class PeriodoIntrodutorioActivity extends AppCompatActivity {
                             for (DataSnapshot snap: dataSnapshot.getChildren()) {
 
                                 isFeita.put(snap.getKey().toString(), (Boolean) snap.getValue());
+
+                                adapter.notifyDataSetChanged();
 
 
                             }
@@ -107,5 +114,4 @@ public class PeriodoIntrodutorioActivity extends AppCompatActivity {
 
 
     }
-
 }

@@ -7,24 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tcc.lucca.scoutup.R;
-import com.tcc.lucca.scoutup.model.progressao.Especialidade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by lucca on 25/10/17.
+ * Created by lucca on 26/10/17.
  */
 
-public class ListViewAtividadesRamoAdapter  extends ArrayAdapter<String> {
+public class ListViewPeriodoIntrodutorioAdapter  extends ArrayAdapter<String> {
 
 
     private List<String> info = new ArrayList<>();
@@ -32,7 +29,7 @@ public class ListViewAtividadesRamoAdapter  extends ArrayAdapter<String> {
     private HashMap<String, Boolean> isFeita;
 
 
-    public ListViewAtividadesRamoAdapter(Context ctx, List<String> values, HashMap<String, Boolean> isFeita) {
+    public ListViewPeriodoIntrodutorioAdapter(Context ctx, List<String> values, HashMap<String, Boolean> isFeita) {
         super(ctx, 0, values);
         this.info = values;
         this.layoutInflate = LayoutInflater.from(ctx);
@@ -46,7 +43,6 @@ public class ListViewAtividadesRamoAdapter  extends ArrayAdapter<String> {
         this.info = lista;
 
     }
-
     public void atualizarListaFeitas(HashMap<String, Boolean> isFeita) {
 
         this.isFeita = isFeita;
@@ -100,7 +96,7 @@ public class ListViewAtividadesRamoAdapter  extends ArrayAdapter<String> {
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         i++;
-        databaseReference.child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("atividadesRamo").child("atividades").child(Integer.toString(i)).setValue(b);
+        databaseReference.child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("atividadesRamo").child("periodoIntrodutorio").child(Integer.toString(i)).setValue(b);
 
 
     }

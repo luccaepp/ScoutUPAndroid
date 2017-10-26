@@ -200,6 +200,49 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, TarefasRamoActivity.class));
 
     }
+    public void abrirIMMA(View view){
+
+        Intent intent = new Intent(this, InsigniaActivity.class);
+
+        intent.putExtra("insignia", "imma");
+
+        startActivity(intent);
+    }
+    public void abrirDesafioComu(View view){
+
+        Intent intent = new Intent(this, InsigniaActivity.class);
+
+        intent.putExtra("insignia", "desafio comunitario");
+
+        startActivity(intent);
+    }
+    public void abrirConeSul(View view){
+
+        Intent intent = new Intent(this, InsigniaActivity.class);
+
+        intent.putExtra("insignia", "cone sul");
+
+        startActivity(intent);
+    }
+    public void abrirSaber(View view){
+
+        Intent intent = new Intent(this, InsigniaActivity.class);
+
+        intent.putExtra("insignia", "aprender");
+
+        startActivity(intent);
+    }
+    public void abrirLusu(View view){
+
+        Intent intent = new Intent(this, InsigniaActivity.class);
+
+        intent.putExtra("insignia", "lusufonia");
+
+        startActivity(intent);
+    }
+
+
+
 
 
 }
