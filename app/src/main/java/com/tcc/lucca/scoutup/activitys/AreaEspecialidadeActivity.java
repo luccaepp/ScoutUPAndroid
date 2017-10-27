@@ -24,6 +24,7 @@ import com.tcc.lucca.scoutup.model.Usuario;
 import com.tcc.lucca.scoutup.model.progressao.Especialidade;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -35,7 +36,6 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
     private ListView listView;
     private List<Especialidade> especialidadeList= new ArrayList<Especialidade>();
-    private List<String> idList= new ArrayList<String>();
     private ListViewEspecialidadeAdapter adapter;
     private String area;
 
@@ -81,7 +81,7 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
                 }
                 bundle.putStringArrayList("lista", (ArrayList<String>) esp.getItens());
-                bundle.putString("id", idList.get(i));
+                bundle.putString("id", esp.getId());
                 bundle.putString("area", area);
 
                 intent.putExtras(bundle);
@@ -112,7 +112,6 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
                 final int size = list.size();
 
-                idList = new ArrayList<>();
                 especialidadeList = new ArrayList<>();
 
 
@@ -138,8 +137,9 @@ public class AreaEspecialidadeActivity extends AppCompatActivity {
 
                             if(especialidadeList.size()<size){
 
-                                idList.add(key);
+                                esp.setId(key);
                                 especialidadeList.add(esp);
+                                Collections.sort(especialidadeList);
                                 adapter = new ListViewEspecialidadeAdapter(getApplicationContext(), especialidadeList);
                                 listView.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();

@@ -2,29 +2,34 @@ package com.tcc.lucca.scoutup.activitys;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.adapters.AmigoListAdapter;
+import com.tcc.lucca.scoutup.adapters.MLRoundedImageView;
 import com.tcc.lucca.scoutup.gerenciar.GrupoDAO;
 import com.tcc.lucca.scoutup.gerenciar.PatrulhaDAO;
 import com.tcc.lucca.scoutup.gerenciar.SessaoDAO;
@@ -46,7 +51,7 @@ public class PerfilFrag extends Fragment {
     private SessaoDAO sessaoDAO = SessaoDAO.getInstance();
     private PatrulhaDAO patrulhaDAO = PatrulhaDAO.getInstance();
 
-    private ImageView imageView;
+    private MLRoundedImageView imageView;
 
     private HashMap<String, Amigo> amigos;
     private FirebaseUser firebaseUser;
@@ -55,7 +60,7 @@ public class PerfilFrag extends Fragment {
     private Sessao sessaoDatabase;
     private Patrulha patrulhaDatabase;
 
-    private TextView tvNome, tvEmail, tvGrupo, tvSessao, porcentMateiro, porcentNaval, porcentAereo;
+    private TextView tvNome, tvGrupo, tvSessao, porcentMateiro, porcentNaval, porcentAereo;
 
     private ListView listViewAmigos;
     private ListView listViewEspec;
@@ -92,7 +97,6 @@ public class PerfilFrag extends Fragment {
         listViewEspec = container.findViewById(R.id.listViewEspecialidades);
         imageView = container.findViewById(R.id.imgPerfil);
         tvNome = container.findViewById(R.id.textViewNome);
-        tvEmail = container.findViewById(R.id.textViewEmail);
         tvGrupo = container.findViewById(R.id.textViewGrupo);
         tvSessao = container.findViewById(R.id.textViewSessao);
 
@@ -148,16 +152,35 @@ public class PerfilFrag extends Fragment {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        StorageReference imagesRef = storageRef.child("fotoPerfil/"+firebaseUser.getUid());
+        final StorageReference imagesRef = storageRef.child("fotoPerfil/"+firebaseUser.getUid());
 
-        Glide.with(this /* context */)
-                .using(new FirebaseImageLoader())
-                .load(imagesRef)
-                .into(imageView);
+        imagesRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if(task.isSuccessful()){
 
+
+                            Glide.with(getContext() )
+                                    .using(new FirebaseImageLoader())
+                                    .load(imagesRef)
+                                    .into(imageView);
+
+
+
+
+                        }else{
+
+                            Glide.with(getContext() )
+                                    .load(R.drawable.escoteirinho)
+                                    .into(imageView);
+
+
+
+                        }
+                    }
+                });
 
        tvNome.setText(usuarioDatabase.getNome());
-        tvEmail.setText(usuarioDatabase.getEmail());
 
         if (usuarioDatabase.getGrupo() != null) {
             final String uidGrupo = usuarioDatabase.getGrupo();

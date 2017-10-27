@@ -1,7 +1,5 @@
 package com.tcc.lucca.scoutup.gerenciar;
 
-import com.tcc.lucca.scoutup.model.progressao.Progressao;
-
 /**
  * Created by lucca on 20/10/17.
  */

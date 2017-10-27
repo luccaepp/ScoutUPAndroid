@@ -27,5 +27,13 @@
     <string name="textview">TextView</string>
     <string name="todo">TODO</string>
 
+    <string name="desafioSenior">Concedido pela Diretoria de Nível Local, por proposta dos escotistas da Seção ao jovem especialmente recomendado pela Corte de Honra de sua Tropa, que possuir a pelo menos oito especialidades, em qualquer nível, distribuídas nos cinco ramos de conhecimento, e dentre elas, uma das opções abaixo, no Nível 3:</string>
+
+
+
+    <string name="dourado"> Concedido pela Diretoria do Nível Local, por proposta dos escotistas da Seção, ao jovem que possuir o Cordão do Desafio Sênior, que for especialmente recomendado pela Corte de Honra de sua Tropa e que possuir, no mínimo, quinze especialidades, estando entre estas a especialidade de Primeiros Socorros, no nível 3 e mais três especialidades do ramo de conhecimentos Serviços, todas no nível 3.</string>
+
+
+
 
 </resources>

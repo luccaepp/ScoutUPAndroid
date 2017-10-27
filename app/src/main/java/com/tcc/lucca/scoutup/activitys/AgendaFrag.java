@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
@@ -23,20 +24,27 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
+import com.tcc.lucca.scoutup.adapters.ListViewEspecialidadeAdapter;
 import com.tcc.lucca.scoutup.gerenciar.AtividadeDAO;
 import com.tcc.lucca.scoutup.adapters.AtividadeListAdapter;
 import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
 import com.tcc.lucca.scoutup.model.Atividade;
+import com.tcc.lucca.scoutup.model.MapAtividadePH;
+import com.tcc.lucca.scoutup.model.Participante;
 import com.tcc.lucca.scoutup.model.Tipo;
 import com.tcc.lucca.scoutup.model.Usuario;
+import com.tcc.lucca.scoutup.model.progressao.Especialidade;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,8 +56,9 @@ public class AgendaFrag extends Fragment {
     private Usuario usuario;
     private FloatingActionButton fab;
     private ListView listView;
+    private FirebaseUser firebaseUser;
+    private String uid;
     private List<Atividade> atividades = new ArrayList<>();
-    private List<String> listaIds = new ArrayList<>();
     private AtividadeListAdapter adapter;
 
     @Override
@@ -78,10 +87,12 @@ public class AgendaFrag extends Fragment {
                 Intent intent = new Intent(getContext(), AtividadeActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("atividade", atividade);
+                bundle.putStringArrayList("materiais", (ArrayList<String>) atividade.getMateriais());
+                bundle.putParcelableArrayList("participantes", (ArrayList<Participante>) atividade.getParticipantes());
                 bundle.putParcelable("local", new LatLng(atividade.getLocal().getLat(), atividade.getLocal().getLng()));
                 bundle.putString("fim", getDate(atividade.getTermino()));
                 bundle.putString("inicio", getDate(atividade.getInicio()));
-                bundle.putString("id", listaIds.get(i));
+                bundle.putString("id", atividades.get(i).getId());
                 intent.putExtras(bundle);
                 startActivity(intent);
 
@@ -120,11 +131,11 @@ public class AgendaFrag extends Fragment {
         return date;
     }
 
-    private void initData() {
+    private void initData(){
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        String uid = firebaseUser.getUid();
+        uid = firebaseUser.getUid();
 
         final UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
 
@@ -169,237 +180,52 @@ public class AgendaFrag extends Fragment {
 
     private void carregarAtividades() {
 
+        atividades = new ArrayList<>();
+
         adapter = new AtividadeListAdapter(getContext(), atividades);
         listView.setAdapter(adapter);
 
         final AtividadeDAO dao = AtividadeDAO.getInstance();
 
-        try {
-            dao.listar(usuario.getGrupo(), usuario.getSecao().get("chave")).addChildEventListener(new ChildEventListener() {
+        try{
+
+        List<Query> querys = dao.listar(usuario.getGrupo(), usuario.getSecao().get("chave"));
+
+        for (Query query : querys) {
+
+
+            query.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
+                    final MapAtividadePH map = dataSnapshot.getValue(MapAtividadePH.class);
 
-                    for (DataSnapshot data : dataSnapshot.getChildren()) {
-
-
-                        final String chaveAtiv = data.getValue().toString();
-
-                        Log.d("Script", "ativ"+chaveAtiv);
-
-                        dao.setReferencia("atividade");
-
-                        dao.buscarPorId(chaveAtiv).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                    dao.buscarPorId(map.getChaveAtividade()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
 
 
+                            if (dataSnapshot.exists()) {
 
                                 Atividade atividade = dataSnapshot.getValue(Atividade.class);
 
+                                atividade.setId(map.getChaveAtividade());
+                                atividades.add(atividade);
+                                Collections.sort(atividades);
+                                adapter.atualizarLista(atividades);
+                                adapter.notifyDataSetChanged();
 
-                                if (dataSnapshot.getValue() != null) {
+                                setAlarme(atividade, dataSnapshot.getKey());
 
-
-                                    atividades.add(atividade);
-                                    listaIds.add(chaveAtiv);
-                                    adapter.atualizarLista(atividades);
-                                    adapter.notifyDataSetChanged();
-
-                                    Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
-
-                                    double lat = atividade.getLocal().getLat();
-                                    double lng = atividade.getLocal().getLng();
-                                    String local = "";
-
-
-                                    try {
-                                        local = geo.getFromLocation(lat, lng, 1).get(0).getAddressLine(0);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-
-
-                                    Long current = Long.parseLong(System.currentTimeMillis() + "");
-
-                                    Long inicio = Long.parseLong(atividade.getInicio() + "");
-
-
-                                    if (current < inicio) {
-
-                                        Log.d("Script", "ainda vai acontecer");
-
-
-                                        Intent intent = new Intent("ALARME_DISPARADO");
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("titulo", atividade.getTitulo());
-                                    bundle.putString("local", local);
-                                    bundle.putString("tipo", atividade.getTipo());
-                                    bundle.putString("id", dataSnapshot.getKey());
-                                        intent.putExtras(bundle);
-
-                                        Date now = new Date();
-                                        int id = Integer.parseInt(new SimpleDateFormat("ddHHmmss",  Locale.US).format(now));
-
-
-                                        if(PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_NO_CREATE) == null) {
-
-                                            Log.d("Script", "Novo alarme "+  atividade.getTitulo());
-
-
-                                            PendingIntent p = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                                            AlarmManager alarme = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
-                                            alarme.set(AlarmManager.RTC_WAKEUP, atividade.getInicio(), p);
-                                        }else{
-
-                                            Log.d("Script", "Ja existe");
-
-
-                                        }
-                                }
-
-
-
-                        } else {
+                            }
 
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
-
-
-            }
-
-
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    });
-
-
-            dao.listar(usuario.getGrupo(), usuario.getGrupo()).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-
-                    for (DataSnapshot data : dataSnapshot.getChildren()) {
-
-
-                        final String chaveAtiv = data.getValue().toString();
-
-                        dao.setReferencia("atividade");
-
-                        dao.buscarPorId(chaveAtiv).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-
-                                Atividade atividade = dataSnapshot.getValue(Atividade.class);
-
-                                if (dataSnapshot.getValue() != null) {
-
-
-                                    atividades.add(atividade);
-                                    listaIds.add(chaveAtiv);
-                                    adapter.atualizarLista(atividades);
-                                    adapter.notifyDataSetChanged();
-
-                                    Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
-
-                                    double lat = atividade.getLocal().getLat();
-                                    double lng = atividade.getLocal().getLng();
-                                    String local = "";
-
-
-                                    try {
-                                        local = geo.getFromLocation(lat, lng, 1).get(0).getAddressLine(0);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-
-
-                                    Long current = Long.parseLong(System.currentTimeMillis() + "");
-
-                                    Long inicio = Long.parseLong(atividade.getInicio() + "");
-
-
-                                    if (current < inicio) {
-
-
-
-                                        Intent intent = new Intent("ALARME_DISPARADO");
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("titulo", atividade.getTitulo());
-                                        bundle.putString("local", local);
-                                        bundle.putString("tipo", atividade.getTipo());
-                                        bundle.putString("id", dataSnapshot.getKey());
-                                        intent.putExtras(bundle);
-
-
-
-                                        Calendar calendar = Calendar.getInstance();
-                                        calendar.setTimeInMillis(atividade.getInicio());
-                                        Date date = calendar.getTime();
-
-
-                                        int id = Integer.parseInt(new SimpleDateFormat("ddHHmmss",  Locale.US).format(date));
-
-                                        if(PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_NO_CREATE) == null) {
-
-                                            Log.d("Script", "Novo alarme "+  atividade.getTitulo());
-
-
-                                            PendingIntent p = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                                            AlarmManager alarme = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
-                                            alarme.set(AlarmManager.RTC_WAKEUP, atividade.getInicio(), p);
-                                        }else{
-
-                                            Log.d("Script", "Ja existe");
-
-
-                                        }
-                                    }
-
-
-
-                                } else {
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-
-
-                    }
+                        }
+                    });
 
 
                 }
@@ -425,12 +251,69 @@ public class AgendaFrag extends Fragment {
                 }
             });
 
-}catch (Exception e){
+
+        }
 
 
+        }catch (Exception e){}
+    }
+
+    private void setAlarme(Atividade atividade, String key) {
+
+        Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
+
+        double lat = atividade.getLocal().getLat();
+        double lng = atividade.getLocal().getLng();
+        String local = "";
 
 
-}
+        try {
+            local = geo.getFromLocation(lat, lng, 1).get(0).getAddressLine(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        Long current = Long.parseLong(System.currentTimeMillis() + "");
+
+        Long inicio = Long.parseLong(atividade.getInicio() + "");
+
+
+        if (current < inicio) {
+
+            Log.d("Script", "ainda vai acontecer");
+
+
+            Intent intent = new Intent("ALARME_DISPARADO");
+            Bundle bundle = new Bundle();
+            bundle.putString("titulo", atividade.getTitulo());
+            bundle.putString("local", local);
+            bundle.putString("tipo", atividade.getTipo());
+            bundle.putString("id", key);
+            intent.putExtras(bundle);
+
+            Date now = new Date();
+            int id = Integer.parseInt(new SimpleDateFormat("ddHHmmss",  Locale.US).format(now));
+
+
+            if(PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_NO_CREATE) == null) {
+
+                Log.d("Script", "Novo alarme "+  atividade.getTitulo());
+
+
+                PendingIntent p = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                AlarmManager alarme = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+                alarme.set(AlarmManager.RTC_WAKEUP, atividade.getInicio(), p);
+            }else{
+
+                Log.d("Script", "Ja existe");
+
+
+            }
+        }
+
+
 
 
     }

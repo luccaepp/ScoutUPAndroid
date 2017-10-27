@@ -35,6 +35,8 @@
             android:text="sdasdsadsadadsadsa"
             android:textColor="#000000"
             android:theme="@style/MyCheckBox"
+            android:fontFamily="@font/clairehandregular"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

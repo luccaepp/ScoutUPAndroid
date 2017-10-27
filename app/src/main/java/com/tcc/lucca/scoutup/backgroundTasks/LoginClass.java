@@ -5,13 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.firebase.geofire.core.GeoHashQuery;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,12 +28,14 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.tcc.lucca.scoutup.activitys.LoginActivity;
 import com.tcc.lucca.scoutup.activitys.MainActivity;
 import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
 import com.tcc.lucca.scoutup.model.Tipo;
@@ -37,6 +45,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URI;
+import java.util.List;
+import java.util.concurrent.Executor;
+
+import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
 public class LoginClass {
 
@@ -45,8 +58,11 @@ public class LoginClass {
     private FirebaseUser firebaseUser;
     private Context context;
     private Usuario usuario;
+    private Uri mDownloadUrl = null;
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
     private boolean isEscotista;
+    private static final int RC_SIGN_IN = 8888;
+
 
 
     public LoginClass(final Context context) {
@@ -153,6 +169,8 @@ public class LoginClass {
         Usuario user = new Usuario();
         user.setNome(mAuth.getCurrentUser().getDisplayName());
         user.setEmail(mAuth.getCurrentUser().getEmail());
+        uploadFile();
+
         if (isEscotista) {
             user.setTipo(Tipo.devolveString(Tipo.escotista));
         }else{
@@ -172,16 +190,67 @@ public class LoginClass {
     }
 
 
-    private void uploadFile(Uri uri) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
+    private void uploadFile() {
 
-        StorageReference storageRef = storage.getReference();
+        for (UserInfo profile : FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
 
-        StorageReference riversRef = storageRef.child("fotoPerfil/"+FirebaseAuth.getInstance().getCurrentUser().getUid());
-        UploadTask uploadTask = riversRef.putFile(uri);
+            Log.d("TAG", "entrou no for");
+
+
+            if (profile.getProviderId().equals("facebook.com")) {
+
+
+                String facebookUserId = profile.getUid();
+
+                Log.d("TAG", "face" + facebookUserId);
+
+                String photoUrl = "https://graph.facebook.com/" + facebookUserId + "/picture?height=180width=180";
+
+                Log.d("TAG", "url" + photoUrl);
+
+                Uri uri = Uri.parse(photoUrl);
+
+
+                uploadFromUri(uri);
+            }
+
+        }
+
 
 
     }
+
+    private void uploadFromUri(Uri fileUri) {
+
+        Uri uploadUri = Uri.fromFile(new File(fileUri.toString()));
+
+        Log.d("TAG", "uploadFromUri:src:" + fileUri.toString());
+
+
+        final StorageReference photoRef = FirebaseStorage.getInstance().getReference().child("fotoPerfil").child(uploadUri.getLastPathSegment());
+
+        Log.d("TAG", "uploadFromUri:dst:" + photoRef.getPath());
+
+        photoRef.putFile(uploadUri).addOnSuccessListener((Executor) this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("TAG", "uploadFromUri:onSuccess");
+
+                        mDownloadUrl = taskSnapshot.getMetadata().getDownloadUrl();
+
+                    }
+                })
+                .addOnFailureListener((Executor) this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.w("TAG", "uploadFromUri:onFailure", exception);
+
+                        mDownloadUrl = null;
+
+                    }
+                });
+    }
+
 
     public FirebaseAuth getmAuth() {
         return mAuth;
@@ -198,4 +267,9 @@ public class LoginClass {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+
+
+
+
 }

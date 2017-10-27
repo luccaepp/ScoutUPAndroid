@@ -3,6 +3,7 @@ package com.tcc.lucca.scoutup.model.progressao;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.IntegerRes;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,10 +13,11 @@ import java.util.List;
  * Created by lucca on 20/10/17.
  */
 
-public class Especialidade implements Parcelable {
+public class Especialidade implements Parcelable, Comparable<Especialidade> {
 
 
     private String nome;
+    private String id;
     private List<String> itens = new ArrayList<>();
     private int nivel;
     private String requisitos;
@@ -29,6 +31,14 @@ public class Especialidade implements Parcelable {
 
 
 
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     protected Especialidade(Parcel in) {
@@ -100,5 +110,10 @@ public class Especialidade implements Parcelable {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    @Override
+    public int compareTo(@NonNull Especialidade especialidade) {
+        return this.getNome().compareToIgnoreCase(especialidade.getNome());
     }
 }

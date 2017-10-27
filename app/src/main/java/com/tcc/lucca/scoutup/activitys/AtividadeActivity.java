@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
@@ -18,10 +20,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
+import com.tcc.lucca.scoutup.adapters.AmigoListAdapter;
+import com.tcc.lucca.scoutup.adapters.ParticipanteAdapter;
+import com.tcc.lucca.scoutup.adapters.StringAdapter;
+import com.tcc.lucca.scoutup.model.Amigo;
 import com.tcc.lucca.scoutup.model.Atividade;
+import com.tcc.lucca.scoutup.model.Participante;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class AtividadeActivity extends AppCompatActivity {
 
@@ -36,8 +45,13 @@ public class AtividadeActivity extends AppCompatActivity {
     private String idUsuario;
     private String idAtividade;
     private Atividade atividade;
+    private List<String> materiais;
+    private List<Participante> participantes;
+
     private LatLng latLng;
     private FragmentManager fragmentManager;
+    private ListView lvParticipantes;
+    private ListView lvMaterias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +66,8 @@ public class AtividadeActivity extends AppCompatActivity {
         dataFim = bundle.getString("fim");
         dataInicio = bundle.getString("inicio");
         idAtividade = bundle.getString("id");
+        materiais = bundle.getStringArrayList("materiais");
+        participantes = bundle.getParcelableArrayList("participantes");
         idUsuario = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         initComponents();
@@ -136,6 +152,13 @@ public class AtividadeActivity extends AppCompatActivity {
         carregarMap();
 
         carregarConfirmacao();
+        try {
+            StringAdapter adapterMat = new StringAdapter(this, materiais);
+            ParticipanteAdapter adapterPart = new ParticipanteAdapter(this, participantes);
+
+            lvMaterias.setAdapter(adapterMat);
+            lvParticipantes.setAdapter(adapterPart);
+        }catch (Exception e){}
 
     }
 
@@ -179,6 +202,8 @@ public class AtividadeActivity extends AppCompatActivity {
         tvDataFim = (TextView) findViewById(R.id.tvDataFim);
         tvDataInicio = (TextView) findViewById(R.id.tvDataInicio);
         tvEndereco = (TextView) findViewById(R.id.tvEndereco);
+        lvParticipantes = (ListView) findViewById(R.id.lvParticipantes);
+        lvMaterias = (ListView) findViewById(R.id.lvMateriais);
 
 
 

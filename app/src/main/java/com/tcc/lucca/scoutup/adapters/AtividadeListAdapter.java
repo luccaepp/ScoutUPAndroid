@@ -3,6 +3,7 @@ package com.tcc.lucca.scoutup.adapters;
 import android.content.Context;
 import android.graphics.Paint;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,14 +53,18 @@ public class AtividadeListAdapter extends ArrayAdapter<Atividade> {
         txtItem.setText(info.getTitulo());
         tvDataInicio.setText(getDate(info.getInicio()));
 
-        Long current = Long.parseLong(System.currentTimeMillis() + "");
+        long current = Long.parseLong(System.currentTimeMillis() + "");
 
-        Long inicio = Long.parseLong(info.getInicio() + "");
+        long fim = Long.parseLong(info.getTermino() + "");
 
-
-        if (current > inicio) {
+        if (current > fim) {
 
             txtItem.setPaintFlags(txtItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        }else{
+
+            txtItem.setPaintFlags(0);
+
 
         }
 

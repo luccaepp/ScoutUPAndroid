@@ -12,6 +12,7 @@ public class Patrulha {
     private String sessaoId;
     private String grupoId;
     private Long timeStamp;
+    private String nome;
     private Map<String, String > criador;
 
     public String getGrupoId() {
@@ -44,5 +45,13 @@ public class Patrulha {
 
     public void setSessaoId(String sessaoId) {
         this.sessaoId = sessaoId;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

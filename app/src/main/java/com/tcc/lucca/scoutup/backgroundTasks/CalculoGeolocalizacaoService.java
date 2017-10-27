@@ -101,7 +101,7 @@ public class CalculoGeolocalizacaoService extends Service {
                         if(location!= null){
 
 
-                            if(location.distanceTo(targetLocation)<30){
+                            if(location.distanceTo(targetLocation)<100){
 
                                 gerarNotificacao(getApplicationContext(), intent, id, "Verificador de presença", "voce está dentro da area da atividade");
                                 salvarChamada();

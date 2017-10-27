@@ -267,12 +267,22 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
+    public void abrirDourado(View view){
 
+        Intent intent = new Intent(this, CordoesActivity.class);
 
+        intent.putExtra("cordao", "Dourado");
 
+        startActivity(intent);
+    }
+    public void abrirDesafio(View view){
 
+        Intent intent = new Intent(this, CordoesActivity.class);
 
+        intent.putExtra("cordao", "DesafioSenior");
 
+        startActivity(intent);
+    }
 
 }
 

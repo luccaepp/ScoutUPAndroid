@@ -1,6 +1,7 @@
 package com.tcc.lucca.scoutup.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +88,8 @@ public class ListViewEspecialidadeAdapter extends ArrayAdapter<Especialidade> {
 
         TextView txtItem = view.findViewById(R.id.textView26);
         txtItem.setText(info.getNome());
+        Typeface type = Typeface.createFromAsset(getContext().getAssets(), "font/ClaireHandRegular.ttf");
+        txtItem.setTypeface(type);
 
         return view;
     }

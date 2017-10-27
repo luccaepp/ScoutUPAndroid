@@ -22,6 +22,7 @@ import com.tcc.lucca.scoutup.gerenciar.AreaDAO;
 import com.tcc.lucca.scoutup.model.progressao.Especialidade;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,7 +32,6 @@ public class ModalidadeActivity extends AppCompatActivity {
     private String modalidade;
     private ListViewEspecialidadeAdapter adapter;
     private List<Especialidade> listEsp;
-    private List<String> listIds;
     private int count = 0, somaTotal = 0;
     private boolean isNivelUm = false, isNivelDois = false;
     private int size;
@@ -43,7 +43,6 @@ public class ModalidadeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_modalidade);
 
         listView = findViewById(R.id.listView);
-
 
 
         TextView tvTitulo = findViewById(R.id.textViewTitulo);
@@ -70,17 +69,16 @@ public class ModalidadeActivity extends AppCompatActivity {
 
                 bundle.putParcelable("especialidade", esp);
 
-                try{
+                try {
 
                     bundle.putString("requisitos", esp.getRequisitos());
 
-                }catch (Exception e){
-
+                } catch (Exception e) {
 
 
                 }
                 bundle.putStringArrayList("lista", (ArrayList<String>) esp.getItens());
-                bundle.putString("id", listIds.get(i));
+                bundle.putString("id", esp.getId());
                 bundle.putString("area", esp.getArea());
 
                 intent.putExtras(bundle);
@@ -88,10 +86,8 @@ public class ModalidadeActivity extends AppCompatActivity {
                 startActivity(intent);
 
 
-
             }
         });
-
 
 
     }
@@ -100,7 +96,6 @@ public class ModalidadeActivity extends AppCompatActivity {
 
 
         listEsp = new ArrayList<>();
-        listIds = new ArrayList<>();
 
 
         FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("atividadesSenior").child("Modalidade").child(modalidade).addValueEventListener(new ValueEventListener() {
@@ -112,100 +107,108 @@ public class ModalidadeActivity extends AppCompatActivity {
                 size = map.size();
 
 
-                for (final String key:map){
+                for (final String key : map) {
 
-                        FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("especialidades").child("ciencia e tecnologia").child(key).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                try{
-                                    Especialidade esp = dataSnapshot.getValue(Especialidade.class);
-                                    esp.setArea("ciencia e tecnologia");
-
-
-                                    carregarFeitas(esp, key);
+                    FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("especialidades").child("ciencia e tecnologia").child(key).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            try {
+                                Especialidade esp = dataSnapshot.getValue(Especialidade.class);
+                                esp.setArea("ciencia e tecnologia");
 
 
-                                }catch (Exception e){}
+                                carregarFeitas(esp, key);
 
+
+                            } catch (Exception e) {
                             }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                        }
 
-                            }
-                        });
-                        FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("especialidades").child("desportos").child(key).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                try{  Especialidade esp = dataSnapshot.getValue(Especialidade.class);
-                                    esp.setArea("desportos");
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                                    carregarFeitas(esp, key);
+                        }
+                    });
+                    FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("especialidades").child("desportos").child(key).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            try {
+                                Especialidade esp = dataSnapshot.getValue(Especialidade.class);
+                                esp.setArea("desportos");
 
-                                }catch (Exception e){}
+                                carregarFeitas(esp, key);
 
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                        FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("especialidades").child("cultura").child(key).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                try{Especialidade esp = dataSnapshot.getValue(Especialidade.class);
-                                    esp.setArea("cultura");
-
-                                    carregarFeitas(esp, key);
-
-                                }catch (Exception e){}
-
-
+                            } catch (Exception e) {
                             }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        });
-                        FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("especialidades").child("habilidades escoteiras").child(key).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                try{Especialidade esp = dataSnapshot.getValue(Especialidade.class);
-                                    esp.setArea("habilidades escoteiras");
+                        }
 
-                                    carregarFeitas(esp, key);
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                                }catch (Exception e){}
+                        }
+                    });
+                    FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("especialidades").child("cultura").child(key).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            try {
+                                Especialidade esp = dataSnapshot.getValue(Especialidade.class);
+                                esp.setArea("cultura");
 
+                                carregarFeitas(esp, key);
 
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                        FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("especialidades").child("serviços").child(key).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                try{
-                                    Especialidade esp = dataSnapshot.getValue(Especialidade.class);
-                                    esp.setArea("serviços");
-
-                                    carregarFeitas(esp, key);
-
-                                }catch (Exception e){}
-
+                            } catch (Exception e) {
                             }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
 
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("especialidades").child("habilidades escoteiras").child(key).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            try {
+                                Especialidade esp = dataSnapshot.getValue(Especialidade.class);
+                                esp.setArea("habilidades escoteiras");
+
+                                carregarFeitas(esp, key);
+
+                            } catch (Exception e) {
                             }
-                        });
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    FirebaseDatabase.getInstance().getReference().child("escopoProgressao").child("especialidades").child("serviços").child(key).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            try {
+                                Especialidade esp = dataSnapshot.getValue(Especialidade.class);
+                                esp.setArea("serviços");
+
+                                carregarFeitas(esp, key);
+
+                            } catch (Exception e) {
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
 
                 }
 
@@ -232,64 +235,21 @@ public class ModalidadeActivity extends AppCompatActivity {
 
 
 
-                    if(esp.getNivel() == 1 && !isNivelUm && !isNivelDois){
-
-                        somaTotal+=11;
-                        isNivelUm = true;
-
-                    }
-                    if(esp.getNivel() == 2 && !isNivelDois){
-
-                        somaTotal+=22;
-                        isNivelDois = true;
-                        if(isNivelUm){
-                            somaTotal-=11;
-                        }
-
-
-                    }
-
-
-                    if(esp.getNivel()==3){
-
-                        count+=1;
-                        if(count>=3){
-
-                             somaTotal = 100;
-
-                        }
-
-                        if(count==2){
-
-                            somaTotal+=33;
-
-
-                        }
-                        if(count==1){
-
-                            somaTotal+=33;
-
-                        }
-
-
-                    }
-
                 } catch (Exception e) {
 
                 }
 
 
-
-                if(listEsp.size()<size){
+                if (listEsp.size() < size) {
+                    esp.setId(key);
                     listEsp.add(esp);
-
-                    listIds.add(key);
-
+                    Collections.sort(listEsp);
                     adapter = new ListViewEspecialidadeAdapter(getApplicationContext(), listEsp);
                     listView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-                    Log.d("TAG", Integer.toString(somaTotal));
-                    FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("atividadesRamo").child("modalidades").child(modalidade).setValue(somaTotal);
+
+                    calculaPorcentagem();
+
 
 
                 }
@@ -310,9 +270,70 @@ public class ModalidadeActivity extends AppCompatActivity {
         super.onResume();
 
         adapter.notifyDataSetChanged();
-        count=0;
+        calculaPorcentagem();
+
+
+
+    }
+
+    private void calculaPorcentagem() {
+
+
+        for (Especialidade esp : listEsp) {
+
+            try{
+                if (esp.getNivel() == 1 && !isNivelUm && !isNivelDois) {
+
+                    somaTotal += 11;
+                    isNivelUm = true;
+
+                }
+                if (esp.getNivel() == 2 && !isNivelDois) {
+
+                    somaTotal += 22;
+                    isNivelDois = true;
+                    if (isNivelUm) {
+                        somaTotal -= 11;
+                    }
+
+
+                }
+
+
+                if (esp.getNivel() == 3) {
+
+                    count += 1;
+                    if (count >= 3) {
+
+                        somaTotal = 100;
+
+                    }
+
+                    if (count == 2) {
+
+                        somaTotal += 33;
+
+
+                    }
+                    if (count == 1) {
+
+                        somaTotal += 33;
+
+                    }
+
+
+                }
+
+            }catch(Exception e){}
+
+        }
+
+        FirebaseDatabase.getInstance().getReference().child("progressaoUsuario").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("atividadesRamo").child("modalidades").child(modalidade).setValue(somaTotal);
         somaTotal=0;
-        carrega();
+        count=0;
+        isNivelUm=false;
+        isNivelDois=false;
+
 
 
     }

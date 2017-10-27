@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/clairehandregular</item>
+        <item name="fontFamily">@font/clairehandregular</item> <!-- target android sdk versions < 26 and > 14 if theme other than AppCompat -->
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -25,7 +28,9 @@
     <style name="MyCheckBox" parent="Theme.AppCompat.NoActionBar">
         <item name="colorControlNormal">#000</item>   <!-- normal border color change as you wish -->
         <item name="colorControlActivated">@color/marromClaroFundo</item> <!-- activated color change as you wish -->
-        <item name="android:textColor">#000</item> <!-- checkbox text color -->
+        <item name="android:textColor">#000</item>
+        <item name="android:fontFamily">@font/clairehandregular</item>
+        <item name="fontFamily">@font/clairehandregular</item> <!-- checkbox text color -->
     </style>
 
 </resources>

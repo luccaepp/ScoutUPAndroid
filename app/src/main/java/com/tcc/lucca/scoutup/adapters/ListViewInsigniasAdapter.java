@@ -1,6 +1,7 @@
 package com.tcc.lucca.scoutup.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,8 @@ public class ListViewInsigniasAdapter extends ArrayAdapter<String> {
         CheckBox checkBox = view.findViewById(R.id.checkBoxItem);
 
         checkBox.setText(info);
+        Typeface type = Typeface.createFromAsset(getContext().getAssets(), "font/ClaireHandRegular.ttf");
+        checkBox.setTypeface(type);
 
         try{
 

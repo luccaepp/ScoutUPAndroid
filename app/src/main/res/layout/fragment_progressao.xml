@@ -426,7 +426,7 @@
                     app:layout_constraintLeft_toLeftOf="@+id/guideline38"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:background="@color/vermelhoescuro"
+                    android:background="@color/verdeescuro"
                     android:onClick="abrirAreaServicos"
                     android:clickable="true"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -488,7 +488,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:onClick="abrirAreaHabilidades"
                     android:clickable="true"
-                    android:background="@color/vermelhoclaro">
+                    android:background="@color/verdeclaro">
 
 
                     <ImageView
@@ -547,7 +547,7 @@
                     app:layout_constraintLeft_toLeftOf="@+id/guideline36"
                     app:layout_constraintRight_toLeftOf="@+id/guideline37"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:background="@color/vermelhoescuro">
+                    android:background="@color/verdeescuro">
 
 
                     <ImageView
@@ -605,7 +605,7 @@
                     app:layout_constraintLeft_toLeftOf="@+id/guideline35"
                     app:layout_constraintRight_toLeftOf="@+id/guideline36"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:background="@color/vermelhoclaro">
+                    android:background="@color/verdeclaro">
 
 
                     <ImageView
@@ -666,7 +666,7 @@
                     app:layout_constraintRight_toLeftOf="@+id/guideline35"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0"
-                    android:background="@color/vermelhoescuro">
+                    android:background="@color/verdeescuro">
 
 
                     <ImageView
@@ -1405,7 +1405,7 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-
+                    android:onClick="abrirDesafio"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/guideline47"
@@ -1465,7 +1465,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="@+id/guideline47"
                     app:layout_constraintTop_toTopOf="parent"
-
+                    android:onClick="abrirDourado"
                     android:layout_marginRight="0dp"
                     app:layout_constraintRight_toRightOf="parent"
                     android:background="@color/dourado">

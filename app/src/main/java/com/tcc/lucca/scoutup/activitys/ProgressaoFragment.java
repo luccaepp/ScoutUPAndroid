@@ -46,7 +46,8 @@ public class ProgressaoFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try{
-                    porcentMateiro.setText(dataSnapshot.getValue().toString()+"%");
+                    String percent = dataSnapshot.getValue().toString();
+                    porcentMateiro.setText(percent+"%");
                 }catch (Exception e){}
             }
 
@@ -59,7 +60,9 @@ public class ProgressaoFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try{
-                    porcentNaval.setText(dataSnapshot.getValue().toString()+"%");
+                    String percent = dataSnapshot.getValue().toString();
+
+                    porcentNaval.setText(percent+"%");
                 }catch (Exception e){}
             }
 
@@ -72,7 +75,9 @@ public class ProgressaoFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try{
-                    porcentAereo.setText(dataSnapshot.getValue().toString()+"%");
+                    String percent = dataSnapshot.getValue().toString();
+
+                    porcentAereo.setText(percent+"%");
                 }catch (Exception e){}
 
             }

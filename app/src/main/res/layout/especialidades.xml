@@ -17,6 +17,7 @@
         android:textColor="#000000"
         android:textAlignment="center"
         android:textSize="16sp"
+        android:fontFamily="@font/clairehandregular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/guideline24"
         app:layout_constraintRight_toRightOf="parent"
