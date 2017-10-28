@@ -61,7 +61,7 @@ public class PerfilFrag extends Fragment {
     private Sessao sessaoDatabase;
     private Patrulha patrulhaDatabase;
 
-    private TextView tvNome, tvGrupo, tvSessao, porcentMateiro, porcentNaval, porcentAereo;
+    private TextView tvNome, tvGrupo, tvSessao;
 
     private ListView listViewAmigos;
     private ListView listViewEspec;

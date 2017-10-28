@@ -35,7 +35,6 @@ public class ListViewItemEspecialidadeAdapter extends ArrayAdapter<String> {
     private String especialidadeID, area;
     private HashMap<String, Boolean> isFeita;
     private CheckBox checkBox;
-    private TextView textView;
 
 
     public ListViewItemEspecialidadeAdapter(Context ctx, List<String> values, String especialidadeID, HashMap<String, Boolean> isFeita, String area) {

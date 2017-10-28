@@ -8,19 +8,6 @@
     tools:context="com.tcc.lucca.scoutup.activitys.EspecialidadeActivity">
 
 
-    <TextView
-        android:id="@+id/tvPreRequisitos"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:textSize="15dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline17" />
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout7"
         android:layout_width="0dp"
@@ -73,6 +60,23 @@
         app:layout_constraintGuide_begin="91dp"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="91dp" />
+
+
+
+    <TextView
+        android:id="@+id/tvPreRequisitos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="0dp"
+        android:background="@color/marromClaroFundo"
+        android:layout_marginRight="0dp"
+        android:textColor="@color/corLetra"
+        android:textSize="15dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline17" />
 
     <ListView
         android:id="@+id/listViewItensEsp"

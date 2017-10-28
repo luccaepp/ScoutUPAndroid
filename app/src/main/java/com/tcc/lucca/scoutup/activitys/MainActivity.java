@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static android.content.Context CONTEXT;
     private LoginClass loginClass = new LoginClass(this);
+    private static final int TAG_CODE_PERMISSION_CALENDAR = 2;
+
 
 
     @Override
@@ -106,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
                         tabLayout.getTabAt(2).setIcon(R.drawable.florlismarrompequena);
 
 
+                       pedirPermi();
+
+
                     }
 
                     if(tabLayout.getSelectedTabPosition() == 2){
@@ -114,6 +119,16 @@ public class MainActivity extends AppCompatActivity {
                         tabLayout.getTabAt(1).setIcon(R.drawable.fogomarrompequeno);
                         tabLayout.getTabAt(2).setIcon(R.drawable.florlisverdepequena);
                     }
+                }
+
+                private void pedirPermi() {
+
+                    if (ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{
+                                Manifest.permission.WRITE_CALENDAR,
+                                Manifest.permission.READ_CALENDAR}, TAG_CODE_PERMISSION_CALENDAR);
+                    }
+
                 }
 
                 @Override

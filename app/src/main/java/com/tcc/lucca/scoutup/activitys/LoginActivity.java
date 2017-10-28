@@ -55,8 +55,6 @@ public class LoginActivity extends AppCompatActivity{
     private LoginClass loginClass = new LoginClass(this);
     private RadioButton rbEscotista;
     private RadioButton rbEscoteiro;
-    private static final int TAG_CODE_PERMISSION_LOCATION = 1;
-    private static final int TAG_CODE_PERMISSION_CALENDAR = 2;
 
 
 
@@ -149,20 +147,7 @@ public class LoginActivity extends AppCompatActivity{
 
 
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                        PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION}, TAG_CODE_PERMISSION_LOCATION);
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.WRITE_CALENDAR,
-                    Manifest.permission.READ_CALENDAR}, TAG_CODE_PERMISSION_CALENDAR);
-        }
 
 
     }

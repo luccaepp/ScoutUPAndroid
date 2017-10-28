@@ -1,13 +1,16 @@
 package com.tcc.lucca.scoutup.activitys;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -61,6 +64,7 @@ public class AgendaFrag extends Fragment {
     private List<Atividade> atividades = new ArrayList<>();
     private AtividadeListAdapter adapter;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -74,6 +78,8 @@ public class AgendaFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
 
         View root = inflater.inflate(R.layout.activity_atividades, container, false);
 

@@ -48,7 +48,6 @@ public class AtividadeListAdapter extends ArrayAdapter<Atividade> {
 
         TextView txtItem = view.findViewById(R.id.tvTitulo);
         TextView tvDataInicio = view.findViewById(R.id.tvInicio);
-        TextView tvDataFim = view.findViewById(R.id.tvFim);
 
         txtItem.setText(info.getTitulo());
         tvDataInicio.setText(getDate(info.getInicio()));

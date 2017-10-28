@@ -54,11 +54,7 @@
             android:resource="@mipmap/ic_launcher_round" />
 
         <activity android:name=".activitys.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -106,7 +102,16 @@
         <activity android:name=".activitys.EspecialidadeActivity" />
         <activity android:name=".activitys.InsigniaActivity" />
         <activity android:name=".activitys.ModalidadeActivity" />
-        <activity android:name=".activitys.CordoesActivity"></activity>
+        <activity android:name=".activitys.CordoesActivity" />
+        <activity android:name=".activitys.SplashScreenActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

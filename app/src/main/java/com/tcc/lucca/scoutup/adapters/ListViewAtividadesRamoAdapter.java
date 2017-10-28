@@ -1,6 +1,7 @@
 package com.tcc.lucca.scoutup.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,9 @@ public class ListViewAtividadesRamoAdapter  extends ArrayAdapter<String> {
     private List<String> info = new ArrayList<>();
     private LayoutInflater layoutInflate;
     private HashMap<String, Boolean> isFeita;
+    private CheckBox checkBox;
+
+
 
 
     public ListViewAtividadesRamoAdapter(Context ctx, List<String> values, HashMap<String, Boolean> isFeita) {
@@ -62,9 +66,9 @@ public class ListViewAtividadesRamoAdapter  extends ArrayAdapter<String> {
             view = layoutInflate.inflate(R.layout.especialidade, viewGroup, false);
         }
 
-        CheckBox checkBox = view.findViewById(R.id.checkBoxItem);
-
+        checkBox = view.findViewById(R.id.checkBoxItem);
         checkBox.setText(info);
+        checkBox.setTextColor(Color.BLACK);
         Typeface type = Typeface.createFromAsset(getContext().getAssets(), "font/ClaireHandRegular.ttf");
         checkBox.setTypeface(type);
 
