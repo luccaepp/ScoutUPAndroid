@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -154,31 +155,12 @@ public class PerfilFrag extends Fragment {
         StorageReference storageRef = storage.getReference();
         final StorageReference imagesRef = storageRef.child("fotoPerfil/"+firebaseUser.getUid());
 
-        imagesRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if(task.isSuccessful()){
-
-
-                            Glide.with(getContext() )
-                                    .using(new FirebaseImageLoader())
-                                    .load(imagesRef)
-                                    .into(imageView);
-
-
-
-
-                        }else{
-
-                            Glide.with(getContext() )
-                                    .load(R.drawable.escoteirinho)
-                                    .into(imageView);
-
-
-
-                        }
-                    }
-                });
+        Glide.with(getContext() )
+                .using(new FirebaseImageLoader())
+                .load(imagesRef)
+                .asBitmap()
+                .placeholder(R.drawable.escoteirinho)
+                .into(imageView);
 
        tvNome.setText(usuarioDatabase.getNome());
 
