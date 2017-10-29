@@ -4,23 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tcc.lucca.scoutup.activitys.AtividadeEscoteiroActivity"
-
-android:background="@color/verdeFundo">
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Confirmar participação na atividade"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+    tools:context="com.tcc.lucca.scoutup.activitys.AtividadeEscotistaActivity"
+    android:background="@color/verdeFundo">
 
     <TextView
         android:id="@+id/tvTituloAtv"
@@ -43,7 +28,6 @@ android:background="@color/verdeFundo">
         android:id="@+id/tvEndereco"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
@@ -54,6 +38,7 @@ android:background="@color/verdeFundo">
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline28"
         app:layout_constraintTop_toBottomOf="@+id/tvDataFim" />
 
     <android.support.constraint.ConstraintLayout
@@ -139,19 +124,16 @@ android:background="@color/verdeFundo">
         android:id="@+id/lvParticipantes"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/listviewstyle"
-        app:layout_constraintBottom_toBottomOf="@+id/lvMateriais"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline28"
-        app:layout_constraintTop_toBottomOf="@+id/tvParticipantes"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/tvParticipantes" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
@@ -173,32 +155,28 @@ android:background="@color/verdeFundo">
         android:id="@+id/tvParticipantes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Participantes"
         android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline28"
-        app:layout_constraintTop_toBottomOf="@+id/container"
-        app:layout_constraintHorizontal_bias="0.514" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDataInicio" />
 
     <TextView
         android:id="@+id/tvMateriais"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:text="Materiais"
         android:textSize="18sp"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintLeft_toLeftOf="@+id/guideline28"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvParticipantes" />
+        app:layout_constraintTop_toBottomOf="@+id/container" />
 
     <ListView
         android:id="@+id/lvMateriais"
@@ -206,31 +184,25 @@ android:background="@color/verdeFundo">
         android:layout_height="0dp"
 
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/listviewstyle"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/guideline28"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMateriais"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintBottom_toTopOf="@+id/switch1" />
+        app:layout_constraintTop_toBottomOf="@+id/tvMateriais" />
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="0dp"
         android:layout_height="170dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="9dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline28"
         app:layout_constraintTop_toBottomOf="@+id/tvEndereco">
 
     </FrameLayout>

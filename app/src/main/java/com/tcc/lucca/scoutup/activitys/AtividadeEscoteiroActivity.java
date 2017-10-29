@@ -7,32 +7,31 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
-import com.tcc.lucca.scoutup.adapters.AmigoListAdapter;
 import com.tcc.lucca.scoutup.adapters.ParticipanteAdapter;
 import com.tcc.lucca.scoutup.adapters.StringAdapter;
-import com.tcc.lucca.scoutup.model.Amigo;
 import com.tcc.lucca.scoutup.model.Atividade;
 import com.tcc.lucca.scoutup.model.Participante;
+import com.tcc.lucca.scoutup.model.Usuario;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class AtividadeActivity extends AppCompatActivity {
+public class AtividadeEscoteiroActivity extends AppCompatActivity {
 
     private TextView textViewTituilo;
     private TextView tvAtividade;
@@ -47,11 +46,16 @@ public class AtividadeActivity extends AppCompatActivity {
     private Atividade atividade;
     private List<String> materiais;
     private List<Participante> participantes;
+    private Long inicioTime;
+    private boolean isStarded = false;
 
     private LatLng latLng;
     private FragmentManager fragmentManager;
     private ListView lvParticipantes;
     private ListView lvMaterias;
+    private List<String> confirmados = new ArrayList<>();
+    private ParticipanteAdapter adapterPart;
+    private List<String> presentes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,7 @@ public class AtividadeActivity extends AppCompatActivity {
         dataFim = bundle.getString("fim");
         dataInicio = bundle.getString("inicio");
         idAtividade = bundle.getString("id");
+        inicioTime = bundle.getLong("inicioTime");
         materiais = bundle.getStringArrayList("materiais");
         participantes = bundle.getParcelableArrayList("participantes");
         idUsuario = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -154,11 +159,193 @@ public class AtividadeActivity extends AppCompatActivity {
         carregarConfirmacao();
         try {
             StringAdapter adapterMat = new StringAdapter(this, materiais);
-            ParticipanteAdapter adapterPart = new ParticipanteAdapter(this, participantes);
 
             lvMaterias.setAdapter(adapterMat);
-            lvParticipantes.setAdapter(adapterPart);
+            carregarParticipantes();
         }catch (Exception e){}
+
+    }
+
+    private void carregarParticipantes() {
+
+
+        final List<Usuario> users = new ArrayList<>();
+
+        Long current = Long.parseLong(System.currentTimeMillis() + "");
+
+
+
+
+        if (current < inicioTime) {
+
+
+
+            FirebaseDatabase.getInstance().getReference().child("atividade").child(idAtividade).child("confirmados").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    try{
+
+                        for (DataSnapshot snap:dataSnapshot.getChildren()) {
+
+                            String id = snap.getKey();
+                            HashMap<String, Boolean> map = (HashMap<String, Boolean>) snap.getValue();
+                            boolean isParticipante = map.get("isParticipante");
+
+                            if(isParticipante){
+                                confirmados.add(id);
+                                adapterPart.notifyDataSetChanged();
+                            }
+
+                        }
+
+
+                    }catch (Exception e){
+
+
+                    }
+
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            isStarded = false;
+
+        }else{
+
+
+            FirebaseDatabase.getInstance().getReference().child("atividade").child(idAtividade).child("presentes").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    try{
+
+                        for (DataSnapshot snap:dataSnapshot.getChildren()) {
+
+                            String id = snap.getKey();
+                            boolean map = snap.getValue(Boolean.class);
+
+                            if(map){
+                                presentes.add(id);
+                                adapterPart.notifyDataSetChanged();
+                            }
+
+                        }
+
+
+                    }catch (Exception e){
+
+
+                    }
+
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            isStarded = true;
+
+
+        }
+        Log.d("TAG", ""+isStarded);
+
+
+
+        adapterPart = new ParticipanteAdapter(this, users, confirmados, presentes, isStarded);
+
+
+        lvParticipantes.setAdapter(adapterPart);
+
+        for (Participante participante:participantes) {
+
+            try{
+
+
+                String chave = participante.getChave();
+                FirebaseDatabase.getInstance().getReference().child("usuario").orderByChild("grupo").equalTo(chave).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+
+                        Usuario user = dataSnapshot.getValue(Usuario.class);
+                        user.setId(dataSnapshot.getKey());
+                        users.add(user);
+                        adapterPart.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                FirebaseDatabase.getInstance().getReference().child("usuario").orderByChild("secao/chave").equalTo(chave).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+
+                        Usuario user = dataSnapshot.getValue(Usuario.class);
+                        user.setId(dataSnapshot.getKey());
+
+                        users.add(user);
+                        adapterPart.notifyDataSetChanged();
+
+
+
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }catch (Exception e){}
+
+
+        }
+
 
     }
 

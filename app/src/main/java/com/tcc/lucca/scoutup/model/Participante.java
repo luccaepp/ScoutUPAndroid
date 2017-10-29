@@ -13,13 +13,11 @@ public class Participante implements Parcelable {
     }
 
     private String chave;
-    private String chaveGrupo;
     private String nome;
     private String tipo;
 
     protected Participante(Parcel in) {
         chave = in.readString();
-        chaveGrupo = in.readString();
         nome = in.readString();
         tipo = in.readString();
     }
@@ -44,13 +42,6 @@ public class Participante implements Parcelable {
         this.chave = chave;
     }
 
-    public String getChaveGrupo() {
-        return chaveGrupo;
-    }
-
-    public void setChaveGrupo(String chaveGrupo) {
-        this.chaveGrupo = chaveGrupo;
-    }
 
     public String getNome() {
         return nome;
@@ -76,7 +67,6 @@ public class Participante implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(chave);
-        parcel.writeString(chaveGrupo);
         parcel.writeString(nome);
         parcel.writeString(tipo);
     }

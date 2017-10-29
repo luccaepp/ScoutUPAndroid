@@ -2,23 +2,16 @@ package com.tcc.lucca.scoutup.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
-import com.tcc.lucca.scoutup.model.Atividade;
-import com.tcc.lucca.scoutup.model.progressao.Especialidade;
+import com.tcc.lucca.scoutup.model.Especialidade;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 

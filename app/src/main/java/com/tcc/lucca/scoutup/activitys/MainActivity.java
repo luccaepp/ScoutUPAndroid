@@ -164,6 +164,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void logout(View view) {
 
+        UsuarioDAO dao = new UsuarioDAO();
+
+        dao.deleteToken();
 
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();

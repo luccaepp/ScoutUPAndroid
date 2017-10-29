@@ -53,9 +53,7 @@
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@mipmap/ic_launcher_round" />
 
-        <activity android:name=".activitys.MainActivity">
-
-        </activity>
+        <activity android:name=".activitys.MainActivity"></activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -94,7 +92,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".activitys.AtividadeActivity" />
+        <activity android:name=".activitys.AtividadeEscoteiroActivity" />
         <activity android:name=".activitys.PerfilVisitadoActivity" />
         <activity android:name=".activitys.PeriodoIntrodutorioActivity" />
         <activity android:name=".activitys.TarefasRamoActivity" />
@@ -104,14 +102,13 @@
         <activity android:name=".activitys.ModalidadeActivity" />
         <activity android:name=".activitys.CordoesActivity" />
         <activity android:name=".activitys.SplashScreenActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <activity android:name=".activitys.AtividadeEscotistaActivity"></activity>
     </application>
 
 </manifest>

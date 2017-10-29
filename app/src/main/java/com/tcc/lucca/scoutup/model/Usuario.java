@@ -14,11 +14,21 @@ public class Usuario {
     private String email;
     private String token;
     private String grupo;
+    private String id;
     private Map<String, String> secao;
     private Map<String, String> patrulha;
     private String tipo;
     private Status status;
     private Map<String, Amigo> amigos;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;

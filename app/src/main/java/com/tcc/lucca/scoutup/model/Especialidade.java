@@ -1,12 +1,10 @@
-package com.tcc.lucca.scoutup.model.progressao;
+package com.tcc.lucca.scoutup.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

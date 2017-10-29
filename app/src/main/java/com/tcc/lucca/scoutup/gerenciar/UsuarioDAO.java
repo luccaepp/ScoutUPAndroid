@@ -81,8 +81,16 @@ public class UsuarioDAO extends GenericDAO {
         });
 
 
+    }
+
+    public void deleteToken() {
+
+        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        getDatabaseReference().child(getReferencia()).child(uid).child("token").setValue(null);
+
 
 
 
     }
+
 }

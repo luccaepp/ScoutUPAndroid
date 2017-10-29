@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -18,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.adapters.ListViewEspecialidadeAdapter;
 import com.tcc.lucca.scoutup.gerenciar.AreaDAO;
-import com.tcc.lucca.scoutup.model.progressao.Especialidade;
+import com.tcc.lucca.scoutup.model.Especialidade;
 
 import java.util.ArrayList;
 import java.util.Collections;

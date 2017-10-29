@@ -1,16 +1,12 @@
 package com.tcc.lucca.scoutup.activitys;
 
-import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -30,7 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.tcc.lucca.scoutup.R;
-import com.tcc.lucca.scoutup.adapters.ListViewEspecialidadeAdapter;
 import com.tcc.lucca.scoutup.gerenciar.AtividadeDAO;
 import com.tcc.lucca.scoutup.adapters.AtividadeListAdapter;
 import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
@@ -39,7 +34,6 @@ import com.tcc.lucca.scoutup.model.MapAtividadePH;
 import com.tcc.lucca.scoutup.model.Participante;
 import com.tcc.lucca.scoutup.model.Tipo;
 import com.tcc.lucca.scoutup.model.Usuario;
-import com.tcc.lucca.scoutup.model.progressao.Especialidade;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -47,7 +41,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -90,14 +83,27 @@ public class AgendaFrag extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Atividade atividade = atividades.get(i);
-                Intent intent = new Intent(getContext(), AtividadeActivity.class);
+                Intent intent;
+
+                if(usuario.getTipo().equals(Tipo.devolveString(Tipo.escoteiro))){
+                    intent = new Intent(getContext(), AtividadeEscoteiroActivity.class);
+
+                }else{
+
+                    intent = new Intent(getContext(), AtividadeEscotistaActivity.class);
+
+
+                }
+
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("atividade", atividade);
                 bundle.putStringArrayList("materiais", (ArrayList<String>) atividade.getMateriais());
                 bundle.putParcelableArrayList("participantes", (ArrayList<Participante>) atividade.getParticipantes());
                 bundle.putParcelable("local", new LatLng(atividade.getLocal().getLat(), atividade.getLocal().getLng()));
                 bundle.putString("fim", getDate(atividade.getTermino()));
+                bundle.putLong("fimTime", atividade.getTermino());
                 bundle.putString("inicio", getDate(atividade.getInicio()));
+                bundle.putLong("inicioTime", atividade.getInicio());
                 bundle.putString("id", atividades.get(i).getId());
                 intent.putExtras(bundle);
                 startActivity(intent);
