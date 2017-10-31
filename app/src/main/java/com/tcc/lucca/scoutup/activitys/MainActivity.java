@@ -28,12 +28,19 @@ import com.tcc.lucca.scoutup.gerenciar.UsuarioDAO;
 import com.tcc.lucca.scoutup.adapters.ViewPagerAdapter;
 import com.tcc.lucca.scoutup.model.Usuario;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
 
     public static android.content.Context CONTEXT;
     private LoginClass loginClass = new LoginClass(this);
     private static final int TAG_CODE_PERMISSION_CALENDAR = 2;
+    private TabLayout tabLayout;
+    private ViewPagerAdapter adapter;
+    private ViewPager viewPager;
+
 
 
 
@@ -75,15 +82,15 @@ public class MainActivity extends AppCompatActivity {
             });
 
 
-            ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-            ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+            viewPager = (ViewPager) findViewById(R.id.pager);
+            adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
             adapter.addFragment(new PerfilFrag(), "");
             adapter.addFragment(new AgendaFrag(), "");
             adapter.addFragment(new ProgressaoFragment(), "");
             viewPager.setAdapter(adapter);
 
-            final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout = (TabLayout) findViewById(R.id.tabs);
             tabLayout.setupWithViewPager(viewPager);
             tabLayout.setAnimation(null);
             tabLayout.getTabAt(0).setIcon(R.drawable.maoverdepequena);
@@ -107,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
                         tabLayout.getTabAt(1).setIcon(R.drawable.fogoverdepequeno);
                         tabLayout.getTabAt(2).setIcon(R.drawable.florlismarrompequena);
 
+                      pedirPermi();
 
-                       pedirPermi();
 
 
                     }
@@ -121,15 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                private void pedirPermi() {
 
-                    if (ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{
-                                Manifest.permission.WRITE_CALENDAR,
-                                Manifest.permission.READ_CALENDAR}, TAG_CODE_PERMISSION_CALENDAR);
-                    }
-
-                }
 
                 @Override
                 public void onTabUnselected(TabLayout.Tab tab) {
@@ -143,6 +142,19 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+
+
+        }
+
+    }
+
+    private void pedirPermi(){
+
+        if (ActivityCompat.checkSelfPermission(getApplication(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{
+                    Manifest.permission.WRITE_CALENDAR,
+                    Manifest.permission.READ_CALENDAR}, TAG_CODE_PERMISSION_CALENDAR);
+        }else{
 
 
         }
@@ -316,6 +328,24 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("cordao", "DesafioSenior");
 
         startActivity(intent);
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        int index = 0;
+        Map<String, Integer> PermissionsMap = new HashMap<String, Integer>();
+        for (String permission : permissions){
+            PermissionsMap.put(permission, grantResults[index]);
+            index++;
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+
+        }
     }
 
 }

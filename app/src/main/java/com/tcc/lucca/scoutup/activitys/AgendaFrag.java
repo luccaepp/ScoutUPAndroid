@@ -1,13 +1,26 @@
 package com.tcc.lucca.scoutup.activitys;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.location.Geocoder;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,9 +54,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.Context.ALARM_SERVICE;
 
 
@@ -56,6 +73,7 @@ public class AgendaFrag extends Fragment {
     private String uid;
     private List<Atividade> atividades = new ArrayList<>();
     private AtividadeListAdapter adapter;
+    private static final int TAG_CODE_PERMISSION_CALENDAR = 2;
 
 
     @Override
@@ -63,7 +81,19 @@ public class AgendaFrag extends Fragment {
 
         super.onCreate(savedInstanceState);
 
-        initData();
+
+
+    }
+
+    private void pedirPermi() {
+
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+
+        }else{
+
+            initData();
+
+        }
 
     }
 
@@ -163,7 +193,7 @@ public class AgendaFrag extends Fragment {
 
                             if (user.getSecao() != null) {
 
-                                fab.show();
+                               // fab.show();
 
 
                             }
@@ -222,12 +252,41 @@ public class AgendaFrag extends Fragment {
                                 Atividade atividade = dataSnapshot.getValue(Atividade.class);
 
                                 atividade.setId(map.getChaveAtividade());
-                                atividades.add(atividade);
-                                Collections.sort(atividades);
-                                adapter.atualizarLista(atividades);
-                                adapter.notifyDataSetChanged();
 
-                                setAlarme(atividade, dataSnapshot.getKey());
+                                boolean isListada = false;
+
+                                for (Atividade ativ:atividades){
+
+                                    if(ativ.getId().equals(atividade.getId())){
+
+                                        isListada = true;
+
+
+                                    }
+
+                                }
+
+                                if(isListada){
+
+                                    adapter.notifyDataSetChanged();
+
+                                }else{
+
+                                    atividades.add(atividade);
+                                    Collections.sort(atividades);
+
+                                    try{
+
+                                        addEventToCalendar(atividade);
+
+                                    }catch (Exception e){}
+
+                                    adapter.atualizarLista(atividades);
+                                    adapter.notifyDataSetChanged();
+                                    setAlarme(atividade, dataSnapshot.getKey());
+
+                                }
+
 
                             }
 
@@ -270,6 +329,60 @@ public class AgendaFrag extends Fragment {
         }catch (Exception e){}
     }
 
+    public boolean isEventInCal(Context context, Atividade atividade) {
+
+        long begin = atividade.getInicio();
+        long end = atividade.getTermino();
+                String[] proj =
+                new String[]{
+                        CalendarContract.Instances.BEGIN,
+                        CalendarContract.Instances.END,
+                        CalendarContract.Instances.EVENT_ID};
+        Cursor cursor =
+                CalendarContract.Instances.query(getContext().getContentResolver(), proj, begin, end, atividade.getTitulo());
+        if (cursor.getCount() > 0) {return true;
+        }else{
+
+            return  false;
+        }
+    }
+
+
+    private void addEventToCalendar(Atividade atividade) {
+
+        if (isEventInCal(getContext(), atividade)) {
+
+            Log.d("tag", "existe");
+
+        } else {
+
+            final ContentValues event = new ContentValues();
+            event.put(CalendarContract.Events.CALENDAR_ID, 1);
+
+            event.put(CalendarContract.Events.TITLE, atividade.getTitulo());
+            event.put(CalendarContract.Events.EVENT_LOCATION, atividade.getLocal().getEndereco());
+
+            event.put(CalendarContract.Events.DTSTART, atividade.getInicio());
+            event.put(CalendarContract.Events.DTEND, atividade.getTermino());
+            event.put(CalendarContract.Events.ALL_DAY, 0);   // 0 for false, 1 for true
+            event.put(CalendarContract.Events.HAS_ALARM, 1); // 0 for false, 1 for true
+
+            String timeZone = TimeZone.getDefault().getID();
+            event.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone);
+
+            Uri baseUri;
+            if (Build.VERSION.SDK_INT >= 8) {
+                baseUri = Uri.parse("content://com.android.calendar/events");
+            } else {
+                baseUri = Uri.parse("content://calendar/events");
+            }
+
+            getContext().getContentResolver().insert(baseUri, event);
+            Log.d("TAG", "evento criado");
+
+        }
+    }
+
     private void setAlarme(Atividade atividade, String key) {
 
         Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
@@ -310,21 +423,28 @@ public class AgendaFrag extends Fragment {
 
             if(PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_NO_CREATE) == null) {
 
-                Log.d("Script", "Novo alarme "+  atividade.getTitulo());
-
 
                 PendingIntent p = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 AlarmManager alarme = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
                 alarme.set(AlarmManager.RTC_WAKEUP, atividade.getInicio(), p);
-            }else{
-
-                Log.d("Script", "Ja existe");
-
-
             }
         }
 
+
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        pedirPermi();
+
+        adapter = new AtividadeListAdapter(getContext(), atividades);
+
+        adapter.notifyDataSetChanged();
 
 
 
@@ -337,6 +457,8 @@ public class AgendaFrag extends Fragment {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+
 
 
 

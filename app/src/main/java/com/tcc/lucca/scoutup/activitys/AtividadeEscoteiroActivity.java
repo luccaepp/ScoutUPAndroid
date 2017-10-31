@@ -40,7 +40,6 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
     private TextView tvEndereco;
     private String dataInicio;
     private String dataFim;
-    private Switch aSwitch;
     private String idUsuario;
     private String idAtividade;
     private Atividade atividade;
@@ -61,16 +60,32 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_atividade);
-
         Bundle bundle = getIntent().getExtras();
+
+
+        inicioTime = bundle.getLong("inicioTime");
+
+
+
+        Long current = Long.parseLong(System.currentTimeMillis() + "");
+
+        if (current < inicioTime) {
+            setContentView(R.layout.activity_atividade);
+
+            carregarConfirmacao();
+        }else{
+            setContentView(R.layout.activity_atividade_iniciada);
+
+        }
+
+
+
 
         atividade = bundle.getParcelable("atividade");
         latLng = bundle.getParcelable("local");
         dataFim = bundle.getString("fim");
         dataInicio = bundle.getString("inicio");
         idAtividade = bundle.getString("id");
-        inicioTime = bundle.getLong("inicioTime");
         materiais = bundle.getStringArrayList("materiais");
         participantes = bundle.getParcelableArrayList("participantes");
         idUsuario = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -79,26 +94,7 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
 
         initData();
 
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-                if(b){
-
-                    escreveNaBase();
-
-
-                }else{
-
-                    removeDaBase();
-
-
-                }
-
-
-            }
-
-        });
 
 
 
@@ -111,8 +107,6 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
 
 
     private void escreveNaBase() {
-
-        Log.d("TAG", "escreve");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference();
         reference.child("atividade").child(idAtividade).child("confirmados").child(idUsuario).child("isParticipante").setValue(true);
@@ -121,7 +115,6 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
     }
 
     private void removeDaBase() {
-        Log.d("TAG", "deleta");
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference();
@@ -156,7 +149,6 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
         tvEndereco.setText(adress);
         carregarMap();
 
-        carregarConfirmacao();
         try {
             StringAdapter adapterMat = new StringAdapter(this, materiais);
 
@@ -256,11 +248,8 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
 
 
         }
-        Log.d("TAG", ""+isStarded);
 
-
-
-        adapterPart = new ParticipanteAdapter(this, users, confirmados, presentes, isStarded);
+        adapterPart = new ParticipanteAdapter(this, users, confirmados, presentes, isStarded, idAtividade, "escoteiro");
 
 
         lvParticipantes.setAdapter(adapterPart);
@@ -350,6 +339,30 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
     }
 
     private void carregarConfirmacao() {
+        final Switch aSwitch = (Switch) findViewById(R.id.switch1);
+
+
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if(b){
+
+                    escreveNaBase();
+
+
+                }else{
+
+                    removeDaBase();
+
+
+                }
+
+
+            }
+
+        });
+
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference();
@@ -384,7 +397,6 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
     private void initComponents() {
 
         textViewTituilo = (TextView) findViewById(R.id.tvTituloAtv);
-        aSwitch = (Switch) findViewById(R.id.switch1);
         tvAtividade = (TextView) findViewById(R.id.tvAtividade);
         tvDataFim = (TextView) findViewById(R.id.tvDataFim);
         tvDataInicio = (TextView) findViewById(R.id.tvDataInicio);

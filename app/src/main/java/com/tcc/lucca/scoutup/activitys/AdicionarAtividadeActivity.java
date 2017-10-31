@@ -44,7 +44,6 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
     private EditText editTextNome;
     private EditText editTextOutro;
     private EditText editTextOutroItem;
-    private EditText editTextDesc;
     private List<String> materiais = new ArrayList<>();
     private ListItemMaterialAdapter adapter;
     private ListView listMateriais;
@@ -175,7 +174,6 @@ public class AdicionarAtividadeActivity extends AppCompatActivity {
 
         spinner = (Spinner) findViewById(R.id.spinner);
         editTextNome = (EditText) findViewById(R.id.etNome);
-        editTextDesc = (EditText) findViewById(R.id.editText4);
         editTextNome.requestFocus();
         editTextOutro = (EditText) findViewById(R.id.etItem);
         editTextOutroItem = (EditText) findViewById(R.id.etOutro);

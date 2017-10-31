@@ -77,7 +77,6 @@ public class ListViewItemEspecialidadeAdapter extends ArrayAdapter<String> {
             @Override
             public void onClick(View view) {
                 CheckBox temp = (CheckBox)view;
-
                 cadastrarItem(i, temp.isChecked());
 
             }

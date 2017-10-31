@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -60,6 +62,7 @@ public class AtividadeEscotistaActivity extends AppCompatActivity {
     public AtividadeEscotistaActivity() {
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +82,7 @@ public class AtividadeEscotistaActivity extends AppCompatActivity {
         idUsuario = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         initComponents();
+
 
         initData();
 
@@ -223,7 +227,7 @@ public class AtividadeEscotistaActivity extends AppCompatActivity {
         }
 
 
-        adapterPart = new ParticipanteAdapter(this, users, confirmados, presentes, isStarded);
+        adapterPart = new ParticipanteAdapter(this, users, confirmados, presentes, isStarded, idAtividade, "escotista");
 
 
         lvParticipantes.setAdapter(adapterPart);

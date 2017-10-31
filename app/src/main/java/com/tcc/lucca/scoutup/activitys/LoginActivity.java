@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -69,6 +70,10 @@ public class LoginActivity extends AppCompatActivity{
         callbackManager = CallbackManager.Factory.create();
         rbEscoteiro = (RadioButton) findViewById(R.id.rbEscoteiro);
         rbEscotista = (RadioButton) findViewById(R.id.rbEscotista);
+
+        Typeface type = Typeface.createFromAsset(this.getAssets(), "font/ClaireHandRegular.ttf");
+        rbEscoteiro.setTypeface(type);
+        rbEscotista.setTypeface(type);
 
         rbEscoteiro.setOnClickListener(new View.OnClickListener() {
             @Override

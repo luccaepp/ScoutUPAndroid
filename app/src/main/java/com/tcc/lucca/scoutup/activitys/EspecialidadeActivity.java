@@ -3,6 +3,7 @@ package com.tcc.lucca.scoutup.activitys;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,12 +31,31 @@ public class EspecialidadeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_especialidade);
+        requisitos = getIntent().getExtras().getString("requisitos");
+
+        if(requisitos != null){
+
+            setContentView(R.layout.activity_especialidade);
+            TextView tvPreRequisitos = findViewById(R.id.tvPreRequisitos);
+
+            tvPreRequisitos.setText(requisitos);
+            Log.d("TAG", requisitos);
+
+
+
+
+        } else{
+
+            setContentView(R.layout.activity_especialidade__sem_requisito);
+            Log.d("TAG", "sem requisito");
+
+
+
+        }
+
+        especialidade = getIntent().getExtras().getParcelable("especialidade");
 
         TextView tvTitulo = findViewById(R.id.textViewTitulo);
-        TextView tvPreRequisitos = findViewById(R.id.tvPreRequisitos);
-        Typeface type = Typeface.createFromAsset(this.getAssets(), "font/ClaireHandRegular.ttf");
-        tvTitulo.setTypeface(type);
 
 
         especialidade = getIntent().getExtras().getParcelable("especialidade");
@@ -47,16 +67,7 @@ public class EspecialidadeActivity extends AppCompatActivity {
 
         listViewItensEsp = findViewById(R.id.listViewItensEsp);
 
-        try {
 
-            requisitos = getIntent().getExtras().getString("requisitos");
-            tvPreRequisitos.setText(requisitos);
-
-
-
-        } catch (Exception e) {
-
-        }
 
 
         if (especialidade.getItens() != null) {

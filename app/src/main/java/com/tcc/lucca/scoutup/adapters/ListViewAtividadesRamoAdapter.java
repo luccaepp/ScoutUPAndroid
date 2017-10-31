@@ -66,7 +66,7 @@ public class ListViewAtividadesRamoAdapter  extends ArrayAdapter<String> {
         checkBox.setText(info);
         checkBox.setTextColor(Color.BLACK);
         Typeface type = Typeface.createFromAsset(getContext().getAssets(), "font/ClaireHandRegular.ttf");
-        
+        checkBox.setTypeface(type);
 
         try{
 
