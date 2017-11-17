@@ -23,12 +23,15 @@
         <TextView
             android:id="@+id/textViewTitulo"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="INSIGNIA"
+            android:textAlignment="center"
             android:textColor="#e7cfa1"
             android:textSize="35dp"
             app:layout_constraintBottom_toBottomOf="parent"

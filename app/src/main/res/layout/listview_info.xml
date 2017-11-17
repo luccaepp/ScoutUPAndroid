@@ -10,5 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:gravity="center"
-        android:text="TextView" />
+        android:lineSpacingExtra="10sp"
+        android:text="TextView"
+        android:textSize="18sp" />
 </LinearLayout>

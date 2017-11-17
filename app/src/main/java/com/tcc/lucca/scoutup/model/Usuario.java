@@ -1,6 +1,9 @@
 package com.tcc.lucca.scoutup.model;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +23,7 @@ public class Usuario {
     private String tipo;
     private Status status;
     private Map<String, Amigo> amigos;
+    private Map<String, SolicitacoesDeAmizade> solicitacoesDeAmizade;
 
 
     public String getId() {
@@ -100,5 +104,14 @@ public class Usuario {
 
     public void setAmigos(Map<String, Amigo> amigos) {
         this.amigos = amigos;
+    }
+
+
+    public Map<String, SolicitacoesDeAmizade> getSolicitacoesDeAmizade() {
+        return solicitacoesDeAmizade;
+    }
+
+    public void setSolicitacoesDeAmizade(Map<String, SolicitacoesDeAmizade> solicitacoesDeAmizade) {
+        this.solicitacoesDeAmizade = solicitacoesDeAmizade;
     }
 }
