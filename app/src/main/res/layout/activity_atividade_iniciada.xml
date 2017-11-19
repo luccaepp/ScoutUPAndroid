@@ -56,21 +56,20 @@ android:background="@color/verdeFundo">
 
         <TextView
             android:id="@+id/tvAtividade"
-            android:layout_width="233dp"
-            android:layout_height="53dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginBottom="8dp"
-            android:gravity="center"
+            android:layout_marginEnd="8dp"
 
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:textSize="42dp"
+            android:gravity="center"
             android:text="ATIVIDADE"
             android:textColor="#e7cfa1"
-            android:textSize="45dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.516"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/imageView"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView

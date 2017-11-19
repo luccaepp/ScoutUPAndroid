@@ -47,8 +47,8 @@ public class AtividadeEscotistaActivity extends AppCompatActivity {
     private String idUsuario;
     private String idAtividade;
     private Atividade atividade;
-    private List<String> materiais;
-    private List<Participante> participantes;
+    private List<String> materiais = new ArrayList<>();
+    private List<Participante> participantes = new ArrayList<>();
     private ParticipanteAdapter adapterPart;
     private Long inicioTime;
     final List<String> confirmados = new ArrayList<>();
@@ -77,7 +77,6 @@ public class AtividadeEscotistaActivity extends AppCompatActivity {
         dataInicio = bundle.getString("inicio");
         idAtividade = bundle.getString("id");
         inicioTime = bundle.getLong("inicioTime");
-        materiais = bundle.getStringArrayList("materiais");
         participantes = bundle.getParcelableArrayList("participantes");
         idUsuario = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -120,11 +119,13 @@ public class AtividadeEscotistaActivity extends AppCompatActivity {
         carregarMap();
 
         try {
-            StringAdapter adapterMat = new StringAdapter(this, materiais);
-            lvMaterias.setAdapter(adapterMat);
 
-            carregarParticipantes();
+            if(materiais!=null) {
+                StringAdapter adapterMat = new StringAdapter(this, materiais);
+                lvMaterias.setAdapter(adapterMat);
 
+                carregarParticipantes();
+            }
 
         } catch (Exception e) {
         }

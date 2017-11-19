@@ -35,7 +35,7 @@
             android:text="Cordao"
             android:textAlignment="center"
             android:textColor="#e7cfa1"
-            android:textSize="35dp"
+            android:textSize="42dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="parent"

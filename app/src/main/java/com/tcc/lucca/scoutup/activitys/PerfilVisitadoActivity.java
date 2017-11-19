@@ -26,6 +26,7 @@ import com.google.firebase.storage.StorageReference;
 import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.adapters.AmigoListAdapter;
 import com.tcc.lucca.scoutup.adapters.ListViewAdapter;
+import com.tcc.lucca.scoutup.adapters.MLRoundedImageView;
 import com.tcc.lucca.scoutup.gerenciar.GrupoDAO;
 import com.tcc.lucca.scoutup.gerenciar.PatrulhaDAO;
 import com.tcc.lucca.scoutup.gerenciar.SessaoDAO;
@@ -47,7 +48,7 @@ public class PerfilVisitadoActivity extends AppCompatActivity {
     private SessaoDAO sessaoDAO = SessaoDAO.getInstance();
     private PatrulhaDAO patrulhaDAO = PatrulhaDAO.getInstance();
 
-    private ImageView imageView;
+    private MLRoundedImageView imageView;
     private TextView tvNome, tvEmail, tvGrupo, tvSessao;
 
 
@@ -89,7 +90,7 @@ public class PerfilVisitadoActivity extends AppCompatActivity {
         tvSessao = findViewById(R.id.textViewSessao);
         listViewAmigos = (ListView) findViewById(R.id.listViewAmigos);
         listViewEspec = (ListView) findViewById(R.id.listViewEspecialidades);
-        imageView = (ImageView) findViewById(R.id.imgPerfil);
+        imageView = findViewById(R.id.imgPerfil);
         listViewAmigos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -134,9 +135,11 @@ public class PerfilVisitadoActivity extends AppCompatActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
         StorageReference imagesRef = storageRef.child("fotoPerfil/"+amigo.getChave());
-        Glide.with(this /* context */)
+        Glide.with(this )
                 .using(new FirebaseImageLoader())
                 .load(imagesRef)
+                .asBitmap()
+                .placeholder(R.drawable.escoteirinho)
                 .into(imageView);
 
 
@@ -157,7 +160,7 @@ public class PerfilVisitadoActivity extends AppCompatActivity {
                         if (usuarioDatabase.getSecao() != null) {
                             String uidSecao = usuarioDatabase.getSecao().get("nome");
 
-                            tvSessao.setText("Sessão: "+sessaoDatabase.getNome());
+                            tvSessao.setText("Sessão: "+usuarioDatabase.getSecao().get("nome"));
                         }
 
 
@@ -254,7 +257,7 @@ public class PerfilVisitadoActivity extends AppCompatActivity {
         return imageView;
     }
 
-    public void setImageView(ImageView imageView) {
+    public void setImageView(MLRoundedImageView imageView) {
         this.imageView = imageView;
     }
 

@@ -135,29 +135,43 @@ public class LoginClass {
 
     public void verificarUsuarioCadastrado() {
 
-        String uid = mAuth.getCurrentUser().getUid();
+        try{
 
-        usuarioDAO.buscarPorId(uid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            String uid = mAuth.getCurrentUser().getUid();
 
-                if(!dataSnapshot.exists()){
-                    cadastro();
+
+            usuarioDAO.buscarPorId(uid).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if(!dataSnapshot.exists()){
+                        cadastro();
+                    }
+
+
                 }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
+                }
+            });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+            Intent main = new Intent(context, MainActivity.class);
+            context.startActivity(main);
 
-            }
-        });
+            ((Activity) context).finish();
 
-                Intent main = new Intent(context, MainActivity.class);
-                context.startActivity(main);
 
-                ((Activity) context).finish();
+        }catch (Exception e){
+
+            Toast.makeText(context, "Nao logado", Toast.LENGTH_LONG).show();
+
+
+
+        }
+
+
 
 
 

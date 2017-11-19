@@ -43,7 +43,7 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
     private String idUsuario;
     private String idAtividade;
     private Atividade atividade;
-    private List<String> materiais;
+    private List<String> materiais = new ArrayList<>();
     private List<Participante> participantes;
     private Long inicioTime;
     private boolean isStarded = false;
@@ -150,10 +150,13 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
         carregarMap();
 
         try {
-            StringAdapter adapterMat = new StringAdapter(this, materiais);
 
-            lvMaterias.setAdapter(adapterMat);
-            carregarParticipantes();
+            if(materiais != null) {
+                StringAdapter adapterMat = new StringAdapter(this, materiais);
+
+                lvMaterias.setAdapter(adapterMat);
+                carregarParticipantes();
+            }
         }catch (Exception e){}
 
     }
@@ -366,29 +369,29 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference();
-        reference.child("atividade").child(idAtividade).child("confirmados").child(idUsuario).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        try {
+            reference.child("atividade").child(idAtividade).child("confirmados").child(idUsuario).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                try{
-                    HashMap<String, Boolean> map = (HashMap<String, Boolean>) dataSnapshot.getValue();
+                    try {
+                        HashMap<String, Boolean> map = (HashMap<String, Boolean>) dataSnapshot.getValue();
 
-                    boolean isParticipante = map.get("isParticipante");
-                    aSwitch.setChecked(isParticipante);
-                }catch (Exception e){
+                        boolean isParticipante = map.get("isParticipante");
+                        aSwitch.setChecked(isParticipante);
+                    } catch (Exception e) {
+
+                    }
+
 
                 }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+                }
+            });
+        }catch (Exception e){}
 
 
     }

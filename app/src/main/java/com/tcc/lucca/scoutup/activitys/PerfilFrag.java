@@ -212,6 +212,8 @@ public class PerfilFrag extends Fragment {
 
     private void atualizarAmigos() {
 
+        try{
+
 
 
         listViewAmigos = getView().findViewById(R.id.listViewAmigos);
@@ -241,6 +243,7 @@ public class PerfilFrag extends Fragment {
             }
         });
 
+        }catch (Exception e){}
 
 
     }

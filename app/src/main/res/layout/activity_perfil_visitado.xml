@@ -7,17 +7,16 @@
     android:background="@color/verdeFundo"
     tools:context="com.tcc.lucca.scoutup.activitys.PerfilVisitadoActivity">
 
-    <ImageView
+    <com.tcc.lucca.scoutup.adapters.MLRoundedImageView
         android:id="@+id/imgPerfil"
-        android:layout_width="0dp"
-        android:layout_height="158dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
 
-        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="@+id/tvInformacoes"
@@ -27,29 +26,14 @@
         android:id="@+id/btnLogout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/btnlogout"
         android:onClick="mensagem"
         android:text="Enviar mensagem"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@+id/btnEditarPerfil"
-        app:layout_constraintRight_toRightOf="@+id/btnEditarPerfil"
-        app:layout_constraintTop_toBottomOf="@+id/btnEditarPerfil" />
-
-    <Button
-        android:id="@+id/btnEditarPerfil"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="9dp"
-        android:background="@drawable/btneditarperfil"
-        android:text="Adicionar aos amigos"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline7"
-        app:layout_constraintTop_toBottomOf="@+id/imgPerfil" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewSessao" />
 
     <TextView
         android:id="@+id/txAmigos"
@@ -70,7 +54,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="91dp"
         android:background="@color/marromClaroFundo"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
@@ -81,21 +65,21 @@
 
         <TextView
             android:id="@+id/tvPerfil"
-            android:layout_width="142dp"
-            android:layout_height="49dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:textSize="42dp"
+            android:gravity="center"
             android:text="PERFIL"
+            android:textAlignment="center"
             android:textColor="#e7cfa1"
-            android:textSize="45dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/imageView"
-            android:layout_marginRight="32dp"
-            app:layout_constraintHorizontal_bias="0.0" />
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageView"
