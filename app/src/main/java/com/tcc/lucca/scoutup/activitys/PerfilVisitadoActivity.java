@@ -135,13 +135,14 @@ public class PerfilVisitadoActivity extends AppCompatActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
         StorageReference imagesRef = storageRef.child("fotoPerfil/"+amigo.getChave());
-        Glide.with(this )
-                .using(new FirebaseImageLoader())
-                .load(imagesRef)
-                .asBitmap()
-                .placeholder(R.drawable.escoteirinho)
-                .into(imageView);
-
+        try {
+            Glide.with(this)
+                    .using(new FirebaseImageLoader())
+                    .load(imagesRef)
+                    .asBitmap()
+                    .placeholder(R.drawable.escoteirinho)
+                    .into(imageView);
+        }catch (Exception e){}
 
         tvNome.setText(usuarioDatabase.getNome());
         tvEmail.setText(usuarioDatabase.getEmail());

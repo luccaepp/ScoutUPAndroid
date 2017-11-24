@@ -47,6 +47,8 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
     private List<Participante> participantes;
     private Long inicioTime;
     private boolean isStarded = false;
+    private Switch aSwitch;
+
 
     private LatLng latLng;
     private FragmentManager fragmentManager;
@@ -89,6 +91,9 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
         materiais = bundle.getStringArrayList("materiais");
         participantes = bundle.getParcelableArrayList("participantes");
         idUsuario = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        Log.d("TAG", idUsuario);
+        Log.d("TAG", idAtividade);
 
         initComponents();
 
@@ -189,7 +194,14 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
                             if(isParticipante){
                                 confirmados.add(id);
                                 adapterPart.notifyDataSetChanged();
+                                if(id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+
+                                aSwitch.setChecked(true);
+
+
+                                }
                             }
+
 
                         }
 
@@ -342,42 +354,32 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
     }
 
     private void carregarConfirmacao() {
-        final Switch aSwitch = (Switch) findViewById(R.id.switch1);
 
-
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-                if(b){
-
-                    escreveNaBase();
-
-
-                }else{
-
-                    removeDaBase();
-
-
-                }
-
-
-            }
-
-        });
 
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference();
+
+        Log.d("TAG", "é participante ref");
+        Log.d("TAG", idAtividade);
+        Log.d("TAG", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
         try {
-            reference.child("atividade").child(idAtividade).child("confirmados").child(idUsuario).addValueEventListener(new ValueEventListener() {
+
+
+
+            reference.child("atividade").child(idAtividade).child("confirmados").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    Log.d("TAG", "é participante data");
+
 
                     try {
                         HashMap<String, Boolean> map = (HashMap<String, Boolean>) dataSnapshot.getValue();
 
                         boolean isParticipante = map.get("isParticipante");
+                        Log.d("TAG", "é participante "+isParticipante);
                         aSwitch.setChecked(isParticipante);
                     } catch (Exception e) {
 
@@ -391,6 +393,30 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
 
                 }
             });
+
+
+            aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                    if(b){
+
+                        escreveNaBase();
+
+
+                    }else{
+
+                        removeDaBase();
+
+
+                    }
+
+
+                }
+
+            });
+
+
         }catch (Exception e){}
 
 
@@ -398,6 +424,8 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
 
 
     private void initComponents() {
+
+        aSwitch = (Switch) findViewById(R.id.switch1);
 
         textViewTituilo = (TextView) findViewById(R.id.tvTituloAtv);
         tvAtividade = (TextView) findViewById(R.id.tvAtividade);

@@ -108,7 +108,7 @@ public class CalculoGeolocalizacaoService extends Service {
 
                             }else{
 
-                                gerarNotificacao(getApplicationContext(), intent, id, "Verificador de presença", "voce está fora da area da atividade, se fudeu");
+                                gerarNotificacao(getApplicationContext(), intent, id, "Verificador de presença", "voce está fora da area da atividade");
 
 
                             }
