@@ -13,7 +13,7 @@
     <EditText
         android:id="@+id/eTxtUsuario"
         android:layout_width="0dp"
-
+        android:textCursorDrawable="@drawable/cursor_login"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="32dp"
@@ -37,7 +37,7 @@
     <EditText
         android:id="@+id/eTxtSenha"
         android:layout_width="0dp"
-
+        android:textCursorDrawable="@drawable/cursor_login"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="32dp"
@@ -106,7 +106,6 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            androidlayout_marginBottom="8dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
@@ -234,8 +233,9 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:buttonTintMode="@color/verdeFundo"
-        android:text="Escoteiro"
+        android:checked="true"
 
+        android:text="Escoteiro"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline16"

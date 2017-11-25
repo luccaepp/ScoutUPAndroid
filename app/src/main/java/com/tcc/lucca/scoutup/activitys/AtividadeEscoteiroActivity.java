@@ -360,8 +360,6 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference();
 
-        Log.d("TAG", "é participante ref");
-        Log.d("TAG", idAtividade);
         Log.d("TAG", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         try {

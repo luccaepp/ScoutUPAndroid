@@ -26,6 +26,7 @@ import com.tcc.lucca.scoutup.R;
 import com.tcc.lucca.scoutup.adapters.ParticipanteAdapter;
 import com.tcc.lucca.scoutup.adapters.StringAdapter;
 import com.tcc.lucca.scoutup.model.Atividade;
+import com.tcc.lucca.scoutup.model.Material;
 import com.tcc.lucca.scoutup.model.Participante;
 import com.tcc.lucca.scoutup.model.Usuario;
 
@@ -42,10 +43,12 @@ public class AtividadeEscotistaActivity extends AppCompatActivity {
     private TextView tvDataInicio;
     private TextView tvDataFim;
     private TextView tvEndereco;
+
     private String dataInicio;
     private String dataFim;
     private String idUsuario;
     private String idAtividade;
+
     private Atividade atividade;
     private List<String> materiais = new ArrayList<>();
     private List<Participante> participantes = new ArrayList<>();
@@ -59,7 +62,10 @@ public class AtividadeEscotistaActivity extends AppCompatActivity {
     private ListView lvParticipantes;
     private ListView lvMaterias;
 
+    StringAdapter adapterMat;
+
     public AtividadeEscotistaActivity() {
+
     }
 
 
@@ -121,15 +127,34 @@ public class AtividadeEscotistaActivity extends AppCompatActivity {
         try {
 
             if(materiais!=null) {
-                StringAdapter adapterMat = new StringAdapter(this, materiais);
+                adapterMat = new StringAdapter(this, materiais);
                 lvMaterias.setAdapter(adapterMat);
 
                 carregarParticipantes();
+                carregarMateriais();
             }
 
         } catch (Exception e) {
         }
 
+    }
+
+    private void carregarMateriais(){
+        FirebaseDatabase.getInstance().getReference().child("atividade").child(idAtividade).child("materiais").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                materiais.clear();
+                for(DataSnapshot material : dataSnapshot.getChildren()){
+                    materiais.add((String) material.getValue());
+                    adapterMat.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void carregarParticipantes() {

@@ -121,6 +121,10 @@ public class LoginActivity extends AppCompatActivity{
 
         etLogin = (EditText) findViewById(R.id.eTxtUsuario);
         etSenha = (EditText) findViewById(R.id.eTxtSenha);
+
+        etLogin.setTypeface(Typeface.SERIF);
+        etSenha.setTypeface(Typeface.SERIF);
+
         SignInButton signInButton = (SignInButton) findViewById(R.id.btGoogle);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton = (com.google.android.gms.common.SignInButton) findViewById(R.id.btGoogle);
