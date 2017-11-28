@@ -271,6 +271,7 @@ public class AtividadeEscotistaActivity extends AppCompatActivity {
 
                     Usuario user = dataSnapshot.getValue(Usuario.class);
                     user.setId(dataSnapshot.getKey());
+                    if(user.getTipo().equals("escoteiro"))
                     users.add(user);
                     adapterPart.notifyDataSetChanged();
 
