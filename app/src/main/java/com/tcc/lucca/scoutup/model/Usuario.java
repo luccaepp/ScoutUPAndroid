@@ -21,7 +21,6 @@ public class Usuario {
     private Map<String, String> secao;
     private Map<String, String> patrulha;
     private String tipo;
-    private Status status;
     private Map<String, Amigo> amigos;
     private Map<String, SolicitacoesDeAmizade> solicitacoesDeAmizade;
 
@@ -88,14 +87,6 @@ public class Usuario {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     public Map<String, Amigo> getAmigos() {

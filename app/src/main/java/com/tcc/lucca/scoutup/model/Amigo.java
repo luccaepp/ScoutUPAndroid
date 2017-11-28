@@ -11,7 +11,6 @@ public class Amigo implements Parcelable {
 
     private String nome;
     private String chave;
-    private Status status;
 
     public Amigo() {
     }
@@ -47,14 +46,6 @@ public class Amigo implements Parcelable {
 
     public void setChave(String chave) {
         this.chave = chave;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     @Override

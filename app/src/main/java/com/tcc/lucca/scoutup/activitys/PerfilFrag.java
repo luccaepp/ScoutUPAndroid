@@ -155,12 +155,13 @@ public class PerfilFrag extends Fragment {
         StorageReference storageRef = storage.getReference();
         final StorageReference imagesRef = storageRef.child("fotoPerfil/"+firebaseUser.getUid());
 
-        Glide.with(getContext() )
-                .using(new FirebaseImageLoader())
-                .load(imagesRef)
-                .asBitmap()
-                .placeholder(R.drawable.escoteirinho)
-                .into(imageView);
+        if(getContext() != null)
+            Glide.with(getContext() )
+                    .using(new FirebaseImageLoader())
+                    .load(imagesRef)
+                    .asBitmap()
+                    .placeholder(R.drawable.escoteirinho)
+                    .into(imageView);
 
        tvNome.setText(usuarioDatabase.getNome());
 
