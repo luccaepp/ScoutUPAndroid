@@ -23,7 +23,24 @@ public class Usuario {
     private String tipo;
     private Map<String, Amigo> amigos;
     private Map<String, SolicitacoesDeAmizade> solicitacoesDeAmizade;
+    private Map<String, Conversa> conversas;
+    private String status;
 
+    public Map<String, Conversa> getConversas() {
+        return conversas;
+    }
+
+    public void setConversas(Map<String, Conversa> conversas) {
+        this.conversas = conversas;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getId() {
         return id;
