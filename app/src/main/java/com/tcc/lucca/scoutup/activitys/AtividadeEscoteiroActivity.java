@@ -149,8 +149,8 @@ public class AtividadeEscoteiroActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        adress = adress.substring(0, adress.indexOf("-"));
+        if(adress.indexOf("-") != -1)
+            adress = adress.substring(0, adress.indexOf("-"));
         tvEndereco.setText(adress);
         carregarMap();
 

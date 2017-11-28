@@ -11,6 +11,8 @@ public class Amigo implements Parcelable {
 
     private String nome;
     private String chave;
+    private String status;
+
 
     public Amigo() {
     }
@@ -31,6 +33,14 @@ public class Amigo implements Parcelable {
             return new Amigo[size];
         }
     };
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getNome() {
         return nome;
