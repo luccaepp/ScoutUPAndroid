@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private LoginClass loginClass = new LoginClass(this);
     private static final int TAG_CODE_PERMISSION_CALENDAR = 2;
     private TabLayout tabLayout;
+    private Usuario user;
     private ViewPagerAdapter adapter;
     private ViewPager viewPager;
 
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    Usuario user = dataSnapshot.getValue(Usuario.class);
+                    user = dataSnapshot.getValue(Usuario.class);
 
 
                 }
@@ -86,7 +87,10 @@ public class MainActivity extends AppCompatActivity {
             adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
             adapter.addFragment(new PerfilFrag(), "");
+
+
             adapter.addFragment(new AgendaFrag(), "");
+
             adapter.addFragment(new ProgressaoFragment(), "");
             viewPager.setAdapter(adapter);
 
